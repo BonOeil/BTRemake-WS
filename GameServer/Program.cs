@@ -1,5 +1,8 @@
 /**/
 
+using GameShared.Persistance;
+using GameShared.Services;
+
 namespace GameServer
 {
     public class Program
@@ -18,6 +21,9 @@ namespace GameServer
                            .AllowCredentials();
                 });
             });
+
+            builder.Services.AddSingleton(typeof(IRepository<>), typeof(InMemoryRepository<>));
+            builder.Services.AddScoped<ITurnServices, TurnServices>();
 
             builder.Services.AddSignalR();
 

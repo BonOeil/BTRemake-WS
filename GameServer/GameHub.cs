@@ -1,4 +1,5 @@
 ﻿using GameShared;
+using GameShared.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace GameServer
@@ -8,6 +9,13 @@ namespace GameServer
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
         private static GameState _gameState = new GameState();
+
+        private ITurnServices TurnServices { get; set; }
+
+        public GameHub(ITurnServices turnServices)
+        {
+            TurnServices = turnServices;
+        }
 
         // Appelé quand un client se connecte
         public override async Task OnConnectedAsync()
@@ -31,6 +39,18 @@ namespace GameServer
             }
 
             await base.OnDisconnectedAsync(exception);
+        }
+
+
+        // Méthode appelée par le client pour rejoindre le jeu
+        public async Task StepTurn()
+        {
+            var turnData = TurnServices.StepTurn();
+
+            // Informer les autres joueurs de la connexion
+            await Clients.Others.SendAsync("StepTurn", turnData);
+
+            Console.WriteLine($"StepTurn");
         }
 
         // Méthode appelée par le client pour rejoindre le jeu

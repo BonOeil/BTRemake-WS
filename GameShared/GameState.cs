@@ -13,6 +13,6 @@ namespace GameShared
 
         public Dictionary<string, List<Order>> PendingOrders { get; set; } = new Dictionary<string, List<Order>>();
 
-        public TurnManager TurnManager { get; set; } = new TurnManager();
+        public TurnData TurnManager { get; set; } = new TurnData();
     }
 }
