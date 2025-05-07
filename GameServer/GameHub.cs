@@ -17,13 +17,14 @@ namespace GameServer
         }
 
         // Appelé quand un client se déconnecte
-        public override async Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             // Supprimer le joueur de la liste des joueurs connectés
             if (_connectedPlayers.ContainsKey(Context.ConnectionId))
             {
                 Player player = _connectedPlayers[Context.ConnectionId];
                 _connectedPlayers.Remove(Context.ConnectionId);
+                _gameState.Players.Remove(player);
 
                 // Informer les autres joueurs de la déconnexion
                 await Clients.Others.SendAsync("PlayerDisconnected", player.Id);
@@ -43,6 +44,8 @@ namespace GameServer
                 Position = new Vector2(0, 0) // Position de départ
             };
 
+            _gameState.Players.Add(newPlayer);
+
             // Ajouter le joueur à la liste des joueurs connectés
             _connectedPlayers[Context.ConnectionId] = newPlayer;
 
@@ -58,7 +61,7 @@ namespace GameServer
         // Méthode appelée par le client pour mettre à jour sa position
         public async Task UpdatePosition(Vector2 position)
         {
-            if (_connectedPlayers.TryGetValue(Context.ConnectionId, out Player player))
+            if (_connectedPlayers.TryGetValue(Context.ConnectionId, out Player? player))
             {
                 player.Position = position;
 
