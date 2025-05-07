@@ -24,7 +24,6 @@ namespace GameServer
             {
                 Player player = _connectedPlayers[Context.ConnectionId];
                 _connectedPlayers.Remove(Context.ConnectionId);
-                _gameState.Players.Remove(player);
 
                 // Informer les autres joueurs de la déconnexion
                 await Clients.Others.SendAsync("PlayerDisconnected", player.Id);
@@ -43,8 +42,6 @@ namespace GameServer
                 Name = playerName,
                 Position = new Vector2(0, 0) // Position de départ
             };
-
-            _gameState.Players.Add(newPlayer);
 
             // Ajouter le joueur à la liste des joueurs connectés
             _connectedPlayers[Context.ConnectionId] = newPlayer;

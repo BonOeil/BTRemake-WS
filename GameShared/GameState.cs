@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameShared.Game;
 
 namespace GameShared
 {
     public class GameState
     {
-        public List<Player> Players { get; set; } = new List<Player>();
-        // Autres informations sur l'état du jeu (carte, objets, etc.)
+        public World World { get; set; } = new World();
+
+        public Dictionary<string, List<Order>> PendingOrders { get; set; } = new Dictionary<string, List<Order>>();
+
+        public TurnManager TurnManager { get; set; } = new TurnManager();
     }
 }
