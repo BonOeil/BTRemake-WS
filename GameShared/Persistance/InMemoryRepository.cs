@@ -32,6 +32,11 @@ namespace GameShared.Persistance
             return Task.FromResult(entity);
         }
 
+        public Task<T> GetUniqueAsync()
+        {
+            return Task.FromResult(_entities.First().Value);
+        }
+        
         public Task AddAsync(T entity)
         {
             string id = _idProperty.GetValue(entity)?.ToString();

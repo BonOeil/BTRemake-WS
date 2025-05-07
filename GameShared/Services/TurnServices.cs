@@ -22,10 +22,7 @@ namespace GameShared.Services
         {
             TurnRepository.GetAllAsync().Wait();
 
-
-            var allTurnData = await TurnRepository.GetAllAsync();
-            var turnData = allTurnData.First();
-
+            var turnData = await TurnRepository.GetUniqueAsync();
 
             GamePhase currentPhase = turnData.CurrentPhase;
             GamePhase nextPhase;
@@ -56,6 +53,8 @@ namespace GameShared.Services
 
             // Mettre à jour la phase actuelle
             turnData.CurrentPhase = nextPhase;
+
+            await TurnRepository.UpdateAsync(turnData);
 
             Debug.WriteLine($"Game phase advanced from {currentPhase} to {nextPhase}");
 

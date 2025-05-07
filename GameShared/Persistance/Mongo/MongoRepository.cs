@@ -37,6 +37,11 @@ namespace GameShared.Persistance.Mongo
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
+        public Task<T> GetUniqueAsync()
+        {
+            return Task.FromResult(_collection.Find(_ => true).First());
+        }
+
         public async Task AddAsync(T entity)
         {
             if (_idProperty != null && _idProperty.GetValue(entity) == null)
