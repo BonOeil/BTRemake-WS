@@ -1,6 +1,7 @@
 /**/
 
 using GameShared.Persistance;
+using GameShared.Persistance.Mongo;
 using GameShared.Services;
 
 namespace GameServer
@@ -22,7 +23,7 @@ namespace GameServer
                 });
             });
 
-            builder.Services.AddSingleton(typeof(IRepository<>), typeof(InMemoryRepository<>));
+            builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
             builder.Services.AddScoped<ITurnServices, TurnServices>();
 
             builder.Services.AddSignalR();
