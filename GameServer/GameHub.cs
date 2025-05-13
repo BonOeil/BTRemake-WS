@@ -1,10 +1,18 @@
 ﻿using GameShared.Messages;
+using GameShared.Services.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 
 namespace GameServer
 {
     public class GameHub : Microsoft.AspNetCore.SignalR.Hub
     {
+        private IGameManagement GameManagement { get; }
+
+        public GameHub(IGameManagement gameManagement)
+        {
+            GameManagement = gameManagement;
+        }
+
         public async Task StartScenario(string scenarioName, string gameName)
         {
             // Clear DB ? or create new DB as gameName

@@ -3,6 +3,7 @@
 using GameShared.Persistance;
 using GameShared.Persistance.Mongo;
 using GameShared.Services;
+using GameShared.Services.Interfaces;
 using MongoDB.Driver;
 
 namespace GameServer
@@ -28,6 +29,7 @@ namespace GameServer
                 new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
             builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
             builder.Services.AddScoped<ITurnServices, TurnServices>();
+            builder.Services.AddScoped<IGameManagement, GameManagement>();
 
             builder.Services.AddSignalR();
 
