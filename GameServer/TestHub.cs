@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace GameServer
 {
-    public class GameHub : Microsoft.AspNetCore.SignalR.Hub
+    public class TestHub : Microsoft.AspNetCore.SignalR.Hub
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
 
         private ITurnServices TurnServices { get; set; }
 
-        public GameHub(ITurnServices turnServices)
+        public TestHub(ITurnServices turnServices)
         {
             TurnServices = turnServices;
         }
