@@ -10,5 +10,7 @@ namespace GameShared.Services
     public interface ITurnServices
     {
         Task<TurnData> StepTurn();
+
+        Task<TurnData> GetTurn();
     }
 }

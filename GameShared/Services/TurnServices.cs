@@ -61,5 +61,10 @@ namespace GameShared.Services
 
             return turnData;
         }
+
+        public async Task<TurnData> GetTurn()
+        {
+            return await TurnRepository.GetUniqueAsync();
+        }
     }
 }

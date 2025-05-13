@@ -8,7 +8,6 @@ namespace GameServer
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
-        private static GameState _gameState = new GameState();
 
         private ITurnServices TurnServices { get; set; }
 
@@ -67,7 +66,7 @@ namespace GameServer
             _connectedPlayers[Context.ConnectionId] = newPlayer;
 
             // Informer le joueur de son ID et de l'état actuel du jeu
-            await Clients.Caller.SendAsync("JoinConfirmation", newPlayer.Id, _gameState);
+            await Clients.Caller.SendAsync("JoinConfirmation", newPlayer.Id, await TurnServices.GetTurn());
 
             // Informer les autres joueurs de la connexion
             await Clients.Others.SendAsync("PlayerJoined", newPlayer);
