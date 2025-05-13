@@ -45,6 +45,7 @@ namespace GameServer
             app.UseCors("GameClientPolicy");
 
             app.MapHub<TestHub>($"/{nameof(TestHub)}");
+            app.MapHub<GameHub>($"/{nameof(GameHub)}");
             app.MapGet("/", () => "Hello World!");
 
             Console.WriteLine("Le serveur de jeu est démarré!");

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameShared.Game;
+using GameShared.Game.Entities;
 
 namespace GameShared.Services
 {

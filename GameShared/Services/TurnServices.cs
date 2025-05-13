@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameShared.Game;
+using GameShared.Game.Entities;
 using GameShared.Persistance;
 
 namespace GameShared.Services

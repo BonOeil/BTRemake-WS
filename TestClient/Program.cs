@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using GameShared.Game;
+using GameShared.Game.Entities;
 using Microsoft.AspNetCore.SignalR.Client;
 using MongoDB.Driver;
 

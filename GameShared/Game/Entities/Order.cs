@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameShared.Game
+namespace GameShared.Game.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
     }
 }

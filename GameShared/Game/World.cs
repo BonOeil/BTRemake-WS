@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameShared.Game.Entities;
+using MongoDB.Bson;
 
 namespace GameShared.Game
 {
@@ -20,11 +22,10 @@ namespace GameShared.Game
 
         public void AddLocation(string name, GPSPosition position, Faction controllingFaction)
         {
-            string id = Guid.NewGuid().ToString();
-            Location location = new Location(id, name, position, controllingFaction);
+            Location location = new Location(name, position, controllingFaction);
             Locations.Add(location);
 
-            Debug.Write($"Added location {name} (ID: {id}) at {position}");
+            Debug.Write($"Added location {name} (ID: {location.Id}) at {position}");
         }
     }
 }
