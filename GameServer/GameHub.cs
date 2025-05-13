@@ -15,13 +15,7 @@ namespace GameServer
 
         public async Task StartScenario(string scenarioName, string gameName)
         {
-            // Clear DB ? or create new DB as gameName
-
-            // Read locations
-
-            // Read OoB
-
-            // Save into DB
+            await GameManagement.StartScenario(scenarioName, gameName);
 
             // Informer les autres joueurs de la connexion
             await Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());

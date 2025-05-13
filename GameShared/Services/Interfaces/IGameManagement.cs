@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameShared.Services.Interfaces
 {
-    public class IGameManagement
+    public interface IGameManagement
     {
+        Task StartScenario(string scenarioName, string gameName);
     }
 }
