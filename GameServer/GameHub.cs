@@ -59,7 +59,6 @@ namespace GameServer
             {
                 Id = Context.ConnectionId,
                 Name = playerName,
-                Position = new Vector2(0, 0) // Position de départ
             };
 
             // Ajouter le joueur à la liste des joueurs connectés
@@ -72,18 +71,6 @@ namespace GameServer
             await Clients.Others.SendAsync("PlayerJoined", newPlayer);
 
             Console.WriteLine($"Joueur rejoint: {playerName} ({Context.ConnectionId})");
-        }
-
-        // Méthode appelée par le client pour mettre à jour sa position
-        public async Task UpdatePosition(Vector2 position)
-        {
-            if (_connectedPlayers.TryGetValue(Context.ConnectionId, out Player? player))
-            {
-                player.Position = position;
-
-                // Informer tous les autres clients de la nouvelle position
-                await Clients.Others.SendAsync("PlayerMoved", Context.ConnectionId, position);
-            }
         }
 
         // Méthode appelée par le client pour envoyer une action

@@ -13,7 +13,7 @@ namespace GameShared.Persistance.Mongo
     public class MongoRepository<T> : IRepository<T> where T : class
     {
         private readonly IMongoCollection<T> _collection;
-        private readonly PropertyInfo _idProperty;
+        private readonly PropertyInfo? _idProperty;
 
         public MongoRepository(IMongoClient mongoClient)
         {
