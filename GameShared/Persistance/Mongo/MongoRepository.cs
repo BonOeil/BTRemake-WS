@@ -15,10 +15,9 @@ namespace GameShared.Persistance.Mongo
         private readonly IMongoCollection<T> _collection;
         private readonly PropertyInfo _idProperty;
 
-        public MongoRepository(IOptions<MongoDbSettings> settings)
+        public MongoRepository(IMongoClient mongoClient)
         {
-            var client = new MongoClient(settings.Value.ConnectionString);
-            var database = client.GetDatabase(settings.Value.DatabaseName);
+            var database = mongoClient.GetDatabase("BTRemake-Game");
             _collection = database.GetCollection<T>(typeof(T).Name);
 
             // Identifie la propriété Id

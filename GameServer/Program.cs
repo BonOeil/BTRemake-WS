@@ -3,6 +3,7 @@
 using GameShared.Persistance;
 using GameShared.Persistance.Mongo;
 using GameShared.Services;
+using MongoDB.Driver;
 
 namespace GameServer
 {
@@ -23,6 +24,8 @@ namespace GameServer
                 });
             });
 
+            builder.Services.AddSingleton<IMongoClient>(sp =>
+                new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
             builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
             builder.Services.AddScoped<ITurnServices, TurnServices>();
 
@@ -47,18 +50,6 @@ namespace GameServer
             Console.WriteLine("Le serveur de jeu est démarré!");
 
             app.Run();
-        }
-
-        private static int GetServerPort()
-        {
-            // Récupérer le port depuis la configuration ou utiliser la variable d'environnement
-            // pour les déploiements en production
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
-
-            return config.GetValue<int>("ServerSettings:Port");
         }
     }
 }

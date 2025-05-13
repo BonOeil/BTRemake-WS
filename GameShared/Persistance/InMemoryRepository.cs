@@ -39,7 +39,7 @@ namespace GameShared.Persistance
         
         public Task AddAsync(T entity)
         {
-            string id = _idProperty.GetValue(entity)?.ToString();
+            var id = _idProperty.GetValue(entity)?.ToString();
             if (string.IsNullOrEmpty(id))
             {
                 id = Guid.NewGuid().ToString();
@@ -52,7 +52,7 @@ namespace GameShared.Persistance
 
         public Task UpdateAsync(T entity)
         {
-            string id = _idProperty.GetValue(entity)?.ToString();
+            var id = _idProperty.GetValue(entity)?.ToString();
             if (string.IsNullOrEmpty(id) || !_entities.ContainsKey(id))
             {
                 throw new KeyNotFoundException($"Entity with id {id} not found");

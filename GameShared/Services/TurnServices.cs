@@ -15,13 +15,11 @@ namespace GameShared.Services
 
         public TurnServices(IRepository<TurnData> repository)
         {
-
+            TurnRepository = repository;
         }
 
         public async Task<TurnData> StepTurn()
         {
-            TurnRepository.GetAllAsync().Wait();
-
             var turnData = await TurnRepository.GetUniqueAsync();
 
             GamePhase currentPhase = turnData.CurrentPhase;

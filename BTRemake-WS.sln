@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameShared", "GameShared\Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestClient", "TestClient\TestClient.csproj", "{C5D69832-69AB-478A-AE7B-4BA059D8E27C}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{91CBFD03-3858-4F34-8C77-504F02CE752A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C5D69832-69AB-478A-AE7B-4BA059D8E27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5D69832-69AB-478A-AE7B-4BA059D8E27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5D69832-69AB-478A-AE7B-4BA059D8E27C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
