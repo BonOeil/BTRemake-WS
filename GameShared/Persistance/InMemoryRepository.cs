@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GameShared.Persistance
@@ -66,6 +67,11 @@ namespace GameShared.Persistance
         {
             _entities.TryRemove(id, out _);
             return Task.CompletedTask;
+        }
+
+        public Task AddAsync(JsonElement jsonElement)
+        {
+            throw new NotImplementedException();
         }
     }
 }

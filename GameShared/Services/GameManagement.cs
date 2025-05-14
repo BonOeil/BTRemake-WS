@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using GameShared.Game;
 using GameShared.Game.Entities;
@@ -39,12 +40,21 @@ namespace GameShared.Services
 
                 // Save into DB
                 //await dataBase.CreateCollectionAsync(nameof(Location));
-                await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
-                await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
+                //await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
+                //await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
+
+                string jsonString = File.ReadAllText(@"Scenarios/Scenario1/Locations.json");
+                var documentOptions = new JsonDocumentOptions
+                {
+                    CommentHandling = JsonCommentHandling.Skip
+                };
+                using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
+
+                await LocationRepository.AddAsync(document.RootElement);
 
             }
             catch (Exception ex)
-             {
+            {
             }
         }
 

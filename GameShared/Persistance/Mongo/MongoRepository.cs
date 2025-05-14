@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -14,9 +15,12 @@ namespace GameShared.Persistance.Mongo
     {
         private readonly IMongoCollection<T> _collection;
         private readonly PropertyInfo? _idProperty;
+        private readonly IMongoClient _mongoClient;
 
         public MongoRepository(IMongoClient mongoClient)
         {
+            _mongoClient = mongoClient;
+
             var database = mongoClient.GetDatabase("BTRemake-Game");
             _collection = database.GetCollection<T>(typeof(T).Name);
 
@@ -49,6 +53,16 @@ namespace GameShared.Persistance.Mongo
             }
 
             await _collection.InsertOneAsync(entity);
+        }
+
+        public async Task AddAsync(JsonElement jsonElement)
+        {
+            var bsonDocument = BsonDocument.Parse(jsonElement.ToString());
+
+            var database = _mongoClient.GetDatabase("BTRemake-Game");
+            var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
+
+            await collection.InsertOneAsync(bsonDocument);
         }
 
         public async Task UpdateAsync(T entity)

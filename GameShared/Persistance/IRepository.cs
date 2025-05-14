@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GameShared.Persistance
@@ -12,6 +13,7 @@ namespace GameShared.Persistance
         Task<T> GetByIdAsync(string id);
         Task<T> GetUniqueAsync();
         Task AddAsync(T entity);
+        Task AddAsync(JsonElement jsonElement);
         Task UpdateAsync(T entity);
         Task DeleteAsync(string id);
     }
