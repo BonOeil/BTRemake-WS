@@ -1,0 +1,24 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "6824489a2d43a7140d360886"
+    },
+    "Name": "London",
+    "Position": {
+      "Latitude": 51.50740051269531,
+      "Longitude": -0.12780000269412994
+    },
+    "ControllingFaction": 0
+  },
+  {
+    "_id": {
+      "$oid": "682449e6e54f8b09a759dd4b"
+    },
+    "Name": "Berlin",
+    "Position": {
+      "Latitude": 52.52000045776367,
+      "Longitude": 13.404999732971191
+    },
+    "ControllingFaction": 1
+  }
+]
