@@ -1,9 +1,13 @@
 services:
   gameserver:
     image: ${DOCKER_REGISTRY-}gameserver
+    ports:
+      - "8080:80"
     build:
       context: .
       dockerfile: GameServer/Dockerfile
+    networks:
+      - app-network
     depends_on:
       - mongodb
 
@@ -13,8 +17,6 @@ services:
       - '27017:27017'
     restart: always
     environment:
-        # MONGO_INITDB_ROOT_USERNAME: <admin-user>
-        # MONGO_INITDB_ROOT_PASSWORD: <admin-password>
         MONGO_INITDB_DATABASE: BTRemake-Game
         # MONGO_INITDB_ROOT_USERNAME: root
         # MONGO_INITDB_ROOT_PASSWORD: rootpasswd
@@ -24,3 +26,19 @@ services:
     #   - type: bind
     #     source: ./data
     #     target: /data/db
+    
+  testConsole:
+    image: ${DOCKER_REGISTRY-}testconsole
+    build:
+      context: .
+      dockerfile: TestClient/Dockerfile
+    environment:
+      - API_URL=http://gameserver:8080
+    networks:
+      - app-network
+    depends_on:
+      - gameserver
+
+networks:
+  app-network:
+    driver: bridge

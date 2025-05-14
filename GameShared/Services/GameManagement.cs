@@ -31,14 +31,14 @@ namespace GameShared.Services
                 ArgumentException.ThrowIfNullOrWhiteSpace(gameName);
 
                 // Clear DB ? or create new DB as gameName
-                var dataBase = MongoClient.GetDatabase(gameName);
+                //var dataBase = MongoClient.GetDatabase(gameName);
 
                 // Read locations
 
                 // Read OoB
 
                 // Save into DB
-                await dataBase.CreateCollectionAsync(nameof(Location));
+                //await dataBase.CreateCollectionAsync(nameof(Location));
                 await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
                 await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
 
