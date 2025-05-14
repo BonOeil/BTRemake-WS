@@ -13,14 +13,14 @@ namespace GameServer
             GameManagement = gameManagement;
         }
 
-        public async Task StartScenario(string scenarioName, string gameName)
+        public async Task LoadScenario(LoadScenario scenarioData)
         {
-            await GameManagement.StartScenario(scenarioName, gameName);
+            await GameManagement.StartScenario(scenarioData.ScenarioName, scenarioData.InstanceName);
 
             // Informer les autres joueurs de la connexion
             await Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());
 
-            Console.WriteLine($"Scenario loaded: {scenarioName} ({Context.ConnectionId})");
+            Console.WriteLine($"Scenario loaded: {scenarioData.ScenarioName} ({Context.ConnectionId})");
         }
     }
 }
