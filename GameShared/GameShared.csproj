@@ -12,9 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ressources\Scenarios\Scenario1\Locations.json">
+    <Content Include="Ressources\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+      
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\any\$(TargetFramework)\Resources</PackagePath>
+      <BuildAction>Content</BuildAction>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

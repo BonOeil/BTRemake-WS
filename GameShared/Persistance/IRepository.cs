@@ -13,7 +13,7 @@ namespace GameShared.Persistance
         Task<T> GetByIdAsync(string id);
         Task<T> GetUniqueAsync();
         Task AddAsync(T entity);
-        Task AddAsync(JsonElement jsonElement);
+        Task AddAsync(JsonDocument jsonElement);
         Task UpdateAsync(T entity);
         Task DeleteAsync(string id);
     }

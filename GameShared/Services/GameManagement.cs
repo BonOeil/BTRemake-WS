@@ -42,15 +42,17 @@ namespace GameShared.Services
                 //await dataBase.CreateCollectionAsync(nameof(Location));
                 //await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
                 //await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
+                string resourcePath = Environment.GetEnvironmentVariable("RESOURCE_PATH") ?? Path.Combine(Directory.GetCurrentDirectory(), "Ressources");
 
-                string jsonString = File.ReadAllText(@"Scenarios/Scenario1/Locations.json");
+                var path = Path.Combine(resourcePath, "Scenarios", "Scenario1", "Locations.json");
+                string jsonString = File.ReadAllText(path.ToString());
                 var documentOptions = new JsonDocumentOptions
                 {
                     CommentHandling = JsonCommentHandling.Skip
                 };
                 using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
 
-                await LocationRepository.AddAsync(document.RootElement);
+                await LocationRepository.AddAsync(document);
 
             }
             catch (Exception ex)

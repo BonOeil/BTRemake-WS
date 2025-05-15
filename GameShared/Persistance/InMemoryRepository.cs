@@ -69,7 +69,7 @@ namespace GameShared.Persistance
             return Task.CompletedTask;
         }
 
-        public Task AddAsync(JsonElement jsonElement)
+        public Task AddAsync(JsonDocument jsonElement)
         {
             throw new NotImplementedException();
         }

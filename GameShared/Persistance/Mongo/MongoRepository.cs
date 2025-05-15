@@ -55,14 +55,18 @@ namespace GameShared.Persistance.Mongo
             await _collection.InsertOneAsync(entity);
         }
 
-        public async Task AddAsync(JsonElement jsonElement)
+        public async Task AddAsync(JsonDocument jsonElement)
         {
-            var bsonDocument = BsonDocument.Parse(jsonElement.ToString());
 
             var database = _mongoClient.GetDatabase("BTRemake-Game");
             var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
 
-            await collection.InsertOneAsync(bsonDocument);
+            foreach(var truc in jsonElement.RootElement.EnumerateArray())
+            {
+                var bsonDocument = truc.ToBsonDocument();
+                await collection.InsertOneAsync(bsonDocument);
+            }
+
         }
 
         public async Task UpdateAsync(T entity)

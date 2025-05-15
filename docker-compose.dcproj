@@ -9,6 +9,7 @@
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>gameserver</DockerServiceName>
     <DependencyAwareStart>True</DependencyAwareStart>
+    <DockerDevelopmentMode>Regular</DockerDevelopmentMode>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
