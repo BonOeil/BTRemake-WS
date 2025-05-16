@@ -1,17 +1,4 @@
 services:
-  gameserver:
-    image: ${DOCKER_REGISTRY-}gameserver
-    ports:
-      - "8080:80"
-    build:
-      context: .
-      dockerfile: GameServer/Dockerfile
-    # volumes:
-    #   - ./app/Ressources:/app/Ressources 
-    networks:
-      - app-network
-    depends_on:
-      - mongodb
 
   mongodb:
     image: mongodb/mongodb-community-server:latest
@@ -30,6 +17,20 @@ services:
     #   - type: bind
     #     source: ./data
     #     target: /data/db
+
+  gameserver:
+    image: ${DOCKER_REGISTRY-}gameserver
+    ports:
+      - "8080:80"
+    build:
+      context: .
+      dockerfile: GameServer/Dockerfile
+    # volumes:
+    #   - ./app/Ressources:/app/Ressources 
+    networks:
+      - app-network
+    depends_on:
+      - mongodb
     
   testConsole:
     image: ${DOCKER_REGISTRY-}testconsole

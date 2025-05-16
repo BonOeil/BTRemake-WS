@@ -1,5 +1,3 @@
-/**/
-
 using GameShared.Persistance;
 using GameShared.Persistance.Mongo;
 using GameShared.Services;
@@ -14,6 +12,14 @@ namespace GameServer
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Configuration de Serilog à partir du fichier appsettings.json
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                //.Enrich.FromLogContext()
+                //.WriteTo.Console()
+                );
 
             builder.Services.AddCors(options =>
             {
@@ -34,17 +40,10 @@ namespace GameServer
 
             builder.Services.AddSignalR();
 
-            // Configuration de Serilog à partir du fichier appsettings.json
-            builder.Host.UseSerilog((context, services, configuration) => configuration
-                .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-                /*.WriteTo.Console()*/);
-
             var app = builder.Build();
 
             // Middleware de logging des requêtes HTTP
-            app.UseSerilogRequestLogging();
+            //app.UseSerilogRequestLogging();
 
             // Configuration pour écouter sur toutes les interfaces réseau
             //app.UseUrls($"http://*:{GetServerPort()}");
