@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -9,6 +8,7 @@ using GameShared.Game;
 using GameShared.Game.Entities;
 using GameShared.Persistance;
 using GameShared.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace GameShared.Services
@@ -17,9 +17,11 @@ namespace GameShared.Services
     {
         private IMongoClient MongoClient { get; }
         private IRepository<Location> LocationRepository { get; }
+        private ILogger<GameManagement> Logger { get; }
 
-        public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository) 
+        public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger) 
         {
+            Logger = logger;
             MongoClient = mongoClient;
             LocationRepository = locationRepository;
         }
@@ -57,6 +59,7 @@ namespace GameShared.Services
             }
             catch (Exception ex)
             {
+                Logger.LogError("Error loading a scenario", ex);
             }
         }
 
@@ -65,7 +68,7 @@ namespace GameShared.Services
             Location location = new Location(name, position, controllingFaction);
             await LocationRepository.AddAsync(location);
 
-            Debug.Write($"Added location {name} (ID: {location.Id}) at {position}");
+            Logger.LogTrace($"Added location {name} (ID: {location.Id}) at {position}");
         }
     }
 }

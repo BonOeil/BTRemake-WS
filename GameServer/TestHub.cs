@@ -8,18 +8,20 @@ namespace GameServer
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
+        private ILogger<TestHub> Logger { get; }
 
         private ITurnServices TurnServices { get; set; }
 
-        public TestHub(ITurnServices turnServices)
+        public TestHub(ITurnServices turnServices, ILogger<TestHub> logger)
         {
             TurnServices = turnServices;
+            Logger = logger;
         }
 
         // Appelé quand un client se connecte
         public override async Task OnConnectedAsync()
         {
-            Console.WriteLine($"Client connecté: {Context.ConnectionId}");
+            Logger.LogInformation($"Client connecté: {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
@@ -34,7 +36,7 @@ namespace GameServer
 
                 // Informer les autres joueurs de la déconnexion
                 await Clients.Others.SendAsync("PlayerDisconnected", player.Id);
-                Console.WriteLine($"Joueur déconnecté: {player.Name} ({Context.ConnectionId})");
+                Logger.LogInformation($"Joueur déconnecté: {player.Name} ({Context.ConnectionId})");
             }
 
             await base.OnDisconnectedAsync(exception);
@@ -49,7 +51,7 @@ namespace GameServer
             // Informer les autres joueurs de la connexion
             await Clients.Others.SendAsync("StepTurn", turnData);
 
-            Console.WriteLine($"StepTurn");
+            Logger.LogInformation($"StepTurn");
         }
 
         // Méthode appelée par le client pour rejoindre le jeu
@@ -70,7 +72,7 @@ namespace GameServer
             // Informer les autres joueurs de la connexion
             await Clients.Others.SendAsync("PlayerJoined", newPlayer);
 
-            Console.WriteLine($"Joueur rejoint: {playerName} ({Context.ConnectionId})");
+            Logger.LogInformation($"Joueur rejoint: {playerName} ({Context.ConnectionId})");
         }
 
         // Méthode appelée par le client pour envoyer une action

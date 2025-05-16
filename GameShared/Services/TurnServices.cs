@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameShared.Game;
 using GameShared.Game.Entities;
 using GameShared.Persistance;
+using Microsoft.Extensions.Logging;
 
 namespace GameShared.Services
 {
     public class TurnServices : ITurnServices
     {
         private IRepository<TurnData> TurnRepository { get; }
+        private ILogger<GameManagement> Logger { get; }
 
-        public TurnServices(IRepository<TurnData> repository)
+        public TurnServices(IRepository<TurnData> repository, ILogger<GameManagement> logger)
         {
+            Logger = logger;
             TurnRepository = repository;
         }
 
@@ -55,7 +57,7 @@ namespace GameShared.Services
 
             await TurnRepository.UpdateAsync(turnData);
 
-            Debug.WriteLine($"Game phase advanced from {currentPhase} to {nextPhase}");
+            Logger.LogInformation($"Game phase advanced from {currentPhase} to {nextPhase}");
 
             // Déclencher l'événement de changement de phase
             //OnPhaseChanged?.Invoke(nextPhase);*/

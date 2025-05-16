@@ -5,6 +5,7 @@ using GameShared.Persistance.Mongo;
 using GameShared.Services;
 using GameShared.Services.Interfaces;
 using MongoDB.Driver;
+using Serilog;
 
 namespace GameServer
 {
@@ -33,7 +34,17 @@ namespace GameServer
 
             builder.Services.AddSignalR();
 
+            // Configuration de Serilog à partir du fichier appsettings.json
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                /*.WriteTo.Console()*/);
+
             var app = builder.Build();
+
+            // Middleware de logging des requêtes HTTP
+            app.UseSerilogRequestLogging();
 
             // Configuration pour écouter sur toutes les interfaces réseau
             //app.UseUrls($"http://*:{GetServerPort()}");
@@ -50,7 +61,7 @@ namespace GameServer
             app.MapHub<GameHub>($"/{nameof(GameHub)}");
             app.MapGet("/", () => "Hello World!");
 
-            Console.WriteLine("Le serveur de jeu est démarré!");
+            Log.Information("Server started");
 
             app.Run();
         }
