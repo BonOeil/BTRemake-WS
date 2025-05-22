@@ -3,6 +3,9 @@ using GameShared.Persistance.Mongo;
 using GameShared.Services;
 using GameShared.Services.Interfaces;
 using MongoDB.Driver;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 
 namespace GameServer
@@ -12,6 +15,22 @@ namespace GameServer
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Définir les attributs du service
+            var serviceName = "MonServiceASP";
+            var serviceVersion = "1.0.0";
+            // Ajouter les services OpenTelemetry
+            builder.Services.AddOpenTelemetry()
+                .ConfigureResource(resource => resource
+                    .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
+                .WithTracing(tracing => tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddConsoleExporter())
+                .WithMetrics(metrics => metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddConsoleExporter());
 
             // Configuration de Serilog à partir du fichier appsettings.json
             builder.Host.UseSerilog((context, services, configuration) => configuration
