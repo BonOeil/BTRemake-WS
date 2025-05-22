@@ -1,5 +1,17 @@
 services:
 
+  aspire:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    ports:
+      - '18888:18888'
+      - '4317:18889'
+    environment:
+        ASPIRE_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+        DASHBOARD__OTLP__AUTHMODE: ApiKey
+        DASHBOARD__OTLP__PRIMARYAPIKEY: ApiKeyAspire
+    networks:
+      - app-network
+
   mongodb:
     image: mongodb/mongodb-community-server:latest
     ports:
