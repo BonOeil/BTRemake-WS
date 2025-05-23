@@ -7,11 +7,6 @@
         "gameserver": "StartDebugging",
         "mongodb": "StartWithoutDebugging",
         "testConsole": "StartDebugging"
-      },
-      "environmentVariables": {
-        //"OTEL_EXPORTER_OTLP_ENDPOINT": "http://[::]:18889",
-        //"ASPIRE_DASHBOARD_OTLP_HTTP_ENDPOINT_URL": "http://[::]:18890",
-        "ASPIRE_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true"
       }
     }
   }

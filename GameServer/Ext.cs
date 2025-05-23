@@ -10,27 +10,6 @@ namespace GameServer
     {
         public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
         {
-
-            /*
-            // Définir les attributs du service
-            var serviceName = "MonServiceASP";
-            var serviceVersion = "1.0.0";
-            // Ajouter les services OpenTelemetry
-            builder.Services.AddOpenTelemetry()
-                .ConfigureResource(resource => resource
-                    .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
-                .WithTracing(tracing => tracing
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation().AddOtlpExporter()
-                    )
-                .WithMetrics(metrics => metrics
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation().AddOtlpExporter()
-                    )
-                .WithLogging(logging => logging.AddOtlpExporter());*/
-
-            builder.AddServiceDefaults();
-
             builder.Services.Configure<OtlpExporterOptions>(
                     o => o.Headers = $"x-otlp-api-key={Environment.GetEnvironmentVariable("DASHBOARD__OTLP__AUTHMODE")}");
 
