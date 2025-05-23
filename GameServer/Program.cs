@@ -3,7 +3,9 @@ using GameShared.Persistance.Mongo;
 using GameShared.Services;
 using GameShared.Services.Interfaces;
 using MongoDB.Driver;
+using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -17,23 +19,7 @@ namespace GameServer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Définir les attributs du service
-            var serviceName = "MonServiceASP";
-            var serviceVersion = "1.0.0";
-            // Ajouter les services OpenTelemetry
-            builder.Services.AddOpenTelemetry()
-                .ConfigureResource(resource => resource
-                    .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
-                .WithTracing(tracing => tracing
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddConsoleExporter())
-                .WithMetrics(metrics => metrics
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddConsoleExporter());
-            builder.Services.Configure<OtlpExporterOptions>(
-    o => o.Headers = $"x-otlp-api-key={Environment.GetEnvironmentVariable("DASHBOARD__OTLP__AUTHMODE")}");
+            builder.ConfigureOpenTelemetry();
 
             // Configuration de Serilog à partir du fichier appsettings.json
             builder.Host.UseSerilog((context, services, configuration) => configuration

@@ -5,10 +5,15 @@ services:
     ports:
       - '18888:18888'
       - '4317:18889'
+      - '4318:18890'
     environment:
         ASPIRE_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
         DASHBOARD__OTLP__AUTHMODE: ApiKey
         DASHBOARD__OTLP__PRIMARYAPIKEY: ApiKeyAspire
+       # OTEL_EXPORTER_OTLP_PROTOCOL : grpc
+        OTEL_EXPORTER_OTLP_ENDPOINT : http://gameserver:4317
+        ASPIRE_DASHBOARD_OTLP_HTTP_ENDPOINT_URL : http://gameserver:4318
+       #  OTEL_SERVICE_NAME : NO_OTEL_NAME
     networks:
       - app-network
 
@@ -43,6 +48,7 @@ services:
       - app-network
     depends_on:
       - mongodb
+      - aspire
     
   testConsole:
     image: ${DOCKER_REGISTRY-}testconsole
