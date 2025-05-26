@@ -10,6 +10,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
+using Serilog.Sinks.Grafana.Loki;
 
 namespace GameServer
 {
@@ -27,6 +28,11 @@ namespace GameServer
                 .ReadFrom.Services(services)
                 //.Enrich.FromLogContext()
                 //.WriteTo.Console()
+                .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
+        {
+            new LokiLabel { Key = "app", Value = "mon-app-aspnet" },
+            new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName }
+        })
                 );
 
             builder.Services.AddCors(options =>
