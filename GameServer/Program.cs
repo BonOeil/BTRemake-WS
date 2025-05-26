@@ -74,6 +74,16 @@ namespace GameServer
             app.MapHub<GameHub>($"/{nameof(GameHub)}");
             app.MapGet("/", () => "Hello World!");
 
+            // Exemple de logs pour tester
+            app.MapGet("/test-logs", (ILogger<Program> logger) =>
+            {
+                logger.LogInformation("Test log Information");
+                logger.LogWarning("Test log Warning");
+                logger.LogError("Test log Error avec données: {UserId}", 123);
+
+                return Results.Ok("Logs envoyés vers Loki !");
+            });
+
             Log.Information("Server started");
 
             app.Run();
