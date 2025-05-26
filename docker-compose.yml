@@ -1,5 +1,5 @@
 services:
-
+ # ========== LOKI + GRAFANA STACK ==========
   loki:
     image: grafana/loki:2.9.0
     ports:
@@ -24,7 +24,7 @@ services:
       - loki
     networks:
       - app-network
-      
+ # ========== CORE APP ==========      
   mongodb:
     image: mongodb/mongodb-community-server:latest
     ports:
@@ -57,7 +57,8 @@ services:
     depends_on:
       - mongodb
       - grafana
-    
+
+ # ========== TEST APP ==========
   testConsole:
     image: ${DOCKER_REGISTRY-}testconsole
     build:
@@ -70,6 +71,7 @@ services:
     depends_on:
       - gameserver
 
+ # ========== Networks ==========
 networks:
   app-network:
     driver: bridge
