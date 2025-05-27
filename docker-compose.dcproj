@@ -10,6 +10,7 @@
     <DockerServiceName>gameserver</DockerServiceName>
     <DependencyAwareStart>True</DependencyAwareStart>
     <DockerDevelopmentMode>Regular</DockerDevelopmentMode>
+    <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

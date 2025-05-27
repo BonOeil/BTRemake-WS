@@ -12,6 +12,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["TestClient/TestClient.csproj", "TestClient/"]
 COPY ["GameShared/GameShared.csproj", "GameShared/"]
+COPY Directory.Build.props .
 RUN dotnet restore "./TestClient/TestClient.csproj"
 COPY . .
 WORKDIR "/src/TestClient"
