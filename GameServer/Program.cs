@@ -10,6 +10,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using Serilog.Sinks.Grafana.Loki;
 
 namespace GameServer
@@ -27,12 +28,29 @@ namespace GameServer
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
                 //.Enrich.FromLogContext()
-                //.WriteTo.Console()
+
+                // LOKI SINK
                 .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
-        {
-            new LokiLabel { Key = "app", Value = "mon-app-aspnet" },
-            new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName }
-        })
+                {
+                    new LokiLabel { Key = "app", Value = "mon-app-aspnet" },
+                    new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName }
+                })
+
+                // ELASTICSEARCH SINK
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+                {
+                    IndexFormat = $"aspnet-logs-{context.HostingEnvironment.EnvironmentName}-{DateTime.UtcNow:yyyy-MM}",
+                    AutoRegisterTemplate = true,
+                    NumberOfShards = 2,
+                    NumberOfReplicas = 1,
+                    TemplateName = "aspnet-template",
+                    TypeName = "_doc",
+                    BatchAction = ElasticOpType.Index,
+                    ModifyConnectionSettings = conn => conn.BasicAuthentication("", ""), // Pas d'auth en dev
+                })
+
+                .Enrich.WithProperty("Application", "mon-app-aspnet")
+                .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                 );
 
             builder.Services.AddCors(options =>
@@ -77,11 +95,59 @@ namespace GameServer
             // Exemple de logs pour tester
             app.MapGet("/test-logs", (ILogger<Program> logger) =>
             {
-                logger.LogInformation("Test log Information");
-                logger.LogWarning("Test log Warning");
-                logger.LogError("Test log Error avec données: {UserId}", 123);
+                var userId = Random.Shared.Next(1, 1000);
+                var transactionId = Guid.NewGuid().ToString("N")[..8];
 
-                return Results.Ok("Logs envoyés vers Loki !");
+                logger.LogInformation("User {UserId} started transaction {TransactionId}", userId, transactionId);
+                logger.LogWarning("Slow query detected for user {UserId} - Duration: {Duration}ms", userId, 1500);
+                logger.LogError("Payment failed for transaction {TransactionId} - Error: {Error}",
+                    transactionId, "Insufficient funds");
+
+                // Log structuré avec plusieurs propriétés
+                logger.LogInformation("Order processed {@Order}", new
+                {
+                    OrderId = Random.Shared.Next(1000, 9999),
+                    UserId = userId,
+                    TransactionId = transactionId,
+                    Amount = Random.Shared.Next(10, 500),
+                    Currency = "EUR",
+                    ProcessedAt = DateTime.UtcNow
+                });
+
+                return Results.Ok(new
+                {
+                    Message = "Logs envoyés vers Loki ET Elasticsearch !",
+                    UserId = userId,
+                    TransactionId = transactionId,
+                    Timestamp = DateTime.UtcNow
+                });
+            });
+
+            app.MapGet("/test-performance", (ILogger<Program> logger) =>
+            {
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+                // Simuler du traitement
+                Thread.Sleep(Random.Shared.Next(100, 500));
+
+                stopwatch.Stop();
+
+                logger.LogInformation("Performance test completed in {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
+
+                return Results.Ok(new { ElapsedMs = stopwatch.ElapsedMilliseconds });
+            });
+
+            app.MapGet("/test-error", (ILogger<Program> logger) =>
+            {
+                try
+                {
+                    throw new InvalidOperationException("Erreur simulée pour test");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Erreur capturée dans /test-error");
+                    return Results.Problem("Erreur simulée capturée et loggée");
+                }
             });
 
             Log.Information("Server started");
