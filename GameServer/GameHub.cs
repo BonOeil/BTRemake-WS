@@ -11,6 +11,7 @@ namespace GameServer
     public class GameHub : Microsoft.AspNetCore.SignalR.Hub
     {
         private IGameManagement GameManagement { get; }
+
         private ILogger<GameHub> Logger { get; }
 
         public GameHub(IGameManagement gameManagement, ILogger<GameHub> logger)

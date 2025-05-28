@@ -20,7 +20,9 @@ namespace GameShared.Services
     public class GameManagement: IGameManagement
     {
         private IMongoClient MongoClient { get; }
+
         private IRepository<Location> LocationRepository { get; }
+
         private ILogger<GameManagement> Logger { get; }
 
         public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger) 
@@ -38,16 +40,16 @@ namespace GameShared.Services
                 ArgumentException.ThrowIfNullOrWhiteSpace(gameName);
 
                 // Clear DB ? or create new DB as gameName
-                //var dataBase = MongoClient.GetDatabase(gameName);
+                // var dataBase = MongoClient.GetDatabase(gameName);
 
                 // Read locations
 
                 // Read OoB
 
                 // Save into DB
-                //await dataBase.CreateCollectionAsync(nameof(Location));
-                //await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
-                //await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
+                // await dataBase.CreateCollectionAsync(nameof(Location));
+                // await AddLocation("London", new GPSPosition(51.5074f, -0.1278f), Faction.Allies);
+                // await AddLocation("Berlin", new GPSPosition(52.5200f, 13.4050f), Faction.Axis);
                 string resourcePath = Environment.GetEnvironmentVariable("RESOURCE_PATH") ?? Path.Combine(Directory.GetCurrentDirectory(), "Ressources");
 
                 var path = Path.Combine(resourcePath, "Scenarios", "Scenario1", "Locations.json");

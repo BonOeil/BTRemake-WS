@@ -12,6 +12,7 @@ namespace GameServer
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
+
         private ILogger<TestHub> Logger { get; }
 
         private ITurnServices TurnServices { get; set; }
@@ -45,7 +46,6 @@ namespace GameServer
 
             await base.OnDisconnectedAsync(exception);
         }
-
 
         // Méthode appelée par le client pour rejoindre le jeu
         public async Task StepTurn()

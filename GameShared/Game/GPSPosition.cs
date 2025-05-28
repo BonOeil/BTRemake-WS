@@ -17,7 +17,9 @@ namespace GameShared.Game
             Latitude = latitude;
             Longitude = longitude;
         }
+
         public float Latitude { get; set; }
+
         public float Longitude { get; set; }
     }
 }

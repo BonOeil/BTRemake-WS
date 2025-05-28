@@ -33,8 +33,9 @@ namespace GameServer
                 .WithTracing(tracing =>
                 {
                     tracing.AddAspNetCoreInstrumentation()
+
                         // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
-                        //.AddGrpcClientInstrumentation()
+                        // .AddGrpcClientInstrumentation()
                         .AddHttpClientInstrumentation();
                 })
                 /*.WithLogging(logging => logging
@@ -49,17 +50,17 @@ namespace GameServer
         {
             var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
-            //if (useOtlpExporter)
+            // if (useOtlpExporter)
             {
                 builder.Services.AddOpenTelemetry().UseOtlpExporter();
             }
 
             // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-            //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-            //{
+            // if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+            // {
             //    builder.Services.AddOpenTelemetry()
             //       .UseAzureMonitor();
-            //}
+            // }
 
             return builder;
         }

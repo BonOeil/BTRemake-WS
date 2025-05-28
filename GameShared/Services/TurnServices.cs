@@ -17,6 +17,7 @@ namespace GameShared.Services
     public class TurnServices : ITurnServices
     {
         private IRepository<TurnData> TurnRepository { get; }
+
         private ILogger<GameManagement> Logger { get; }
 
         public TurnServices(IRepository<TurnData> repository, ILogger<GameManagement> logger)
@@ -37,19 +38,19 @@ namespace GameShared.Services
             {
                 case GamePhase.Planning:
                     nextPhase = GamePhase.Movement;
-                    //ProcessMovementPhase();
+                    // ProcessMovementPhase();
                     break;
                 case GamePhase.Movement:
                     nextPhase = GamePhase.Combat;
-                    //ProcessCombatPhase();
+                    // ProcessCombatPhase();
                     break;
                 case GamePhase.Combat:
                     nextPhase = GamePhase.Resolution;
-                    //ProcessEndTurnPhase();
+                    // ProcessEndTurnPhase();
                     break;
                 case GamePhase.Resolution:
                     nextPhase = GamePhase.Planning;
-                    //StartNewTurn();
+                    // StartNewTurn();
                     break;
                 default:
                     nextPhase = GamePhase.Planning;
@@ -64,7 +65,7 @@ namespace GameShared.Services
             Logger.LogInformation($"Game phase advanced from {currentPhase} to {nextPhase}");
 
             // Déclencher l'événement de changement de phase
-            //OnPhaseChanged?.Invoke(nextPhase);*/
+            // OnPhaseChanged?.Invoke(nextPhase);*/
 
             return turnData;
         }

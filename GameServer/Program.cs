@@ -31,7 +31,7 @@ namespace GameServer
             builder.Host.UseSerilog((context, services, configuration) => configuration
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
-                //.Enrich.FromLogContext()
+                // .Enrich.FromLogContext()
 
                 // LOKI SINK
                 .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
@@ -79,10 +79,10 @@ namespace GameServer
             var app = builder.Build();
 
             // Middleware de logging des requêtes HTTP
-            //app.UseSerilogRequestLogging();
+            // app.UseSerilogRequestLogging();
 
             // Configuration pour écouter sur toutes les interfaces réseau
-            //app.UseUrls($"http://*:{GetServerPort()}");
+            // app.UseUrls($"http://*:{GetServerPort()}");
 
             if (app.Environment.IsDevelopment())
             {
