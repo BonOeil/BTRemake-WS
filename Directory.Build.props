@@ -1,11 +1,11 @@
 <Project>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj'">
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)/CodeAnalysis/CodeAnalysis.Build.props" />
+  <Import Project="$(MSBuildThisFileDirectory)/CodeAnalysis/CodeAnalysis.Build.props" Condition="'$(MSBuildProjectExtension)'=='.csproj'" />
 
 </Project>
