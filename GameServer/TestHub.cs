@@ -13,15 +13,15 @@ namespace GameServer
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
 
-        private ILogger<TestHub> Logger { get; }
-
-        private ITurnServices TurnServices { get; set; }
-
         public TestHub(ITurnServices turnServices, ILogger<TestHub> logger)
         {
             TurnServices = turnServices;
             Logger = logger;
         }
+
+        private ILogger<TestHub> Logger { get; }
+
+        private ITurnServices TurnServices { get; set; }
 
         // Appelé quand un client se connecte
         public override async Task OnConnectedAsync()

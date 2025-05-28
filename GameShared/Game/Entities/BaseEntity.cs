@@ -13,11 +13,11 @@ namespace GameShared.Game.Entities
 
     public abstract class BaseEntity
     {
-        public ObjectId Id { get; set; }
-
         protected BaseEntity()
         {
             Id = ObjectId.GenerateNewId();
         }
+
+        public ObjectId Id { get; set; }
     }
 }

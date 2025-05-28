@@ -19,18 +19,18 @@ namespace GameShared.Services
 
     public class GameManagement: IGameManagement
     {
-        private IMongoClient MongoClient { get; }
-
-        private IRepository<Location> LocationRepository { get; }
-
-        private ILogger<GameManagement> Logger { get; }
-
         public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger)
         {
             Logger = logger;
             MongoClient = mongoClient;
             LocationRepository = locationRepository;
         }
+
+        private IMongoClient MongoClient { get; }
+
+        private IRepository<Location> LocationRepository { get; }
+
+        private ILogger<GameManagement> Logger { get; }
 
         public async Task StartScenario(string scenarioName, string gameName)
         {

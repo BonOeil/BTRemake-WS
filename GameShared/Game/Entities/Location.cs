@@ -13,17 +13,17 @@ namespace GameShared.Game.Entities
 
     public class Location : BaseEntity
     {
-        public string Name { get; set; }
-
-        public GPSPosition Position { get; set; }
-
-        public Faction ControllingFaction { get; set; }
-
         public Location(string name, GPSPosition position, Faction controllingFaction)
         {
             Name = name;
             Position = position;
             ControllingFaction = controllingFaction;
         }
+
+        public string Name { get; set; }
+
+        public GPSPosition Position { get; set; }
+
+        public Faction ControllingFaction { get; set; }
     }
 }

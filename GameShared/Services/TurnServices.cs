@@ -16,15 +16,15 @@ namespace GameShared.Services
 
     public class TurnServices : ITurnServices
     {
-        private IRepository<TurnData> TurnRepository { get; }
-
-        private ILogger<GameManagement> Logger { get; }
-
         public TurnServices(IRepository<TurnData> repository, ILogger<GameManagement> logger)
         {
             Logger = logger;
             TurnRepository = repository;
         }
+
+        private IRepository<TurnData> TurnRepository { get; }
+
+        private ILogger<GameManagement> Logger { get; }
 
         public async Task<TurnData> StepTurn()
         {
