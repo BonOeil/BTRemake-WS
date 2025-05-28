@@ -10,5 +10,9 @@ namespace GameShared.Game
     using System.Text;
     using System.Threading.Tasks;
 
-    public enum Faction { Allies, Axis }
+    public enum Faction
+    {
+        Allies,
+        Axis,
+    }
 }

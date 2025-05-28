@@ -41,7 +41,7 @@ namespace GameShared.Persistance
         {
             return Task.FromResult(_entities.First().Value);
         }
-        
+
         public Task AddAsync(T entity)
         {
             var id = _idProperty.GetValue(entity)?.ToString();

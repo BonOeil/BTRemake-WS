@@ -15,7 +15,7 @@ namespace GameShared.Game.Entities
     {
         public ObjectId Id { get; set; }
 
-        protected BaseEntity() 
+        protected BaseEntity()
         {
             Id = ObjectId.GenerateNewId();
         }

@@ -25,7 +25,7 @@ namespace GameShared.Services
 
         private ILogger<GameManagement> Logger { get; }
 
-        public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger) 
+        public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger)
         {
             Logger = logger;
             MongoClient = mongoClient;
