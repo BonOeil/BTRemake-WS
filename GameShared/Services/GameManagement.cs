@@ -17,7 +17,7 @@ namespace GameShared.Services
     using Microsoft.Extensions.Logging;
     using MongoDB.Driver;
 
-    public class GameManagement: IGameManagement
+    public class GameManagement : IGameManagement
     {
         public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger)
         {
@@ -61,7 +61,6 @@ namespace GameShared.Services
                 using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
 
                 await LocationRepository.AddAsync(document);
-
             }
             catch (Exception ex)
             {

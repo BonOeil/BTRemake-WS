@@ -54,8 +54,7 @@ namespace GameServer
                 })
 
                 .Enrich.WithProperty("Application", "mon-app-aspnet")
-                .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
-                );
+                .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName));
 
             builder.Services.AddCors(options =>
             {
@@ -104,8 +103,10 @@ namespace GameServer
 
                 logger.LogInformation("User {UserId} started transaction {TransactionId}", userId, transactionId);
                 logger.LogWarning("Slow query detected for user {UserId} - Duration: {Duration}ms", userId, 1500);
-                logger.LogError("Payment failed for transaction {TransactionId} - Error: {Error}",
-                    transactionId, "Insufficient funds");
+                logger.LogError(
+                    "Payment failed for transaction {TransactionId} - Error: {Error}",
+                    transactionId,
+                    "Insufficient funds");
 
                 // Log structuré avec plusieurs propriétés
                 logger.LogInformation("Order processed {@Order}", new

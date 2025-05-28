@@ -16,7 +16,7 @@ namespace GameShared.Persistance
     public class InMemoryRepository<T> : IRepository<T>
         where T : class
     {
-        private readonly ConcurrentDictionary<string, T> _entities = new();
+        private readonly ConcurrentDictionary<string, T> _entities = new ();
         private readonly PropertyInfo _idProperty;
 
         public InMemoryRepository()
