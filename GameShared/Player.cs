@@ -12,8 +12,8 @@ namespace GameShared
 
     public class Player
     {
-        public required string Id { get; set; }
+        required public string Id { get; set; }
 
-        public required string Name { get; set; }
+        required public string Name { get; set; }
     }
 }
