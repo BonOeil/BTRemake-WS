@@ -1,5 +1,5 @@
-﻿// <copyright file="BaseEntity.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="BaseEntity.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
 using System;

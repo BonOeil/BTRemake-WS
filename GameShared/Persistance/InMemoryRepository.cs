@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+﻿// <copyright file="InMemoryRepository.cs" company="BTRemake">
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
