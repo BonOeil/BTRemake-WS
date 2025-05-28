@@ -2,14 +2,14 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GameShared.Messages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class LoadScenario
     {
         public required string ScenarioName { get; set; }

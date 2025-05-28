@@ -2,12 +2,12 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using GameShared.Messages;
-using GameShared.Services.Interfaces;
-using Microsoft.AspNetCore.SignalR;
-
 namespace GameServer
 {
+    using GameShared.Messages;
+    using GameShared.Services.Interfaces;
+    using Microsoft.AspNetCore.SignalR;
+
     public class GameHub : Microsoft.AspNetCore.SignalR.Hub
     {
         private IGameManagement GameManagement { get; }

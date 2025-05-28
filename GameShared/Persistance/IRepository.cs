@@ -2,15 +2,15 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-
 namespace GameShared.Persistance
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+
     public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();

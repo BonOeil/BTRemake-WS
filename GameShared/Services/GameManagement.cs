@@ -2,21 +2,21 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using GameShared.Game;
-using GameShared.Game.Entities;
-using GameShared.Persistance;
-using GameShared.Services.Interfaces;
-using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
-
 namespace GameShared.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+    using GameShared.Game;
+    using GameShared.Game.Entities;
+    using GameShared.Persistance;
+    using GameShared.Services.Interfaces;
+    using Microsoft.Extensions.Logging;
+    using MongoDB.Driver;
+
     public class GameManagement: IGameManagement
     {
         private IMongoClient MongoClient { get; }

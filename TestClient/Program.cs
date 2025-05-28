@@ -3,11 +3,13 @@
 // </copyright>
 
 // See https://aka.ms/new-console-template for more information
+#pragma warning disable SA1200 // Using directives should be placed correctly
 using GameShared.Game;
 using GameShared.Game.Entities;
 using GameShared.Messages;
 using Microsoft.AspNetCore.SignalR.Client;
 using MongoDB.Driver;
+#pragma warning restore SA1200 // Using directives should be placed correctly
 
 Console.WriteLine("Hello, World!");
 

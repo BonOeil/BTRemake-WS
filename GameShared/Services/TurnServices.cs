@@ -2,18 +2,18 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameShared.Game;
-using GameShared.Game.Entities;
-using GameShared.Persistance;
-using Microsoft.Extensions.Logging;
-
 namespace GameShared.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using GameShared.Game;
+    using GameShared.Game.Entities;
+    using GameShared.Persistance;
+    using Microsoft.Extensions.Logging;
+
     public class TurnServices : ITurnServices
     {
         private IRepository<TurnData> TurnRepository { get; }

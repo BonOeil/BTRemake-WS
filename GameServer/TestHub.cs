@@ -2,12 +2,12 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using GameShared;
-using GameShared.Services;
-using Microsoft.AspNetCore.SignalR;
-
 namespace GameServer
 {
+    using GameShared;
+    using GameShared.Services;
+    using Microsoft.AspNetCore.SignalR;
+
     public class TestHub : Microsoft.AspNetCore.SignalR.Hub
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion

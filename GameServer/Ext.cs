@@ -2,14 +2,14 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using OpenTelemetry;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
-
 namespace GameServer
 {
+    using OpenTelemetry;
+    using OpenTelemetry.Exporter;
+    using OpenTelemetry.Logs;
+    using OpenTelemetry.Metrics;
+    using OpenTelemetry.Trace;
+
     public static class Ext
     {
         public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)

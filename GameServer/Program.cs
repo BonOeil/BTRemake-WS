@@ -2,23 +2,23 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-using GameShared.Persistance;
-using GameShared.Persistance.Mongo;
-using GameShared.Services;
-using GameShared.Services.Interfaces;
-using MongoDB.Driver;
-using OpenTelemetry;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
-using Serilog;
-using Serilog.Sinks.Elasticsearch;
-using Serilog.Sinks.Grafana.Loki;
-
 namespace GameServer
 {
+    using GameShared.Persistance;
+    using GameShared.Persistance.Mongo;
+    using GameShared.Services;
+    using GameShared.Services.Interfaces;
+    using MongoDB.Driver;
+    using OpenTelemetry;
+    using OpenTelemetry.Exporter;
+    using OpenTelemetry.Logs;
+    using OpenTelemetry.Metrics;
+    using OpenTelemetry.Resources;
+    using OpenTelemetry.Trace;
+    using Serilog;
+    using Serilog.Sinks.Elasticsearch;
+    using Serilog.Sinks.Grafana.Loki;
+
     public class Program
     {
         public static void Main(string[] args)
