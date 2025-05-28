@@ -64,7 +64,7 @@ namespace GameShared.Services
             }
             catch (Exception ex)
             {
-                Logger.LogError("Error loading a scenario", ex);
+                Logger.LogError(ex, "Error loading a scenario");
             }
         }
 
