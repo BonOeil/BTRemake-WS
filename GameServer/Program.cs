@@ -50,7 +50,7 @@ namespace GameServer
                     TemplateName = "aspnet-template",
                     TypeName = "_doc",
                     BatchAction = ElasticOpType.Index,
-                    ModifyConnectionSettings = conn => conn.BasicAuthentication("", ""), // Pas d'auth en dev
+                    ModifyConnectionSettings = conn => conn.BasicAuthentication(string.Empty, string.Empty), // Pas d'auth en dev
                 })
 
                 .Enrich.WithProperty("Application", "mon-app-aspnet")
