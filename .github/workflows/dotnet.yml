@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ".\BTRemake-WS.sln"
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ".\BTRemake-WS.sln" --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
