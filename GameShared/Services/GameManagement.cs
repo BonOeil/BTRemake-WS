@@ -56,7 +56,7 @@ namespace GameShared.Services
                 string jsonString = File.ReadAllText(path.ToString());
                 var documentOptions = new JsonDocumentOptions
                 {
-                    CommentHandling = JsonCommentHandling.Skip
+                    CommentHandling = JsonCommentHandling.Skip,
                 };
                 using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
 

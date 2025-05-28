@@ -15,6 +15,6 @@ namespace GameShared.Game
         Planning,
         Movement,
         Combat,
-        Resolution
+        Resolution,
     }
 }

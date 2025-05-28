@@ -37,7 +37,7 @@ namespace GameServer
                 .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
                 {
                     new LokiLabel { Key = "app", Value = "mon-app-aspnet" },
-                    new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName }
+                    new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName },
                 })
 
                 // ELASTICSEARCH SINK
@@ -115,7 +115,7 @@ namespace GameServer
                     TransactionId = transactionId,
                     Amount = Random.Shared.Next(10, 500),
                     Currency = "EUR",
-                    ProcessedAt = DateTime.UtcNow
+                    ProcessedAt = DateTime.UtcNow,
                 });
 
                 return Results.Ok(new
@@ -123,7 +123,7 @@ namespace GameServer
                     Message = "Logs envoyés vers Loki ET Elasticsearch !",
                     UserId = userId,
                     TransactionId = transactionId,
-                    Timestamp = DateTime.UtcNow
+                    Timestamp = DateTime.UtcNow,
                 });
             });
 
