@@ -1,4 +1,8 @@
-﻿namespace GameShared.Game.Entities
+﻿// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
+namespace GameShared.Game.Entities
 {
     public class TurnData : BaseEntity
     {

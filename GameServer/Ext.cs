@@ -1,4 +1,8 @@
-﻿using OpenTelemetry;
+﻿// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
+using OpenTelemetry;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;

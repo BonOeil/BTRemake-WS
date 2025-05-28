@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="Location.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

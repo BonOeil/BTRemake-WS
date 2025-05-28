@@ -1,4 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
+// See https://aka.ms/new-console-template for more information
 using GameShared.Game;
 using GameShared.Game.Entities;
 using GameShared.Messages;

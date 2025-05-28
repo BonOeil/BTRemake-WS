@@ -1,3 +1,7 @@
+// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
 using GameShared.Persistance;
 using GameShared.Persistance.Mongo;
 using GameShared.Services;

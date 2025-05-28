@@ -1,4 +1,8 @@
-﻿using GameShared;
+﻿// <copyright file="ScenarioLoaded.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
+using GameShared;
 using GameShared.Services;
 using Microsoft.AspNetCore.SignalR;
 
