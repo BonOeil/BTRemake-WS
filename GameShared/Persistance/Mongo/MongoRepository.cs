@@ -15,7 +15,8 @@ namespace GameShared.Persistance.Mongo
     using MongoDB.Bson;
     using MongoDB.Driver;
 
-    public class MongoRepository<T> : IRepository<T> where T : class
+    public class MongoRepository<T> : IRepository<T>
+        where T : class
     {
         private readonly IMongoCollection<T> _collection;
         private readonly PropertyInfo? _idProperty;

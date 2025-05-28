@@ -260,6 +260,7 @@ dotnet_diagnostic.SA1401.severity = error
 dotnet_diagnostic.SA1201.severity = error
 dotnet_diagnostic.SX1309.severity = error
 dotnet_diagnostic.SA1309.severity = none
+dotnet_diagnostic.SA1127.severity = error
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
