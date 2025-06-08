@@ -12,7 +12,7 @@ namespace GameShared.Persistance
     using System.Threading.Tasks;
 
     public interface IRepository<T>
-        where T : class
+        where T : BaseEntity
     {
         Task<IEnumerable<T>> GetAllAsync();
 

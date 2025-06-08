@@ -9,7 +9,7 @@ namespace GameShared.Game.Mission
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using GameShared.Game.Entities;
+    using GameShared.Persistance;
 
     internal class MissionPlan : BaseEntity
     {

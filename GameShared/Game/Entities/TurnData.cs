@@ -4,6 +4,8 @@
 
 namespace GameShared.Game.Entities
 {
+    using GameShared.Persistance;
+
     public class TurnData : BaseEntity
     {
         public int CurrentTurn { get; set; } = 0;

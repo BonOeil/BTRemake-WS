@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameShared.Game.Entities
+namespace GameShared.Persistance
 {
     using System;
     using System.Collections.Generic;

@@ -14,7 +14,7 @@ namespace GameShared.Persistance
     using System.Threading.Tasks;
 
     public class InMemoryRepository<T> : IRepository<T>
-        where T : class
+        where T : BaseEntity
     {
         private readonly ConcurrentDictionary<string, T> _entities = new ();
         private readonly PropertyInfo _idProperty;
