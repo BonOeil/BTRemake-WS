@@ -60,7 +60,7 @@ namespace GameServer
             {
                 options.AddPolicy("GameClientPolicy", policy =>
                 {
-                    policy.WithOrigins(builder.Configuration.GetSection("ServerSettings:AllowedOrigins").Get<string[]>())
+                    policy.WithOrigins(builder.Configuration.GetSection("ServerSettings:AllowedOrigins").Get<string[]>() ?? [])
                            .AllowAnyHeader()
                            .AllowAnyMethod()
                            .AllowCredentials();

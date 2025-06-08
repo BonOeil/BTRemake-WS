@@ -12,11 +12,11 @@ namespace GameShared.Game.Mission
 
     public class MissionUnit
     {
-        public string Squadron { get; set; }
+        required public string Squadron { get; set; }
 
-        public string Role { get; set; }
+        required public string Role { get; set; }
 
-        public string PlaneType { get; set; }
+        required public string PlaneType { get; set; }
 
         public ushort PlaneCount { get; set; }
 

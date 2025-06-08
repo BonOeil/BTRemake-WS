@@ -34,7 +34,11 @@ namespace GameShared.Persistance
 
         public Task<T> GetByIdAsync(string id)
         {
-            _entities.TryGetValue(id, out var entity);
+            if (!_entities.TryGetValue(id, out var entity))
+            {
+                throw new EntityNotFoundException();
+            }
+
             return Task.FromResult(entity);
         }
 

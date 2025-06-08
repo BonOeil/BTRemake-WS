@@ -13,12 +13,12 @@ namespace GameShared.Game.Mission
 
     internal class MissionPlan : BaseEntity
     {
-        public List<MissionUnit> Units { get; set; }
+        required public List<MissionUnit> Units { get; set; }
 
-        public IPosition Target { get; set; }
+        required public IPosition Target { get; set; }
 
-        public IList<IPosition> InPath { get; set; }
+        required public IList<IPosition> InPath { get; set; }
 
-        public IList<IPosition> OutPath { get; set; }
+        required public IList<IPosition> OutPath { get; set; }
     }
 }
