@@ -10,7 +10,7 @@ namespace GameShared.Game
     using System.Text;
     using System.Threading.Tasks;
 
-    public struct GPSPosition
+    public struct GPSPosition : IPosition
     {
         public GPSPosition(float latitude, float longitude)
         {
