@@ -19,7 +19,6 @@ namespace GameShared.Persistance.Mongo
         where T : BaseEntity
     {
         private readonly IMongoCollection<T> _collection;
-        private readonly PropertyInfo? _idProperty;
         private readonly IMongoClient _mongoClient;
 
         public MongoRepository(IMongoClient mongoClient)
@@ -28,10 +27,6 @@ namespace GameShared.Persistance.Mongo
 
             var database = mongoClient.GetDatabase("BTRemake-Game");
             _collection = database.GetCollection<T>(typeof(T).Name);
-
-            // Identifie la propriété Id
-            _idProperty = typeof(T).GetProperty("Id") ??
-                          typeof(T).GetProperty($"{typeof(T).Name}Id");
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -39,9 +34,9 @@ namespace GameShared.Persistance.Mongo
             return await _collection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", GetIdValue(id));
+            var filter = Builders<T>.Filter.Eq("_id", id);
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
@@ -52,9 +47,9 @@ namespace GameShared.Persistance.Mongo
 
         public async Task AddAsync(T entity)
         {
-            if (_idProperty != null && _idProperty.GetValue(entity) == null)
+            if (entity.Id == default)
             {
-                _idProperty.SetValue(entity, ObjectId.GenerateNewId().ToString());
+                entity.Id = Guid.CreateVersion7();
             }
 
             await _collection.InsertOneAsync(entity);
@@ -65,30 +60,23 @@ namespace GameShared.Persistance.Mongo
             var database = _mongoClient.GetDatabase("BTRemake-Game");
             var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
 
-            foreach (var truc in jsonElement.RootElement.EnumerateArray())
+            foreach (var itemToInsert in jsonElement.RootElement.EnumerateArray())
             {
-                var bsonDocument = truc.ToBsonDocument();
+                var bsonDocument = itemToInsert.ToBsonDocument();
                 await collection.InsertOneAsync(bsonDocument);
             }
         }
 
         public async Task UpdateAsync(T entity)
         {
-            var id = _idProperty?.GetValue(entity);
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq(nameof(BaseEntity.Id), entity.Id);
             await _collection.ReplaceOneAsync(filter, entity);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", GetIdValue(id));
+            var filter = Builders<T>.Filter.Eq(nameof(BaseEntity.Id), id);
             await _collection.DeleteOneAsync(filter);
-        }
-
-        private object GetIdValue(string id)
-        {
-            // Convertit l'ID selon le type attendu (string ou ObjectId)
-            return ObjectId.TryParse(id, out var objectId) ? objectId : id;
         }
     }
 }

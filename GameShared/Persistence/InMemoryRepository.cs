@@ -16,23 +16,14 @@ namespace GameShared.Persistance
     public class InMemoryRepository<T> : IRepository<T>
         where T : BaseEntity
     {
-        private readonly ConcurrentDictionary<string, T> _entities = new ();
-        private readonly PropertyInfo _idProperty;
-
-        public InMemoryRepository()
-        {
-            // Recherche une propriété Id ou EntityId dans l'entité
-            _idProperty = typeof(T).GetProperty("Id") ??
-                          typeof(T).GetProperty($"{typeof(T).Name}Id") ??
-                          throw new InvalidOperationException($"Entity {typeof(T).Name} must have an Id property");
-        }
+        private readonly ConcurrentDictionary<Guid, T> _entities = new ();
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
             return Task.FromResult(_entities.Values.AsEnumerable());
         }
 
-        public Task<T> GetByIdAsync(string id)
+        public Task<T> GetByIdAsync(Guid id)
         {
             if (!_entities.TryGetValue(id, out var entity))
             {
@@ -49,30 +40,27 @@ namespace GameShared.Persistance
 
         public Task AddAsync(T entity)
         {
-            var id = _idProperty.GetValue(entity)?.ToString();
-            if (string.IsNullOrEmpty(id))
+            if (entity.Id == default)
             {
-                id = Guid.NewGuid().ToString();
-                _idProperty.SetValue(entity, id);
+                entity.Id = Guid.CreateVersion7();
             }
 
-            _entities[id] = entity;
+            _entities[entity.Id] = entity;
             return Task.CompletedTask;
         }
 
         public Task UpdateAsync(T entity)
         {
-            var id = _idProperty.GetValue(entity)?.ToString();
-            if (string.IsNullOrEmpty(id) || !_entities.ContainsKey(id))
+            if (entity.Id == default || !_entities.ContainsKey(entity.Id))
             {
-                throw new KeyNotFoundException($"Entity with id {id} not found");
+                throw new KeyNotFoundException($"Entity with id {entity.Id} not found");
             }
 
-            _entities[id] = entity;
+            _entities[entity.Id] = entity;
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(string id)
+        public Task DeleteAsync(Guid id)
         {
             _entities.TryRemove(id, out _);
             return Task.CompletedTask;

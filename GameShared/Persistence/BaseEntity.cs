@@ -10,14 +10,17 @@ namespace GameShared.Persistance
     using System.Text;
     using System.Threading.Tasks;
     using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
 
+    [BsonIgnoreExtraElements]
     public abstract class BaseEntity
     {
         protected BaseEntity()
         {
-            Id = ObjectId.GenerateNewId();
+            Id = Guid.CreateVersion7();
         }
 
-        public ObjectId Id { get; set; }
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid Id { get; set; }
     }
 }

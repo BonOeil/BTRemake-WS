@@ -16,7 +16,7 @@ namespace GameShared.Persistance
     {
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetByIdAsync(string id);
+        Task<T> GetByIdAsync(Guid id);
 
         Task<T> GetUniqueAsync();
 
@@ -26,6 +26,6 @@ namespace GameShared.Persistance
 
         Task UpdateAsync(T entity);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
     }
 }

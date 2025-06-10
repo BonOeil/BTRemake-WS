@@ -1,7 +1,10 @@
 ﻿[
   {
-    "_id": {
-      "$oid": "6824489a2d43a7140d360886"
+    "Id": {
+      "$binary": {
+        "base64": "AZdaQxqSdyWoeXdywsrKfw==",
+        "subType": "04"
+      }
     },
     "Name": "London",
     "Position": {
@@ -11,8 +14,11 @@
     "ControllingFaction": 0
   },
   {
-    "_id": {
-      "$oid": "682449e6e54f8b09a759dd4b"
+    "Id": {
+      "$binary": {
+        "base64": "AZdaQxvfdFSgXCzmJ81AEA==",
+        "subType": "04"
+      }
     },
     "Name": "Berlin",
     "Position": {
