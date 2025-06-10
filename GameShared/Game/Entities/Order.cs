@@ -9,7 +9,7 @@ namespace GameShared.Game.Entities
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using GameShared.Persistance;
+    using GameShared.Persistence;
 
     public class Order : BaseEntity
     {

@@ -11,7 +11,7 @@ namespace GameShared.Services
     using System.Threading.Tasks;
     using GameShared.Game;
     using GameShared.Game.Entities;
-    using GameShared.Persistance;
+    using GameShared.Persistence;
     using Microsoft.Extensions.Logging;
 
     public class TurnServices : ITurnServices

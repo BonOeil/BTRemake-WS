@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameShared.Persistance
+namespace GameShared.Persistence
 {
     using System;
     using System.Collections.Concurrent;
@@ -66,7 +66,7 @@ namespace GameShared.Persistance
             return Task.CompletedTask;
         }
 
-        public Task AddAsync(JsonDocument jsonElement)
+        public Task AddAsync(string jsonFilePath)
         {
             throw new NotImplementedException();
         }

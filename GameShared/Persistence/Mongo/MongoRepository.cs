@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameShared.Persistance.Mongo
+namespace GameShared.Persistence.Mongo
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +13,9 @@ namespace GameShared.Persistance.Mongo
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using MongoDB.Bson;
+    using MongoDB.Bson.IO;
+    using MongoDB.Bson.Serialization;
+    using MongoDB.Bson.Serialization.Serializers;
     using MongoDB.Driver;
 
     public class MongoRepository<T> : IRepository<T>
@@ -55,15 +58,23 @@ namespace GameShared.Persistance.Mongo
             await _collection.InsertOneAsync(entity);
         }
 
-        public async Task AddAsync(JsonDocument jsonElement)
+        public async Task AddAsync(string jsonFilePath)
         {
             var database = _mongoClient.GetDatabase("BTRemake-Game");
             var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
 
-            foreach (var itemToInsert in jsonElement.RootElement.EnumerateArray())
+            var text = System.IO.File.ReadAllText(jsonFilePath);
+
+            using (var jsonReader = new JsonReader(text))
             {
-                var bsonDocument = itemToInsert.ToBsonDocument();
-                await collection.InsertOneAsync(bsonDocument);
+                var serializer = new BsonArraySerializer();
+                var bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
+
+                foreach (var bsonValue in bsonArray)
+                {
+                    var bsonDocument = bsonValue.ToBsonDocument();
+                    await collection.InsertOneAsync(bsonDocument);
+                }
             }
         }
 

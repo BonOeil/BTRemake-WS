@@ -4,8 +4,8 @@
 
 namespace GameServer
 {
-    using GameShared.Persistance;
-    using GameShared.Persistance.Mongo;
+    using GameShared.Persistence;
+    using GameShared.Persistence.Mongo;
     using GameShared.Services;
     using GameShared.Services.Interfaces;
     using MongoDB.Driver;

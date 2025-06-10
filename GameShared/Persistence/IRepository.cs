@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameShared.Persistance
+namespace GameShared.Persistence
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace GameShared.Persistance
 
         Task AddAsync(T entity);
 
-        Task AddAsync(JsonDocument jsonElement);
+        Task AddAsync(string jsonFilePath);
 
         Task UpdateAsync(T entity);
 

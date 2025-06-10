@@ -12,7 +12,7 @@ namespace GameShared.Services
     using System.Threading.Tasks;
     using GameShared.Game;
     using GameShared.Game.Entities;
-    using GameShared.Persistance;
+    using GameShared.Persistence;
     using GameShared.Services.Interfaces;
     using Microsoft.Extensions.Logging;
     using MongoDB.Driver;
@@ -53,14 +53,14 @@ namespace GameShared.Services
                 string resourcePath = Environment.GetEnvironmentVariable("RESOURCE_PATH") ?? Path.Combine(Directory.GetCurrentDirectory(), "Ressources");
 
                 var path = Path.Combine(resourcePath, "Scenarios", "Scenario1", "Locations.json");
-                string jsonString = File.ReadAllText(path.ToString());
-                var documentOptions = new JsonDocumentOptions
-                {
-                    CommentHandling = JsonCommentHandling.Skip,
-                };
-                using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
+                // string jsonString = File.ReadAllText(path.ToString());
+                // var documentOptions = new JsonDocumentOptions
+                // {
+                //    CommentHandling = JsonCommentHandling.Skip,
+                // };
+                // using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
 
-                await LocationRepository.AddAsync(document);
+                await LocationRepository.AddAsync(path);
             }
             catch (Exception ex)
             {

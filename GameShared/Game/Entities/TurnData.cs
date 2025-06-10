@@ -4,7 +4,7 @@
 
 namespace GameShared.Game.Entities
 {
-    using GameShared.Persistance;
+    using GameShared.Persistence;
 
     public class TurnData : BaseEntity
     {

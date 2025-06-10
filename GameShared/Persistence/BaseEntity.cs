@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameShared.Persistance
+namespace GameShared.Persistence
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,9 @@ namespace GameShared.Persistance
             Id = Guid.CreateVersion7();
         }
 
+        [BsonRepresentation(BsonType.String)]
         [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        [BsonId]
         public Guid Id { get; set; }
     }
 }
