@@ -16,7 +16,7 @@ namespace GameShared.Services
 
     public class TurnServices : ITurnServices
     {
-        public TurnServices(IRepository<TurnData> repository, ILogger<GameManagement> logger)
+        public TurnServices(IRepository<TurnData> repository, ILogger<TurnServices> logger)
         {
             Logger = logger;
             TurnRepository = repository;
@@ -24,7 +24,7 @@ namespace GameShared.Services
 
         private IRepository<TurnData> TurnRepository { get; }
 
-        private ILogger<GameManagement> Logger { get; }
+        private ILogger<TurnServices> Logger { get; }
 
         public async Task<TurnData> StepTurn()
         {

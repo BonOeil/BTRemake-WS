@@ -49,6 +49,11 @@ namespace GameShared.Persistence
             return Task.CompletedTask;
         }
 
+        public Task AddAsync(string jsonFilePath)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(T entity)
         {
             if (entity.Id == default || !_entities.ContainsKey(entity.Id))
@@ -64,11 +69,6 @@ namespace GameShared.Persistence
         {
             _entities.TryRemove(id, out _);
             return Task.CompletedTask;
-        }
-
-        public Task AddAsync(string jsonFilePath)
-        {
-            throw new NotImplementedException();
         }
     }
 }

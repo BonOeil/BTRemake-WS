@@ -273,6 +273,9 @@ dotnet_diagnostic.SA1512.severity = none
 dotnet_diagnostic.SA0001.severity = none
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1010.severity = none
+dotnet_diagnostic.S125.severity = silent
+dotnet_diagnostic.S101.severity = suggestion
+dotnet_diagnostic.S6672.severity = error
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
