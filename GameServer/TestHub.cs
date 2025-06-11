@@ -8,7 +8,7 @@ namespace GameServer
     using GameShared.Services;
     using Microsoft.AspNetCore.SignalR;
 
-    public class TestHub : Microsoft.AspNetCore.SignalR.Hub
+    public class TestHub : Hub
     {
         // Dictionnaire contenant les joueurs connectés avec leur ID de connexion
         private static Dictionary<string, Player> _connectedPlayers = new Dictionary<string, Player>();
