@@ -17,6 +17,9 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
+# Authenticate with NuGet to ensure credentials are refreshed
+- task: NuGetAuthenticate@1
+
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
