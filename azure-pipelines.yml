@@ -38,3 +38,4 @@ steps:
     dockerComposeFile: '**/docker-compose.yml'
     projectName: 'btremake'
     action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'rm --all'
