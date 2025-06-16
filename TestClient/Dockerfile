@@ -10,9 +10,9 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Build.props", "."]
 COPY ["TestClient/TestClient.csproj", "TestClient/"]
 COPY ["GameShared/GameShared.csproj", "GameShared/"]
-COPY Directory.Build.props .
 RUN dotnet restore "./TestClient/TestClient.csproj"
 COPY . .
 WORKDIR "/src/TestClient"

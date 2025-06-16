@@ -1,7 +1,7 @@
 services:
  # ========== LOKI + GRAFANA STACK ==========
   loki:
-    image: grafana/loki:2.9.0
+    image: grafana/loki:latest
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
@@ -27,7 +27,7 @@ services:
 
   # ========== ELK STACK ==========
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.2
   #    container_name: elasticsearch
     environment:
       - node.name=elasticsearch
@@ -54,7 +54,7 @@ services:
       retries: 5
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:9.0.0
+    image: docker.elastic.co/kibana/kibana:9.0.2
     #docker.elastic.co/kibana/kibana:8.10.0
     #   container_name: kibana
     ports:
