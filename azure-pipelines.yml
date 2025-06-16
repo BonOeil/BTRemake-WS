@@ -16,9 +16,10 @@ variables:
 
 steps:
 # Authenticate with NuGet to ensure credentials are refreshed
-- task: NuGetAuthenticate@1
-- task: UseDotNet@2 # Optional if the .NET Core SDK is already installed
-- script: dotnet restore
+# - task: NuGetAuthenticate@1
+# - task: UseDotNet@2 # Optional if the .NET Core SDK is already installed
+# - script: dotnet restore '$(solution)'
+
 
 - task: VSBuild@1
   inputs:
