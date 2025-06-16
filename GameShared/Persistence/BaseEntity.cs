@@ -17,7 +17,7 @@ namespace GameShared.Persistence
     {
         protected BaseEntity()
         {
-            Id = Guid.CreateVersion7();
+            Id = Guid.NewGuid();
         }
 
         [BsonRepresentation(BsonType.String)]

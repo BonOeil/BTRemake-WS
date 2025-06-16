@@ -50,9 +50,9 @@ namespace GameShared.Persistence.Mongo
 
         public async Task AddAsync(T entity)
         {
-            if (entity.Id == default)
+            if (entity.Id == Guid.Empty)
             {
-                entity.Id = Guid.CreateVersion7();
+                entity.Id = Guid.NewGuid();
             }
 
             await _collection.InsertOneAsync(entity);

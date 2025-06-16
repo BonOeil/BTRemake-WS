@@ -16,7 +16,7 @@ namespace GameShared.Persistence
     public class InMemoryRepository<T> : IRepository<T>
         where T : BaseEntity
     {
-        private readonly ConcurrentDictionary<Guid, T> _entities = new ();
+        private readonly ConcurrentDictionary<Guid, T> _entities = new ConcurrentDictionary<Guid, T>();
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
@@ -40,9 +40,9 @@ namespace GameShared.Persistence
 
         public Task AddAsync(T entity)
         {
-            if (entity.Id == default)
+            if (entity.Id == Guid.Empty)
             {
-                entity.Id = Guid.CreateVersion7();
+                entity.Id = Guid.NewGuid();
             }
 
             _entities[entity.Id] = entity;
@@ -56,7 +56,7 @@ namespace GameShared.Persistence
 
         public Task UpdateAsync(T entity)
         {
-            if (entity.Id == default || !_entities.ContainsKey(entity.Id))
+            if (entity.Id == Guid.Empty || !_entities.ContainsKey(entity.Id))
             {
                 throw new KeyNotFoundException($"Entity with id {entity.Id} not found");
             }
