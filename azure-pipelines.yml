@@ -32,3 +32,11 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DockerCompose@1
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Paiement à l''utilisation(5ac5cb80-1638-4510-aa94-f4e193fba7b2)'
+    azureContainerRegistry: '{"loginServer":"btremake.azurecr.io", "id" : "/subscriptions/5ac5cb80-1638-4510-aa94-f4e193fba7b2/resourceGroups/VS-MSIM-Group/providers/Microsoft.ContainerRegistry/registries/BTRemake"}'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Run a Docker Compose command'
