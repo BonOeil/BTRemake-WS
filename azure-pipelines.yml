@@ -15,10 +15,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
-
 # Authenticate with NuGet to ensure credentials are refreshed
 - task: NuGetAuthenticate@1
+- task: UseDotNet@2 # Optional if the .NET Core SDK is already installed
+- script: dotnet restore
 
 - task: VSBuild@1
   inputs:
@@ -26,7 +26,6 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    restoreNugetPackages: true
     msbuildArchitecture: 'x64'
 
 - task: VSTest@2
