@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
-    <DockerTargetOS>Linux</DockerTargetOS>
+    <DockerTargetOS>Windows</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
     <ProjectGuid>91cbfd03-3858-4f34-8c77-504f02ce752a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
