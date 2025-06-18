@@ -51,7 +51,7 @@ namespace GameServer
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            // builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddCors(options =>
             {
@@ -78,8 +78,8 @@ namespace GameServer
             // Configure Swagger
             if (app.Environment.IsDevelopment())
             {
-                // app.UseSwagger();
-                // app.UseSwaggerUI();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             // Middleware de logging des requêtes HTTP
