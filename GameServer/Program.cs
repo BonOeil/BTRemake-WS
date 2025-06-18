@@ -27,6 +27,7 @@ namespace GameServer
             {
                 new SwaggerModule(),
                 new LoggingModule(),
+                new ControllerSupportModule(),
             };
 
             var builder = WebApplication.CreateBuilder(args);
@@ -34,9 +35,6 @@ namespace GameServer
             serverModules.ForEach(module => module.PreBuild(builder));
 
             builder.ConfigureOpenTelemetry();
-
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddCors(options =>
             {
@@ -75,8 +73,6 @@ namespace GameServer
 
             app.MapHub<TestHub>($"/{nameof(TestHub)}");
             app.MapHub<GameHub>($"/{nameof(GameHub)}");
-
-            app.MapControllers();
 
             app.MapGet("/", () => "Hello World!");
 
