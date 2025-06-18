@@ -4,23 +4,28 @@
 
 namespace GameServer.Controllers
 {
+    using GameShared.Persistence;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     [ApiController]
     public abstract class CrudController<T>
+        where T : BaseEntity
     {
-        public CrudController(ILogger<CrudController<T>> logger)
+        public CrudController(ILogger<CrudController<T>> logger, IRepository<T> repository)
         {
             Logger = logger;
+            Repository = repository;
         }
 
-        public ILogger<CrudController<T>> Logger { get; set; }
+        private ILogger<CrudController<T>> Logger { get; set; }
+
+        private IRepository<T> Repository { get; set; }
 
         [HttpGet]
-        public ActionResult<T> GetAll()
+        public async Task<ActionResult<IEnumerable<T>>> GetAll()
         {
-            return new ActionResult<T>(default(T));
+            return new ActionResult<IEnumerable<T>>(await Repository.GetAllAsync());
         }
     }
 }
