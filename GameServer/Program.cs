@@ -29,6 +29,7 @@ namespace GameServer
                 new LoggingModule(),
                 new DebugModule(),
                 new ControllerSupportModule(),
+                new HubModule(),
             };
 
             var builder = WebApplication.CreateBuilder(args);
@@ -55,8 +56,6 @@ namespace GameServer
             builder.Services.AddScoped<IGameManagement, GameManagement>();
             builder.Services.AddScoped(typeof(ICRUDService<>), typeof(CRUDService<>));
 
-            builder.Services.AddSignalR();
-
             var app = builder.Build();
 
             serverModules.ForEach(module => module.PostBuild(app));
@@ -66,9 +65,6 @@ namespace GameServer
 
             app.UseRouting();
             app.UseCors("GameClientPolicy");
-
-            app.MapHub<TestHub>($"/{nameof(TestHub)}");
-            app.MapHub<GameHub>($"/{nameof(GameHub)}");
 
             app.MapGet("/", () => "Hello World!");
 
