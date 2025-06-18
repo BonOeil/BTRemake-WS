@@ -10,14 +10,7 @@ namespace GameServer
     using GameShared.Services;
     using GameShared.Services.Interfaces;
     using MongoDB.Driver;
-    using OpenTelemetry;
-    using OpenTelemetry.Exporter;
-    using OpenTelemetry.Logs;
-    using OpenTelemetry.Metrics;
-    using OpenTelemetry.Resources;
-    using OpenTelemetry.Trace;
     using Serilog;
-    using Serilog.Sinks.Elasticsearch;
 
     public class Program
     {
@@ -27,6 +20,7 @@ namespace GameServer
             {
                 new SwaggerModule(),
                 new LoggingModule(),
+                new OpenTelemetryModule(),
                 new DebugModule(),
                 new CorsModule(),
                 new ControllerSupportModule(),
@@ -36,8 +30,6 @@ namespace GameServer
             var builder = WebApplication.CreateBuilder(args);
 
             serverModules.ForEach(module => module.PreBuild(builder));
-
-            builder.ConfigureOpenTelemetry();
 
             builder.Services.AddSingleton<IMongoClient>(sp =>
                 new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
