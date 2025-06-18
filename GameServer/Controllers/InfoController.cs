@@ -7,8 +7,8 @@ namespace GameServer.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
 
-    [Route("/-/{controller}")]
-    public class InfoController : Controller
+    [Route("/-/[controller]")]
+    public class InfoController : ControllerBase
     {
         private readonly IEnumerable<EndpointDataSource> _endpointSources;
 
@@ -45,7 +45,7 @@ namespace GameServer.Controllers
                 }
             );
 
-            return Json(output);
+            return Ok(output);
         }
 
         [HttpGet("health")]

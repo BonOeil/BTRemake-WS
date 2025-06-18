@@ -9,10 +9,10 @@ namespace GameServer.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class CrudController<T>
+    public abstract class CrudController<T> : ControllerBase
         where T : BaseEntity
     {
-        public CrudController(ILogger<CrudController<T>> logger, IRepository<T> repository)
+        protected CrudController(ILogger<CrudController<T>> logger, IRepository<T> repository)
         {
             Logger = logger;
             Repository = repository;
@@ -25,7 +25,15 @@ namespace GameServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<T>>> GetAll()
         {
-            return new ActionResult<IEnumerable<T>>(await Repository.GetAllAsync());
+            return Ok(await Repository.GetAllAsync());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add(T itemToAdd)
+        {
+            await Repository.AddAsync(itemToAdd);
+
+            return Ok();
         }
     }
 }
