@@ -4,7 +4,6 @@
 
 namespace GameServer.Controllers
 {
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
 
@@ -13,9 +12,7 @@ namespace GameServer.Controllers
     {
         private readonly IEnumerable<EndpointDataSource> _endpointSources;
 
-        public InfoController(
-            IEnumerable<EndpointDataSource> endpointSources
-        )
+        public InfoController(IEnumerable<EndpointDataSource> endpointSources)
         {
             _endpointSources = endpointSources;
         }
@@ -49,6 +46,12 @@ namespace GameServer.Controllers
             );
 
             return Json(output);
+        }
+
+        [HttpGet("health")]
+        public async Task<ActionResult<string>> Status()
+        {
+            return "OK";
         }
     }
 }
