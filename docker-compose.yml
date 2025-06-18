@@ -1,74 +1,74 @@
 services:
  # ========== LOKI + GRAFANA STACK ==========
-  loki:
-    image: grafana/loki:latest
-    ports:
-      - "3100:3100"
-    command: -config.file=/etc/loki/local-config.yaml
-    # volumes:
-    #   - loki-data:/loki
-    networks:
-      - app-network
+  # loki:
+  #   image: grafana/loki:latest
+  #   ports:
+  #     - "3100:3100"
+  #   command: -config.file=/etc/loki/local-config.yaml
+  #   # volumes:
+  #   #   - loki-data:/loki
+  #   networks:
+  #     - app-network
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-    # volumes:
-    #   - grafana-data:/var/lib/grafana
-    depends_on:
-      - loki
-    networks:
-      - app-network
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #     - GF_USERS_ALLOW_SIGN_UP=false
+  #   # volumes:
+  #   #   - grafana-data:/var/lib/grafana
+  #   depends_on:
+  #     - loki
+  #   networks:
+  #     - app-network
 
   # ========== ELK STACK ==========
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.2
-  #    container_name: elasticsearch
-    environment:
-      - node.name=elasticsearch
-      - cluster.name=es-docker-cluster
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=false
-      - xpack.security.enrollment.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
- #    volumes:
-  #     - elasticsearch-data:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://elasticsearch:9200/_cluster/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+ #  elasticsearch:
+ #    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.2
+ #  #    container_name: elasticsearch
+ #    environment:
+ #      - node.name=elasticsearch
+ #      - cluster.name=es-docker-cluster
+ #      - discovery.type=single-node
+ #      - bootstrap.memory_lock=true
+ #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+ #      - xpack.security.enabled=false
+ #      - xpack.security.enrollment.enabled=false
+ #    ulimits:
+ #      memlock:
+ #        soft: -1
+ #        hard: -1
+ # #    volumes:
+ #  #     - elasticsearch-data:/usr/share/elasticsearch/data
+ #    ports:
+ #      - "9200:9200"
+ #    networks:
+ #      - app-network
+ #    healthcheck:
+ #      test: ["CMD-SHELL", "curl -f http://elasticsearch:9200/_cluster/health || exit 1"]
+ #      interval: 30s
+ #      timeout: 10s
+ #      retries: 5
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:9.0.2
-    #docker.elastic.co/kibana/kibana:8.10.0
-    #   container_name: kibana
-    ports:
-      - "5601:5601"
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=kibana_system
-      - ELASTICSEARCH_PASSWORD=kibana_system
-    networks:
-      - app-network
-    depends_on:
-      - elasticsearch
-        # elasticsearch:
-        #   condition: service_healthy
+ #  kibana:
+ #    image: docker.elastic.co/kibana/kibana:9.0.2
+ #    #docker.elastic.co/kibana/kibana:8.10.0
+ #    #   container_name: kibana
+ #    ports:
+ #      - "5601:5601"
+ #    environment:
+ #      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+ #      - ELASTICSEARCH_USERNAME=kibana_system
+ #      - ELASTICSEARCH_PASSWORD=kibana_system
+ #    networks:
+ #      - app-network
+ #    depends_on:
+ #      - elasticsearch
+ #        # elasticsearch:
+ #        #   condition: service_healthy
       
  # ========== CORE APP ==========      
   mongodb:
@@ -102,8 +102,8 @@ services:
       - app-network
     depends_on:
       - mongodb
-      - loki
-      - elasticsearch
+      # - loki
+      # - elasticsearch
 
  # ========== TEST APP ==========
   testConsole:

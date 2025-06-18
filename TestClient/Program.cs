@@ -13,7 +13,7 @@ using MongoDB.Driver;
 
 Console.WriteLine("Hello, World!");
 
-var client = new MongoClient("mongodb://mongodb:27017/");
+var client = new MongoClient("mongodb://mongo:uiwQSOFwoVmKYeVEFcFHhiQPiTTEWdyo@shuttle.proxy.rlwy.net:21696");
 // var client = new MongoClient("mongodb://amazing_turing:27017/BTRemake-Game"); //mongodb://localhost:27017/
 
 // Clear DB ? or create new DB as gameName

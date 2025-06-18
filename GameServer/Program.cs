@@ -33,13 +33,6 @@ namespace GameServer
                 .ReadFrom.Services(services)
                 // .Enrich.FromLogContext()
 
-                // LOKI SINK
-                .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
-                {
-                    new LokiLabel { Key = "app", Value = "mon-app-aspnet" },
-                    new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName },
-                })
-
                 // ELASTICSEARCH SINK
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
                 {
