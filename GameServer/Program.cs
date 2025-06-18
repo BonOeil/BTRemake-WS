@@ -4,6 +4,7 @@
 
 namespace GameServer
 {
+    using GameServer.ServerModule;
     using GameShared.Persistence;
     using GameShared.Persistence.Mongo;
     using GameShared.Services;
@@ -17,13 +18,19 @@ namespace GameServer
     using OpenTelemetry.Trace;
     using Serilog;
     using Serilog.Sinks.Elasticsearch;
-    using Serilog.Sinks.Grafana.Loki;
 
     public class Program
     {
         public static void Main(string[] args)
         {
+            var serverModules = new List<IServerModule>()
+            {
+                new SwaggerModule(),
+            };
+
             var builder = WebApplication.CreateBuilder(args);
+
+            serverModules.ForEach(module => module.PreBuild(builder));
 
             builder.ConfigureOpenTelemetry();
 
@@ -51,7 +58,6 @@ namespace GameServer
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             builder.Services.AddCors(options =>
             {
@@ -75,12 +81,7 @@ namespace GameServer
 
             var app = builder.Build();
 
-            // Configure Swagger
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            serverModules.ForEach(module => module.PostBuild(app));
 
             // Middleware de logging des requêtes HTTP
             // app.UseSerilogRequestLogging();
