@@ -28,6 +28,7 @@ namespace GameServer
                 new SwaggerModule(),
                 new LoggingModule(),
                 new DebugModule(),
+                new CorsModule(),
                 new ControllerSupportModule(),
                 new HubModule(),
             };
@@ -37,17 +38,6 @@ namespace GameServer
             serverModules.ForEach(module => module.PreBuild(builder));
 
             builder.ConfigureOpenTelemetry();
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("GameClientPolicy", policy =>
-                {
-                    policy.WithOrigins(builder.Configuration.GetSection("ServerSettings:AllowedOrigins").Get<string[]>() ?? [])
-                           .AllowAnyHeader()
-                           .AllowAnyMethod()
-                           .AllowCredentials();
-                });
-            });
 
             builder.Services.AddSingleton<IMongoClient>(sp =>
                 new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
@@ -64,10 +54,7 @@ namespace GameServer
             // app.UseUrls($"http://*:{GetServerPort()}");
 
             app.UseRouting();
-            app.UseCors("GameClientPolicy");
-
             app.MapGet("/", () => "Hello World!");
-
 
             Log.Information("Server started");
 
