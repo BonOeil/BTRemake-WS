@@ -1,4 +1,4 @@
-﻿// <copyright file="GameManagement.cs" company="BTRemake">
+﻿// <copyright file="GameServices.cs" company="BTRemake">
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
@@ -17,9 +17,9 @@ namespace GameShared.Services
     using Microsoft.Extensions.Logging;
     using MongoDB.Driver;
 
-    public class GameManagement : IGameManagement
+    public class GameServices : IGameServices
     {
-        public GameManagement(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameManagement> logger)
+        public GameServices(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameServices> logger)
         {
             Logger = logger;
             MongoClient = mongoClient;
@@ -30,7 +30,7 @@ namespace GameShared.Services
 
         private IRepository<Location> LocationRepository { get; }
 
-        private ILogger<GameManagement> Logger { get; }
+        private ILogger<GameServices> Logger { get; }
 
         public async Task StartScenario(string scenarioName, string gameName)
         {

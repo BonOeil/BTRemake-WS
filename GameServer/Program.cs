@@ -35,8 +35,8 @@ namespace GameServer
                 new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
             builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
             builder.Services.AddScoped<ITurnServices, TurnServices>();
-            builder.Services.AddScoped<IGameManagement, GameManagement>();
-            builder.Services.AddScoped(typeof(ICRUDService<>), typeof(CRUDService<>));
+            builder.Services.AddScoped<IGameServices, GameServices>();
+            builder.Services.AddScoped(typeof(ICRUDServices<>), typeof(CRUDServices<>));
 
             var app = builder.Build();
 

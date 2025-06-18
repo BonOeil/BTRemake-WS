@@ -10,19 +10,19 @@ namespace GameServer
 
     public class GameHub : Microsoft.AspNetCore.SignalR.Hub
     {
-        public GameHub(IGameManagement gameManagement, ILogger<GameHub> logger)
+        public GameHub(IGameServices gameServices, ILogger<GameHub> logger)
         {
-            GameManagement = gameManagement;
+            GameServices = gameServices;
             Logger = logger;
         }
 
-        private IGameManagement GameManagement { get; }
+        private IGameServices GameServices { get; }
 
         private ILogger<GameHub> Logger { get; }
 
         public async Task LoadScenario(LoadScenario scenarioData)
         {
-            await GameManagement.StartScenario(scenarioData.ScenarioName, scenarioData.InstanceName);
+            await GameServices.StartScenario(scenarioData.ScenarioName, scenarioData.InstanceName);
 
             // Informer les autres joueurs de la connexion
             await Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());

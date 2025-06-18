@@ -1,4 +1,4 @@
-﻿// <copyright file="ICRUDService.cs" company="BTRemake">
+﻿// <copyright file="IGameServices.cs" company="BTRemake">
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
@@ -10,12 +10,8 @@ namespace GameShared.Services.Interfaces
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface ICRUDService<in T>
+    public interface IGameServices
     {
-        Task Add(T itemToAdd);
-
-        Task Delete(T itemToDelete);
-
-        Task Delete(Guid idToDelete);
+        Task StartScenario(string scenarioName, string gameName);
     }
 }

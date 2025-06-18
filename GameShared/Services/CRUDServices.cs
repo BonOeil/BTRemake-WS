@@ -1,4 +1,4 @@
-﻿// <copyright file="CRUDService.cs" company="BTRemake">
+﻿// <copyright file="CRUDServices.cs" company="BTRemake">
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
@@ -12,10 +12,10 @@ namespace GameShared.Services
     using GameShared.Persistence;
     using GameShared.Services.Interfaces;
 
-    public class CRUDService<T> : ICRUDService<T>
+    public class CRUDServices<T> : ICRUDServices<T>
         where T : BaseEntity
     {
-        public CRUDService(IRepository<T> repository)
+        public CRUDServices(IRepository<T> repository)
         {
             Repository = repository;
         }
