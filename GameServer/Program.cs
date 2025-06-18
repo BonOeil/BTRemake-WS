@@ -49,6 +49,10 @@ namespace GameServer
                 .Enrich.WithProperty("Application", "mon-app-aspnet")
                 .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName));
 
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            // builder.Services.AddSwaggerGen();
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("GameClientPolicy", policy =>
@@ -71,6 +75,13 @@ namespace GameServer
 
             var app = builder.Build();
 
+            // Configure Swagger
+            if (app.Environment.IsDevelopment())
+            {
+                // app.UseSwagger();
+                // app.UseSwaggerUI();
+            }
+
             // Middleware de logging des requêtes HTTP
             // app.UseSerilogRequestLogging();
 
@@ -87,6 +98,9 @@ namespace GameServer
 
             app.MapHub<TestHub>($"/{nameof(TestHub)}");
             app.MapHub<GameHub>($"/{nameof(GameHub)}");
+
+            app.MapControllers();
+
             app.MapGet("/", () => "Hello World!");
 
             // Exemple de logs pour tester
