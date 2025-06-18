@@ -26,6 +26,7 @@ namespace GameServer
             var serverModules = new List<IServerModule>()
             {
                 new SwaggerModule(),
+                new LoggingModule(),
             };
 
             var builder = WebApplication.CreateBuilder(args);
@@ -33,28 +34,6 @@ namespace GameServer
             serverModules.ForEach(module => module.PreBuild(builder));
 
             builder.ConfigureOpenTelemetry();
-
-            // Configuration de Serilog à partir du fichier appsettings.json
-            builder.Host.UseSerilog((context, services, configuration) => configuration
-                .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
-                // .Enrich.FromLogContext()
-
-                // ELASTICSEARCH SINK
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
-                {
-                    IndexFormat = $"aspnet-logs-{context.HostingEnvironment.EnvironmentName}-{DateTime.UtcNow:yyyy-MM}",
-                    AutoRegisterTemplate = true,
-                    NumberOfShards = 2,
-                    NumberOfReplicas = 1,
-                    TemplateName = "aspnet-template",
-                    TypeName = "_doc",
-                    BatchAction = ElasticOpType.Index,
-                    ModifyConnectionSettings = conn => conn.BasicAuthentication(string.Empty, string.Empty), // Pas d'auth en dev
-                })
-
-                .Enrich.WithProperty("Application", "mon-app-aspnet")
-                .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName));
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -82,9 +61,6 @@ namespace GameServer
             var app = builder.Build();
 
             serverModules.ForEach(module => module.PostBuild(app));
-
-            // Middleware de logging des requêtes HTTP
-            // app.UseSerilogRequestLogging();
 
             // Configuration pour écouter sur toutes les interfaces réseau
             // app.UseUrls($"http://*:{GetServerPort()}");
