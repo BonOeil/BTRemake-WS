@@ -11,7 +11,7 @@ namespace GameShared.Game.Mission
     using System.Threading.Tasks;
     using GameShared.Persistence;
 
-    internal class MissionPlan : BaseEntity
+    public class MissionPlan : BaseEntity
     {
         required public List<MissionUnit> Units { get; set; }
 
