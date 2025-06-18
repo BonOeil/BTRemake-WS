@@ -4,6 +4,8 @@
 
 namespace GameServer.ServerModule
 {
+    using GameServer.Hubs;
+
     public class HubModule : IServerModule
     {
         public void PostBuild(WebApplication app)

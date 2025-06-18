@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameServer
+namespace GameServer.Hubs
 {
     using GameShared.Messages;
     using GameShared.Services.Interfaces;
