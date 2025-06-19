@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalysis", "CodeAnalysi
 		CodeAnalysis\stylecop.json = CodeAnalysis\stylecop.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTRemakeBlazorApp", "BTRemakeBlazorApp\BTRemakeBlazorApp.csproj", "{AFD8C58C-F499-4BC4-832C-E7FD4073E9FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91CBFD03-3858-4F34-8C77-504F02CE752A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFD8C58C-F499-4BC4-832C-E7FD4073E9FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFD8C58C-F499-4BC4-832C-E7FD4073E9FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFD8C58C-F499-4BC4-832C-E7FD4073E9FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFD8C58C-F499-4BC4-832C-E7FD4073E9FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
