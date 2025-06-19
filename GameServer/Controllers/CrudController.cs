@@ -35,5 +35,21 @@ namespace GameServer.Controllers
 
             return Ok();
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid idToDelete)
+        {
+            await Repository.DeleteAsync(idToDelete);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(T itemToUpdate)
+        {
+            await Repository.UpdateAsync(itemToUpdate);
+
+            return Ok();
+        }
     }
 }
