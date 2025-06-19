@@ -1,3 +1,7 @@
+// <copyright file="Program.cs" company="BTRemake">
+// Copyright (c) BTRemake. All rights reserved.
+// </copyright>
+
 namespace BTRemakeWebApplication
 {
     public class Program
@@ -8,6 +12,7 @@ namespace BTRemakeWebApplication
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
 
             var app = builder.Build();
 
@@ -25,6 +30,7 @@ namespace BTRemakeWebApplication
 
             app.UseAuthorization();
 
+            app.MapControllers();
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();

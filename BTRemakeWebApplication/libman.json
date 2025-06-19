@@ -1,0 +1,11 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "cdnjs",
+      "library": "three.js@0.177.0",
+      "destination": "wwwroot/lib/three.js/"
+    }
+  ]
+}
