@@ -1,0 +1,17 @@
+﻿@page "/planet"
+@{
+    ViewData["Title"] = "Ma Planète 3D";
+}
+
+<div class="planet-container">
+    <canvas id="planet-canvas"></canvas>
+    <div class="controls">
+        <button onclick="toggleRotation()">Pause/Play</button>
+        <input type="range" id="zoom-slider" min="2" max="10" value="5">
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/three.min.js"></script>
+    <script src="~/js/planet-scene.js"></script>
+}
