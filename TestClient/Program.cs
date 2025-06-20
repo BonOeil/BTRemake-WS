@@ -8,13 +8,17 @@ using GameShared.Game;
 using GameShared.Game.Entities;
 using GameShared.Messages;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 Console.WriteLine("Hello, World!");
 
-var client = new MongoClient("mongodb://mongo:uiwQSOFwoVmKYeVEFcFHhiQPiTTEWdyo@shuttle.proxy.rlwy.net:21696");
-// var client = new MongoClient("mongodb://amazing_turing:27017/BTRemake-Game"); //mongodb://localhost:27017/
+var configuration = new ConfigurationBuilder()
+            .AddUserSecrets<Program>().Build();
+var mongoConnectionString = configuration["ConnectionStrings:MongoDb"];
+
+var client = new MongoClient(mongoConnectionString);
 
 // Clear DB ? or create new DB as gameName
 var dataBase = client.GetDatabase("gameName");
