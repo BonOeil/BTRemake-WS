@@ -11,26 +11,33 @@ export class PlanetComponent {
 }
 
 const planetRadius = 100;
+const renderWidth = 300 //window.innerWidth
+const renderHeigth = 200 //window.innerHeight
 
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))
 
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(renderWidth, renderHeigth)
 document.body.appendChild(renderer.domElement);
 
 const camera = createCamera();
 const planet = createPlanet();
 
 const controls = new OrbitControls(camera, renderer.domElement)
+//controls.keys = {
+//  LEFT: 'ArrowLeft', //left arrow
+//  UP: 'ArrowUp', // up arrow
+//  RIGHT: 'ArrowRight', // right arrow
+//  BOTTOM: 'ArrowDown' // down arrow
+//}
 controls.update()
 
 // Add light
 setupLighting();
 
-
 function createCamera() {
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, renderWidth / renderHeigth, 0.1, 1000);
   camera.position.z = planetRadius + planetRadius * 0.5;
 
   return camera;
@@ -81,8 +88,6 @@ function setupLighting() {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
-
   planet.rotation.y += 0.001;
 
   controls.update()
@@ -90,4 +95,4 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-animate();
+renderer.setAnimationLoop(animate);
