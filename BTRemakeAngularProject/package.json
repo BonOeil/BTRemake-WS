@@ -18,10 +18,12 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "jest-editor-support": "*",
     "rxjs": "~7.8.0",
+    "three": "^0.177.0",
+    "three-orbitcontrols-ts": "^0.1.2",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3",
-    "jest-editor-support": "*"
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.8",
