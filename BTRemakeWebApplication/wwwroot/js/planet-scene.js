@@ -1,4 +1,6 @@
-﻿const scene = new THREE.Scene();
+﻿const planetRadius = 100;
+
+const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -14,20 +16,20 @@ setupLighting();
 function animate() {
     requestAnimationFrame(animate);
 
-    planet.rotation.y += 0.01;
+    planet.rotation.y += 0.001;
 
     renderer.render(scene, camera);
 }
 
 function createCamera() {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
+    camera.position.z = planetRadius + planetRadius*0.5;
 
     return camera;
 }
 
 function createPlanet() {
-    const geometry = new THREE.SphereGeometry();
+    const geometry = new THREE.SphereGeometry(planetRadius, 100, 100);
     const texture = new THREE.TextureLoader().load("textures/earth-diffuse.jpg");
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
