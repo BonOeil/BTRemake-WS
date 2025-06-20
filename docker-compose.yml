@@ -1,29 +1,4 @@
 services:
- # ========== LOKI + GRAFANA STACK ==========
-  # loki:
-  #   image: grafana/loki:latest
-  #   ports:
-  #     - "3100:3100"
-  #   command: -config.file=/etc/loki/local-config.yaml
-  #   # volumes:
-  #   #   - loki-data:/loki
-  #   networks:
-  #     - app-network
-
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - GF_SECURITY_ADMIN_USER=admin
-  #     - GF_SECURITY_ADMIN_PASSWORD=admin
-  #     - GF_USERS_ALLOW_SIGN_UP=false
-  #   # volumes:
-  #   #   - grafana-data:/var/lib/grafana
-  #   depends_on:
-  #     - loki
-  #   networks:
-  #     - app-network
 
   # ========== ELK STACK ==========
  #  elasticsearch:
@@ -70,53 +45,53 @@ services:
  #        # elasticsearch:
  #        #   condition: service_healthy
       
- # ========== CORE APP ==========      
-  mongodb:
-    image: mongodb/mongodb-community-server:latest
-    ports:
-      - '27017:27017'
-    restart: always
-    environment:
-        MONGO_INITDB_DATABASE: BTRemake-Game
-        # MONGO_INITDB_ROOT_USERNAME: root
-        # MONGO_INITDB_ROOT_PASSWORD: rootpasswd
-    volumes:
-      - ./MongoDB/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    networks:
-      - app-network
-    # volumes:
-    #   - type: bind
-    #     source: ./data
-    #     target: /data/db
+ # ========== CORE APP ==========
 
   gameserver:
     image: ${DOCKER_REGISTRY-}gameserver
+    container_name: gameserver
     ports:
       - "8080:80"
+      - "8081:443"
     build:
-      context: .
-      dockerfile: GameServer/Dockerfile
-    # volumes:
-    #   - ./app/Ressources:/app/Ressources 
+      context: ./GameServer
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
     networks:
       - app-network
-    depends_on:
-      - mongodb
-      # - loki
-      # - elasticsearch
-
- # ========== TEST APP ==========
-  testConsole:
-    image: ${DOCKER_REGISTRY-}testconsole
+      
+  gameclient:
+    image: ${DOCKER_REGISTRY-}gameclient
+    container_name: gameclient
+    ports:
+      - "8082:80"
+      - "8083:443"
     build:
-      context: .
-      dockerfile: TestClient/Dockerfile
+      context: ./BTRemakeWebApplication
+      dockerfile: Dockerfile
     environment:
-      - API_URL=http://gameserver:8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    #   - API_URL=http://gameserver:8080
     networks:
       - app-network
     depends_on:
       - gameserver
+
+ # ========== TEST APP ==========
+  # testConsole:
+  #   image: ${DOCKER_REGISTRY-}testconsole
+  #   build:
+  #     context: .
+  #     dockerfile: TestClient/Dockerfile
+  #   environment:
+  #     - API_URL=http://gameserver:8080
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - gameserver
 
  # ========== Networks ==========
 networks:

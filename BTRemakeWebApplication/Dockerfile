@@ -13,6 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "."]
+COPY ["CodeAnalysis/", "CodeAnalysis/"]
 COPY ["BTRemakeWebApplication/BTRemakeWebApplication.csproj", "BTRemakeWebApplication/"]
 RUN dotnet restore "./BTRemakeWebApplication/BTRemakeWebApplication.csproj"
 COPY . .
