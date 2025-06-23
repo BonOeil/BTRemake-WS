@@ -79,6 +79,21 @@ services:
       - app-network
     depends_on:
       - gameserver
+     
+  gameclientangular:
+    image: ${DOCKER_REGISTRY-}gameclientangular
+    container_name: gameclientangular
+    ports:
+      - "9053:80"
+    build:
+      context: ./BTRemakeAngularProject
+      dockerfile: Dockerfile
+    #environment:
+    #   - API_URL=http://gameserver:8080
+    networks:
+      - app-network
+    depends_on:
+      - gameserver
 
  # ========== TEST APP ==========
   # testConsole:
