@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { CoordinateConverter, GpsPosition } from '../../Business/CoordinateConverter';
 
 @Component({
   selector: 'app-planet',
@@ -12,8 +13,6 @@ export class PlanetComponent implements OnInit {
   scene!: THREE.Scene;
   renderHeigth!: number;
   renderWidth!: number;
-
-  planetRadius!: number;
 
   planet!: THREE.Mesh;
   controls!: OrbitControls;
@@ -33,14 +32,14 @@ export class PlanetComponent implements OnInit {
     this.renderHeigth = 200;
     this.renderWidth = 300;
 
-    this.planetRadius = 300;
-
     const scene_content = (document.getElementById('scene_content') as HTMLCanvasElement);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: scene_content });
     this.renderer.setSize(this.renderWidth, this.renderHeigth);
 
     this.camera = this.createCamera();
     this.planet = this.createPlanet();
+
+    this.createLocations();
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
@@ -51,15 +50,33 @@ export class PlanetComponent implements OnInit {
     this.renderer.setAnimationLoop(() => this.animate());
   }
 
+  createLocations() {
+  let allLocations: GpsPosition[] = [
+    { latitude: 51.5074, longitude: -0.1278, altitude: 0 }, //London
+    { latitude: 52.5200, longitude: 13.4050, altitude: 0 }  //Berlin
+    ];
+
+    const material = new THREE.MeshBasicMaterial({ color: "#FF0000" });
+    allLocations.forEach((value) => {
+      const geometry = new THREE.SphereGeometry(10);
+      var position = CoordinateConverter.GpsToWorldPosition(value);
+
+      geometry.translate(position.x, position.y, position.z);
+      const location = new THREE.Mesh(geometry, material);
+
+      this.planet.add(location);
+    }); 
+  }
+
   createCamera(): THREE.PerspectiveCamera {
     const camera = new THREE.PerspectiveCamera(75, this.renderWidth / this.renderHeigth, 0.1, 1000);
-    camera.position.z = this.planetRadius + this.planetRadius * 0.5;
+    camera.position.z = CoordinateConverter.EarthRadius + CoordinateConverter.EarthRadius * 0.5;
 
     return camera;
   }
 
   createPlanet() : THREE.Mesh {
-    const geometry = new THREE.SphereGeometry(this.planetRadius, 100, 100);
+    const geometry = new THREE.SphereGeometry(CoordinateConverter.EarthRadius, 100, 100);
     const texture = new THREE.TextureLoader().load("assets/textures/earth-diffuse.jpg");
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
