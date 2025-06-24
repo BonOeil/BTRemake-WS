@@ -51,7 +51,7 @@ export class PlanetComponent implements OnInit {
   }
 
   createLocations() {
-  let allLocations: GpsPosition[] = [
+  const allLocations: GpsPosition[] = [
     { latitude: 51.5074, longitude: -0.1278, altitude: 0 }, //London
     { latitude: 52.5200, longitude: 13.4050, altitude: 0 },  //Berlin
     { latitude: 48.8534, longitude: 2.3488, altitude: 0 },  //Paris
@@ -61,7 +61,7 @@ export class PlanetComponent implements OnInit {
     const material = new THREE.MeshBasicMaterial({ color: "#FF0000" });
     allLocations.forEach((value) => {
       const geometry = new THREE.SphereGeometry(10);
-      var position = CoordinateConverter.GpsToWorldPosition(value);
+      const position = CoordinateConverter.GpsToWorldPosition(value);
 
       geometry.translate(position.x, position.y, position.z);
       const location = new THREE.Mesh(geometry, material);
