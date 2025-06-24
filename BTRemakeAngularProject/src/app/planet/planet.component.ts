@@ -53,7 +53,9 @@ export class PlanetComponent implements OnInit {
   createLocations() {
   let allLocations: GpsPosition[] = [
     { latitude: 51.5074, longitude: -0.1278, altitude: 0 }, //London
-    { latitude: 52.5200, longitude: 13.4050, altitude: 0 }  //Berlin
+    { latitude: 52.5200, longitude: 13.4050, altitude: 0 },  //Berlin
+    { latitude: 48.8534, longitude: 2.3488, altitude: 0 },  //Paris
+    { latitude: 40.4165, longitude: -3.7026, altitude: 0 },  //Madrid
     ];
 
     const material = new THREE.MeshBasicMaterial({ color: "#FF0000" });

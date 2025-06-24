@@ -21,7 +21,7 @@ export class CoordinateConverter {
     var z: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.cos(latRad) * Math.sin(lonRad);
     var y: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.sin(latRad);
 
-    return new Vector3(x, y, z);
+    return new Vector3(x, y, -z);
   }
 
   static Vector3Magnitude(worldPosition: Vector3): number {
