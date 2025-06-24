@@ -49,13 +49,12 @@ services:
 
   gameserver:
     image: ${DOCKER_REGISTRY-}gameserver
-    container_name: gameserver
     ports:
       - "8080:80"
       - "8081:443"
     build:
-      context: ./GameServer
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: GameServer/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -64,13 +63,12 @@ services:
       
   gameclient:
     image: ${DOCKER_REGISTRY-}gameclient
-    container_name: gameclient
     ports:
       - "8082:80"
       - "8083:443"
     build:
-      context: ./BTRemakeWebApplication
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: BTRemakeWebApplication/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -80,20 +78,20 @@ services:
     depends_on:
       - gameserver
      
-  gameclientangular:
-    image: ${DOCKER_REGISTRY-}gameclientangular
-    container_name: gameclientangular
-    ports:
-      - "9053:80"
-    build:
-      context: ./BTRemakeAngularProject
-      dockerfile: Dockerfile
-    #environment:
-    #   - API_URL=http://gameserver:8080
-    networks:
-      - app-network
-    depends_on:
-      - gameserver
+  # gameclientangular:
+  #   image: ${DOCKER_REGISTRY-}gameclientangular
+  #   container_name: gameclientangular
+  #   ports:
+  #     - "9053:80"
+  #   build:
+  #     context: ./BTRemakeAngularProject
+  #     dockerfile: Dockerfile
+  #   #environment:
+  #   #   - API_URL=http://gameserver:8080
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - gameserver
 
  # ========== TEST APP ==========
   # testConsole:
