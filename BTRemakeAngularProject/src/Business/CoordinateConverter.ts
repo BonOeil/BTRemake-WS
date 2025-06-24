@@ -21,11 +21,12 @@ export class CoordinateConverter {
     var z: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.cos(latRad) * Math.sin(lonRad);
     var y: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.sin(latRad);
 
+    // inverted z positionning.
     return new Vector3(x, y, -z);
   }
 
   static Vector3Magnitude(worldPosition: Vector3): number {
-    return (worldPosition.x * worldPosition.x + worldPosition.y * worldPosition.y + worldPosition.z * worldPosition.z);
+    return Math.sqrt(worldPosition.x * worldPosition.x + worldPosition.y * worldPosition.y + worldPosition.z * worldPosition.z);
   }
  
   // Convertit une position 3D en coordonnées GPS
@@ -34,7 +35,8 @@ export class CoordinateConverter {
 
         // Calcul de la latitude et longitude
     var latitude: number = Math.asin(worldPosition.y / this.Vector3Magnitude(worldPosition)) * this.Rad2Deg;
-    var longitude: number = Math.atan2(worldPosition.z, worldPosition.x) * this.Rad2Deg;
+    // inverted z positionning.
+    var longitude: number = Math.atan2(-worldPosition.z, worldPosition.x) * this.Rad2Deg;
 
     return { latitude: latitude, longitude: longitude, altitude: altitude };
   }
