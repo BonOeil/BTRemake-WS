@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "gameserver": "StartDebugging",
-        "gameclient": "StartDebugging"
+        "gameclient": "StartDebugging",
+        "gameclientangular": "StartDebugging",
       }
     }
   }

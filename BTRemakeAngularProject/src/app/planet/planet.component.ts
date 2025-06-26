@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CoordinateConverter, GpsPosition } from '../../Business/CoordinateConverter';
+import { OrbitControls } from 'three-orbitcontrols-ts';
 
 @Component({
   selector: 'app-planet',
@@ -20,9 +20,6 @@ export class PlanetComponent implements OnInit {
   camera!: THREE.PerspectiveCamera;
 
   @ViewChild('scene_content') scene_content!: HTMLCanvasElement;
-
-  constructor() {
-  }
 
   ngOnInit() {
 

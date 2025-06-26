@@ -26,6 +26,9 @@
             "outputPath": "dist/btremake-angular-project",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "three-orbitcontrols-ts"
+            ],
             "polyfills": [
               "zone.js"
             ],
@@ -45,7 +48,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",

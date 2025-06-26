@@ -31,4 +31,64 @@
 **/build
 **/dist
 LICENSE
+
+# .dockerignore pour projet Angular
+
+# Dépendances
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+/dist
+/tmp
+/out-tsc
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
 README.md
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Angular specific
+/.angular/cache
+.angular
+
+# Tests
+/e2e
+*.spec.ts
+karma.conf.js
+protractor.conf.js
+
+# Linting
+.eslintrc.json
+tslint.json
+
+# Environment files (attention aux secrets)
+.env
+.env.local
+.env.production
