@@ -28,6 +28,12 @@ namespace GameServer.Controllers
             return Ok(await Repository.GetAllAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<T>>> GetById(Guid id)
+        {
+            return Ok(await Repository.GetByIdAsync(id));
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add(T itemToAdd)
         {

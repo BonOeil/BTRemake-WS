@@ -39,7 +39,7 @@ namespace GameShared.Persistence.Mongo
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
