@@ -63,7 +63,7 @@ namespace GameShared.Persistence.Mongo
             var database = _mongoClient.GetDatabase("BTRemake-Game");
             var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
 
-            var text = System.IO.File.ReadAllText(jsonFilePath);
+            var text = await File.ReadAllTextAsync(jsonFilePath);
 
             using (var jsonReader = new JsonReader(text))
             {
