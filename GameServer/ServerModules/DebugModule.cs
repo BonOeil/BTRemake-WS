@@ -2,7 +2,7 @@
 // Copyright (c) BTRemake. All rights reserved.
 // </copyright>
 
-namespace GameServer.ServerModule
+namespace GameServer.ServerModules
 {
     public class DebugModule : IServerModule
     {
