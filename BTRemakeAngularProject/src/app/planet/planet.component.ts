@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import * as THREE from 'three';
-import { CoordinateConverter, GpsPosition } from '../../Business/CoordinateConverter';
+import { CoordinateConverter } from '../../Business/CoordinateConverter';
 import { OrbitControls } from 'three-orbitcontrols-ts';
+import { LocationService } from '../../Services/LocationService';
+import { GPSPosition } from '../../Models/GPSPosition';
+import { MapLocation } from '../../Models/MapLocation';
 
 @Component({
   selector: 'app-planet',
@@ -20,6 +23,8 @@ export class PlanetComponent implements OnInit {
   camera!: THREE.PerspectiveCamera;
 
   @ViewChild('scene_content') scene_content!: HTMLCanvasElement;
+
+  private locationService = inject(LocationService);
 
   ngOnInit() {
 
@@ -48,14 +53,26 @@ export class PlanetComponent implements OnInit {
   }
 
   createLocations() {
-  const allLocations: GpsPosition[] = [
-    { latitude: 51.5074, longitude: -0.1278, altitude: 0 }, //London
-    { latitude: 52.5200, longitude: 13.4050, altitude: 0 },  //Berlin
-    { latitude: 48.8534, longitude: 2.3488, altitude: 0 },  //Paris
-    { latitude: 40.4165, longitude: -3.7026, altitude: 0 },  //Madrid
-    ];
-
     const material = new THREE.MeshBasicMaterial({ color: "#FF0000" });
+
+    const others = this.locationService.getLocations();
+    others.subscribe((value: MapLocation[]) => {
+      value.forEach((location: MapLocation) => {
+        const geometry = new THREE.SphereGeometry(10);
+        const position = CoordinateConverter.GpsToWorldPosition(location.Position);
+
+        geometry.translate(position.x, position.y, position.z);
+        const locationVue = new THREE.Mesh(geometry, material);
+
+        this.planet.add(locationVue);
+      });
+    });
+
+
+    const allLocations: GPSPosition[] = [
+      { Latitude: 48.8534, Longitude: 2.3488, Altitude: 0 },  //Paris
+      { Latitude: 40.4165, Longitude: -3.7026, Altitude: 0 },  //Madrid
+    ];
     allLocations.forEach((value) => {
       const geometry = new THREE.SphereGeometry(10);
       const position = CoordinateConverter.GpsToWorldPosition(value);

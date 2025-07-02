@@ -1,25 +1,21 @@
 import { Vector3 } from "three";
-
-export type GpsPosition = {
-  latitude: number, longitude: number, altitude: number
-};
+import { GPSPosition } from "../Models/GPSPosition";
 
 export class CoordinateConverter {
-  static EarthRadius: number = 1000;//6371; // en km, à adapter selon l'échelle de votre jeu
+  static EarthRadius = 1000;//6371; // en km, à adapter selon l'échelle de votre jeu
   static Deg2Rad: number = (Math.PI / 180.0);
   static Rad2Deg: number = (180.0 / Math.PI);
 
   // Convertit des coordonnées GPS en position 3D
-  static GpsToWorldPosition(gpsPositon: GpsPosition): Vector3 {
+  static GpsToWorldPosition(gpsPositon: GPSPosition): Vector3 {
     // Conversion en radians
+    const latRad: number = gpsPositon.Latitude * this.Deg2Rad;
+    const lonRad: number = gpsPositon.Longitude * this.Deg2Rad;
 
-    var latRad: number = gpsPositon.latitude * this.Deg2Rad;
-    var lonRad: number = gpsPositon.longitude * this.Deg2Rad;
-
-        // Calcul de la position sur la sphère
-    var x: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.cos(latRad) * Math.cos(lonRad);
-    var z: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.cos(latRad) * Math.sin(lonRad);
-    var y: number = (CoordinateConverter.EarthRadius + gpsPositon.altitude) * Math.sin(latRad);
+    // Calcul de la position sur la sphère
+    const x: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.cos(latRad) * Math.cos(lonRad);
+    const z: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.cos(latRad) * Math.sin(lonRad);
+    const y: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.sin(latRad);
 
     // inverted z positionning.
     return new Vector3(x, y, -z);
@@ -30,14 +26,14 @@ export class CoordinateConverter {
   }
  
   // Convertit une position 3D en coordonnées GPS
-  static WorldPositionToGps(worldPosition:Vector3): GpsPosition {
-    var altitude: number = this.Vector3Magnitude(worldPosition) - CoordinateConverter.EarthRadius;
+  static WorldPositionToGps(worldPosition:Vector3): GPSPosition {
+    const altitude: number = this.Vector3Magnitude(worldPosition) - CoordinateConverter.EarthRadius;
 
         // Calcul de la latitude et longitude
-    var latitude: number = Math.asin(worldPosition.y / this.Vector3Magnitude(worldPosition)) * this.Rad2Deg;
+    const latitude: number = Math.asin(worldPosition.y / this.Vector3Magnitude(worldPosition)) * this.Rad2Deg;
     // inverted z positionning.
-    var longitude: number = Math.atan2(-worldPosition.z, worldPosition.x) * this.Rad2Deg;
+    const longitude: number = Math.atan2(-worldPosition.z, worldPosition.x) * this.Rad2Deg;
 
-    return { latitude: latitude, longitude: longitude, altitude: altitude };
+    return { Latitude: latitude, Longitude: longitude, Altitude: altitude };
   }
 }

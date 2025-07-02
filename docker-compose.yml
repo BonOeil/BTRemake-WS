@@ -60,6 +60,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
     networks:
       - app-network
+    restart: unless-stopped
       
   gameclient:
     image: ${DOCKER_REGISTRY-}gameclient
@@ -72,7 +73,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-    #   - API_URL=http://gameserver:8080
+    #   - GAMESERVER_URL=http://gameserver:8080
     networks:
       - app-network
     depends_on:
@@ -88,11 +89,12 @@ services:
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=production
-    #   - API_URL=http://gameserver:8080
+      - GAMESERVER_URL=http://gameserver:8080
     networks:
       - app-network
     depends_on:
       - gameserver
+    restart: unless-stopped
 
  # ========== TEST APP ==========
   # testConsole:
