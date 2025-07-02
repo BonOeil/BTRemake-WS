@@ -4,7 +4,7 @@
 
 namespace GameServer
 {
-    using GameServer.ServerModule;
+    using GameServer.ServerModules;
     using GameShared.Persistence;
     using GameShared.Persistence.Mongo;
     using GameShared.Services;
