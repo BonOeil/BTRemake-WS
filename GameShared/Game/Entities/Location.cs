@@ -4,13 +4,7 @@
 
 namespace GameShared.Game.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using GameShared.Persistence;
-    using MongoDB.Bson;
 
     public class Location : BaseEntity
     {
