@@ -8,7 +8,7 @@ namespace GameServer.ServerModules
     {
         public void PostBuild(WebApplication app)
         {
-            if (app.Environment.IsDevelopment())
+            // if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -17,7 +17,10 @@ namespace GameServer.ServerModules
 
         public void PreBuild(WebApplicationBuilder builder)
         {
-            builder.Services.AddSwaggerGen();
+            // if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddSwaggerGen();
+            }
         }
     }
 }
