@@ -39,7 +39,7 @@ namespace GameServer.ServerModules
                     ModifyConnectionSettings = conn => conn.BasicAuthentication(string.Empty, string.Empty), // Pas d'auth en dev
                 })*/
 
-                .Enrich.WithProperty("Application", "mon-app-aspnet")
+                .Enrich.WithProperty("Application", "BTRemake-ServeurApp")
                 .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName));
         }
     }
