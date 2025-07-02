@@ -27,7 +27,7 @@ namespace GameServer.ServerModules
                 // .Enrich.FromLogContext()
 
                 // ELASTICSEARCH SINK
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+                /*.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
                 {
                     IndexFormat = $"aspnet-logs-{context.HostingEnvironment.EnvironmentName}-{DateTime.UtcNow:yyyy-MM}",
                     AutoRegisterTemplate = true,
@@ -37,7 +37,7 @@ namespace GameServer.ServerModules
                     TypeName = "_doc",
                     BatchAction = ElasticOpType.Index,
                     ModifyConnectionSettings = conn => conn.BasicAuthentication(string.Empty, string.Empty), // Pas d'auth en dev
-                })
+                })*/
 
                 .Enrich.WithProperty("Application", "mon-app-aspnet")
                 .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName));
