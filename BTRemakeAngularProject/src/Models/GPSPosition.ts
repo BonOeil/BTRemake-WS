@@ -1,5 +1,5 @@
 export interface GPSPosition {
-  Latitude: number;
-  Longitude: number;
-  Altitude: number;
+  latitude: number;
+  longitude: number;
+  altitude: number;
 }

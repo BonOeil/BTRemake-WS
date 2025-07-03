@@ -55,11 +55,11 @@ export class PlanetComponent implements OnInit {
   createLocations() {
     const material = new THREE.MeshBasicMaterial({ color: "#FF0000" });
 
-    const others = this.locationService.getLocations();
-    others.subscribe((value: MapLocation[]) => {
+    const locations = this.locationService.getLocations();
+    locations.subscribe((value: MapLocation[]) => {
       value.forEach((location: MapLocation) => {
         const geometry = new THREE.SphereGeometry(10);
-        const position = CoordinateConverter.GpsToWorldPosition(location.Position);
+        const position = CoordinateConverter.GpsToWorldPosition(location.position);
 
         geometry.translate(position.x, position.y, position.z);
         const locationVue = new THREE.Mesh(geometry, material);
@@ -67,21 +67,6 @@ export class PlanetComponent implements OnInit {
         this.planet.add(locationVue);
       });
     });
-
-
-    const allLocations: GPSPosition[] = [
-      { Latitude: 48.8534, Longitude: 2.3488, Altitude: 0 },  //Paris
-      { Latitude: 40.4165, Longitude: -3.7026, Altitude: 0 },  //Madrid
-    ];
-    allLocations.forEach((value) => {
-      const geometry = new THREE.SphereGeometry(10);
-      const position = CoordinateConverter.GpsToWorldPosition(value);
-
-      geometry.translate(position.x, position.y, position.z);
-      const location = new THREE.Mesh(geometry, material);
-
-      this.planet.add(location);
-    }); 
   }
 
   createCamera(): THREE.PerspectiveCamera {

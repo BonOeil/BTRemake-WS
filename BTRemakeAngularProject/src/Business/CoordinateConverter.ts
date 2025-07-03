@@ -9,13 +9,13 @@ export class CoordinateConverter {
   // Convertit des coordonnées GPS en position 3D
   static GpsToWorldPosition(gpsPositon: GPSPosition): Vector3 {
     // Conversion en radians
-    const latRad: number = gpsPositon.Latitude * this.Deg2Rad;
-    const lonRad: number = gpsPositon.Longitude * this.Deg2Rad;
+    const latRad: number = gpsPositon.latitude * this.Deg2Rad;
+    const lonRad: number = gpsPositon.longitude * this.Deg2Rad;
 
     // Calcul de la position sur la sphère
-    const x: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.cos(latRad) * Math.cos(lonRad);
-    const z: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.cos(latRad) * Math.sin(lonRad);
-    const y: number = (CoordinateConverter.EarthRadius + gpsPositon.Altitude) * Math.sin(latRad);
+    const x: number = (CoordinateConverter.EarthRadius + (gpsPositon.altitude ?? 0)) * Math.cos(latRad) * Math.cos(lonRad);
+    const z: number = (CoordinateConverter.EarthRadius + (gpsPositon.altitude ?? 0)) * Math.cos(latRad) * Math.sin(lonRad);
+    const y: number = (CoordinateConverter.EarthRadius + (gpsPositon.altitude ?? 0)) * Math.sin(latRad);
 
     // inverted z positionning.
     return new Vector3(x, y, -z);
@@ -34,6 +34,6 @@ export class CoordinateConverter {
     // inverted z positionning.
     const longitude: number = Math.atan2(-worldPosition.z, worldPosition.x) * this.Rad2Deg;
 
-    return { Latitude: latitude, Longitude: longitude, Altitude: altitude };
+    return { latitude: latitude, longitude: longitude, altitude: altitude };
   }
 }

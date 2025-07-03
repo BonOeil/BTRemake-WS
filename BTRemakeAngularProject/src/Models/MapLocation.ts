@@ -8,5 +8,5 @@ type GUID = string & { isGuid: true };
 export interface MapLocation {
   id: GUID;
   name: string;
-  Position: GPSPosition;
+  position: GPSPosition;
 }
