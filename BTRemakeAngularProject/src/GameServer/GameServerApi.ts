@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GameServerApi {
- // private apiUrl = "https://localhost:32781/api"; //process.env['GAMESERVER_URL'];
+  //private apiUrl = "https://btremake-srvapp--0000002.redstone-6d485465.francecentral.azurecontainerapps.io";
+  private apiUrl = "http://localhost:8080";
 
-  private apiUrl = "http://localhost:8080/api";
   private http = inject(HttpClient);
 
   private getHeaders(): HttpHeaders {
@@ -20,28 +20,28 @@ export class GameServerApi {
 
   // GET request
   get<T>(endpoint: string): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${endpoint}`, {
+    return this.http.get<T>(`${this.apiUrl}/api/${endpoint}`, {
       headers: this.getHeaders()
     });
   }
 
   // POST request
   post<T>(endpoint: string, data: any): Observable<T> {
-    return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data, {
+    return this.http.post<T>(`${this.apiUrl}/api/${endpoint}`, data, {
       headers: this.getHeaders()
     });
   }
 
   // PUT request
   put<T>(endpoint: string, data: any): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}/${endpoint}`, data, {
+    return this.http.put<T>(`${this.apiUrl}/api/${endpoint}`, data, {
       headers: this.getHeaders()
     });
   }
 
   // DELETE request
   delete<T>(endpoint: string): Observable<T> {
-    return this.http.delete<T>(`${this.apiUrl}/${endpoint}`, {
+    return this.http.delete<T>(`${this.apiUrl}/api/${endpoint}`, {
       headers: this.getHeaders()
     });
   }
