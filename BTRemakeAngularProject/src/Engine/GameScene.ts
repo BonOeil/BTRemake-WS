@@ -153,6 +153,9 @@ export class GameScene {
     // Deselect previous selected object
     this.deselectObject();
 
+    if (object == this.earth)
+      return;
+
     // Select current object
     this.selectedObject = object;
 
