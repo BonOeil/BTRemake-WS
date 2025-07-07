@@ -25,13 +25,38 @@ export class PlanetComponent implements OnInit {
     this.renderHeigth = 200;
     this.renderWidth = 300;
 
+    // Renderer
     const scene_content = (document.getElementById('scene_content') as HTMLCanvasElement);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: scene_content });
     this.renderer.setSize(this.renderWidth, this.renderHeigth);
 
+    // Scene
     this.scene = new GameScene(this.renderer, this.locationService);
 
+    // Click events
+    scene_content.addEventListener('click', (event) => this.onMouseClick(event));
+
+    // Rendering loop
     this.renderer.setAnimationLoop(() => this.animate());
+  }
+
+  private onMouseClick(event: MouseEvent) {
+    const rect = this.renderer.domElement.getBoundingClientRect();
+
+    // Mouse coordinates
+    const mouse = new THREE.Vector2();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    // Raycast
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, this.scene.camera);
+
+    // Get intecsection objects
+    const intersects = raycaster.intersectObjects(this.scene.scene.children, true);
+
+    // Act on scene
+    this.scene.clickEvent(intersects);
   }
 
   animate() {

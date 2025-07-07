@@ -1,10 +1,19 @@
-import { inject } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { CoordinateConverter } from '../Business/CoordinateConverter';
 import { MapLocation } from '../Models/MapLocation';
 import { LocationService } from '../Services/LocationService';
 import { Subject } from 'rxjs';
+
+export interface ObjectProperties {
+  id: string;
+  name: string;
+  position: THREE.Vector3;
+  rotation: THREE.Euler;
+  scale: THREE.Vector3;
+  material?: any;
+  geometry?: any;
+}
 
 export class GameScene {
 
@@ -131,4 +140,56 @@ export class GameScene {
 
     this.renderer.render(this.scene, this.camera);
   }
+
+  clickEvent(intersects: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[]) {
+    if (intersects.length > 0) {
+      this.selectObject(intersects[0].object);
+    } else {
+      this.deselectObject();
+    }
+  }
+
+  private selectObject(object: THREE.Object3D) {
+    // Deselect previous selected object
+    this.deselectObject();
+
+    // Select current object
+    this.selectedObject = object;
+
+    // Change selected object material
+    if (object instanceof THREE.Mesh) {
+      this.originalMaterial = object.material;
+      object.material = new THREE.MeshLambertMaterial({
+        color: 0xffff00,
+        transparent: true,
+        opacity: 0.8
+      });
+    }
+
+    // Create selected object data
+    const properties: ObjectProperties = {
+      id: object.uuid,
+      name: object.name || 'Objet sans nom',
+      position: object.position.clone(),
+      rotation: object.rotation.clone(),
+      scale: object.scale.clone(),
+      material: this.originalMaterial,
+      geometry: object instanceof THREE.Mesh ? object.geometry : null
+    };
+
+    // Trigger selected object display
+    this.selectedObjectSubject.next(properties);
+  }
+
+  private deselectObject() {
+    if (this.selectedObject && this.originalMaterial) {
+      if (this.selectedObject instanceof THREE.Mesh) {
+        this.selectedObject.material = this.originalMaterial;
+      }
+    }
+    this.selectedObject = null;
+    this.originalMaterial = null;
+    this.selectedObjectSubject.next(null);
+  }
+
 }
