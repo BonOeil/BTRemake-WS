@@ -51,6 +51,8 @@ export class GameScene {
     this.renderer.getSize(renderSize);
     this.camera = this.createCamera(renderSize.width / renderSize.height);
 
+    this.earth.add(this.camera);
+
     // Lights
     this.setupLighting();
 
