@@ -6,28 +6,21 @@ namespace GameShared.Persistence.Mongo
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
-    using System.Text.Json;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Options;
-    using MongoDB.Bson;
-    using MongoDB.Bson.IO;
-    using MongoDB.Bson.Serialization;
-    using MongoDB.Bson.Serialization.Serializers;
+    using CsvHelper;
+    using GameShared.Parsers;
     using MongoDB.Driver;
 
     public class MongoRepository<T> : IRepository<T>
         where T : BaseEntity
     {
         private readonly IMongoCollection<T> _collection;
-        private readonly IMongoClient _mongoClient;
 
         public MongoRepository(IMongoClient mongoClient)
         {
-            _mongoClient = mongoClient;
-
             var database = mongoClient.GetDatabase("BTRemake-Game");
             _collection = database.GetCollection<T>(typeof(T).Name);
         }
@@ -58,23 +51,15 @@ namespace GameShared.Persistence.Mongo
             await _collection.InsertOneAsync(entity);
         }
 
-        public async Task AddAsync(string jsonFilePath)
+        public async Task AddAsync(string filePath)
         {
-            var database = _mongoClient.GetDatabase("BTRemake-Game");
-            var collection = database.GetCollection<BsonDocument>(typeof(T).Name);
-
-            var text = await File.ReadAllTextAsync(jsonFilePath);
-
-            using (var jsonReader = new JsonReader(text))
+            using (var reader = new StreamReader(filePath, Encoding.UTF8))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var serializer = new BsonArraySerializer();
-                var bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
+                csv.Context.RegisterClassMap<LocationClassMap>();
+                var records = csv.GetRecords<T>().ToList();
 
-                foreach (var bsonValue in bsonArray)
-                {
-                    var bsonDocument = bsonValue.ToBsonDocument();
-                    await collection.InsertOneAsync(bsonDocument);
-                }
+                await _collection.InsertManyAsync(records);
             }
         }
 

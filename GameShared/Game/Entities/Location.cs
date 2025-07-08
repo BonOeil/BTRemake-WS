@@ -15,6 +15,13 @@ namespace GameShared.Game.Entities
             ControllingFaction = controllingFaction;
         }
 
+        public Location()
+        {
+            Name = string.Empty;
+            ControllingFaction = Faction.Allies;
+            Position = default(GPSPosition);
+        }
+
         public string Name { get; set; }
 
         public GPSPosition Position { get; set; }

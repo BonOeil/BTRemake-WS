@@ -4,14 +4,9 @@
 
 namespace GameShared.Game
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public enum Faction
     {
+        Neutral,
         Allies,
         Axis,
     }

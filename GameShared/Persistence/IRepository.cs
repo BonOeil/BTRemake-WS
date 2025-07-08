@@ -6,9 +6,6 @@ namespace GameShared.Persistence
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Json;
     using System.Threading.Tasks;
 
     public interface IRepository<T>
@@ -22,7 +19,7 @@ namespace GameShared.Persistence
 
         Task AddAsync(T entity);
 
-        Task AddAsync(string jsonFilePath);
+        Task AddAsync(string filePath);
 
         Task UpdateAsync(T entity);
 
