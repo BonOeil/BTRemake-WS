@@ -62,10 +62,6 @@ export class GameScene {
     // Controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
-
-    // Render loop
-    // TODO Out
-    this.renderer.setAnimationLoop(() => this.animate());
   }
 
   createCamera(renderRatio: number): THREE.PerspectiveCamera {
@@ -108,7 +104,7 @@ export class GameScene {
   }
 
   setupLighting() {
-    // Ambiant lightning
+    // Ambient lightning
     const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
     this.scene.add(ambientLight);
 
@@ -138,9 +134,7 @@ export class GameScene {
   animate() {
     this.earth.rotation.y += 0.001;
 
-    this.controls.update()
-
-    this.renderer.render(this.scene, this.camera);
+    this.controls.update();
   }
 
   clickEvent(intersects: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[]) {
