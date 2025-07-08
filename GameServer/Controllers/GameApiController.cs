@@ -4,6 +4,7 @@
 
 namespace GameServer.Controllers
 {
+    using GameServer.Hubs;
     using GameShared.Messages;
     using GameShared.Services.Interfaces;
     using Microsoft.AspNetCore.Http;
@@ -13,13 +14,16 @@ namespace GameServer.Controllers
     [ApiController]
     public class GameApiController : ControllerBase
     {
-        public GameApiController(ILogger<GameApiController> logger, IGameServices gameServices)
+        public GameApiController(ILogger<GameApiController> logger, IGameServices gameServices, GameHub gameHub)
         {
             Logger = logger;
             GameServices = gameServices;
+            GameHub = gameHub;
         }
 
         private IGameServices GameServices { get; }
+
+        private GameHub GameHub { get; }
 
         private ILogger<GameApiController> Logger { get; set; }
 
@@ -36,11 +40,13 @@ namespace GameServer.Controllers
         {
             await GameServices.StartScenario(scenarioName, scenarioName);
 
-            // Informer les autres joueurs de la connexion
-            // await Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());
+            _ = GameHub.LoadScenario(new LoadScenario()
+            {
+                ScenarioName = scenarioName,
+                InstanceName = scenarioName,
+            });
 
-            // Logger.LogInformation($"Scenario loaded: {scenarioName} ({Context.ConnectionId})");
-            Logger.LogInformation("Scenario loaded: {ScenarioName}", scenarioName);
+            Logger.LogInformation("Scenario loaded: {ScenarioName} ({ConnectionId})", scenarioName, GameHub.Context.ConnectionId);
 
             return new ActionResult<string>("Step");
         }
