@@ -114,7 +114,7 @@ export class GameScene {
 
     // Directionnal light
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    directionalLight.position.set(5, 3, 5);
+    directionalLight.position.set(5, 0, 5);
     directionalLight.castShadow = true;
 
     // Shadows
