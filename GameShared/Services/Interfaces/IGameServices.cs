@@ -13,5 +13,7 @@ namespace GameShared.Services.Interfaces
     public interface IGameServices
     {
         Task StartScenario(string scenarioName, string gameName);
+
+        Task Step();
     }
 }

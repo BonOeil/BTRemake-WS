@@ -32,6 +32,8 @@ namespace GameServer.Controllers
         {
             Logger.LogTrace($"{nameof(Step)}");
 
+            await GameServices.Step();
+
             await GameHubContext.Clients.All.SendAsync(nameof(FullGameState), new FullGameState());
 
             return Ok();

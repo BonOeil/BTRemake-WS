@@ -5,13 +5,10 @@
 namespace GameShared.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Json;
     using System.Threading.Tasks;
     using GameShared.Game;
     using GameShared.Game.Entities;
+    using GameShared.Game.Mission;
     using GameShared.Persistence;
     using GameShared.Services.Interfaces;
     using Microsoft.Extensions.Logging;
@@ -19,16 +16,16 @@ namespace GameShared.Services
 
     public class GameServices : IGameServices
     {
-        public GameServices(IMongoClient mongoClient, IRepository<Location> locationRepository, ILogger<GameServices> logger)
+        public GameServices(IRepository<Location> locationRepository, IRepository<MapUnit> mapUnitsRepository, ILogger<GameServices> logger)
         {
             Logger = logger;
-            MongoClient = mongoClient;
             LocationRepository = locationRepository;
+            MapUnitsRepository = mapUnitsRepository;
         }
 
-        private IMongoClient MongoClient { get; }
-
         private IRepository<Location> LocationRepository { get; }
+
+        private IRepository<MapUnit> MapUnitsRepository { get; }
 
         private ILogger<GameServices> Logger { get; }
 
@@ -59,12 +56,17 @@ namespace GameShared.Services
             }
         }
 
-        public async Task AddLocation(string name, GPSPosition position, Faction controllingFaction)
+        public async Task Step()
         {
-            Location location = new Location(name, position, controllingFaction);
-            await LocationRepository.AddAsync(location);
+            var allUnits = await MapUnitsRepository.GetAllAsync();
 
-            Logger.LogTrace($"Added location {name} (ID: {location.Id}) at {position}");
+            foreach (var item in allUnits)
+            {
+                item.Position = GPSTools.GetNewPosition(item.Position, 90, 500000);
+                await MapUnitsRepository.UpdateAsync(item);
+            }
+
+            Logger.LogTrace($"Step {allUnits.Count()} units");
         }
     }
 }
