@@ -15,11 +15,5 @@ namespace GameServer.Hubs
         }
 
         private ILogger<GameHub> Logger { get; }
-
-        public async Task LoadScenario(LoadScenario scenarioData)
-        {
-            // Informer les autres joueurs de la connexion
-            await Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());
-        }
     }
 }

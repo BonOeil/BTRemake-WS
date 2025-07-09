@@ -7,48 +7,46 @@ namespace GameServer.Controllers
     using GameServer.Hubs;
     using GameShared.Messages;
     using GameShared.Services.Interfaces;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
     [Route("api/[controller]")]
     [ApiController]
     public class GameApiController : ControllerBase
     {
-        public GameApiController(ILogger<GameApiController> logger, IGameServices gameServices, GameHub gameHub)
+        public GameApiController(ILogger<GameApiController> logger, IGameServices gameServices, IHubContext<GameHub> hubContext)
         {
             Logger = logger;
             GameServices = gameServices;
-            GameHub = gameHub;
+            GameHubContext = hubContext;
         }
+
+        private IHubContext<GameHub> GameHubContext { get; }
 
         private IGameServices GameServices { get; }
 
-        private GameHub GameHub { get; }
-
         private ILogger<GameApiController> Logger { get; set; }
 
-        [HttpGet("Step")]
-        public async Task<ActionResult<string>> Step()
+        [HttpPost("Step")]
+        public async Task<ActionResult> Step()
         {
             Logger.LogTrace($"{nameof(Step)}");
 
-            return new ActionResult<string>("Step");
+            await GameHubContext.Clients.All.SendAsync(nameof(FullGameState), new FullGameState());
+
+            return Ok();
         }
 
-        [HttpGet("LoadScenario/{scenarioName}")]
-        public async Task<ActionResult<string>> LoadScenario(string scenarioName)
+        [HttpPost("LoadScenario/{scenarioName}")]
+        public async Task<ActionResult> LoadScenario(string scenarioName)
         {
             await GameServices.StartScenario(scenarioName, scenarioName);
 
-            _ = GameHub.LoadScenario(new LoadScenario()
-            {
-                ScenarioName = scenarioName,
-                InstanceName = scenarioName,
-            });
+            await GameHubContext.Clients.All.SendAsync(nameof(ScenarioLoaded), new ScenarioLoaded());
 
-            Logger.LogInformation("Scenario loaded: {ScenarioName} ({ConnectionId})", scenarioName, GameHub.Context.ConnectionId);
+            Logger.LogInformation("Scenario loaded: {ScenarioName})", scenarioName);
 
-            return new ActionResult<string>("Step");
+            return Ok();
         }
     }
 }
