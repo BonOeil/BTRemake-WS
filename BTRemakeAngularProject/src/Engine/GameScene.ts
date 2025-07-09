@@ -3,7 +3,8 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { CoordinateConverter } from '../Business/CoordinateConverter';
 import { MapLocation } from '../Models/MapLocation';
 import { LocationService } from '../Services/LocationService';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { SignalRService } from '../GameServer/SignalRService';
 
 export interface ObjectProperties {
   id: string;
@@ -32,12 +33,29 @@ export class GameScene {
 
   private locationService: LocationService;
 
-  constructor(renderer: THREE.WebGLRenderer, locationService : LocationService) {
+  private signalRService: SignalRService;
+  private stepSubscription!: Subscription;
+
+  constructor(renderer: THREE.WebGLRenderer, locationService: LocationService, signalRService: SignalRService) {
     this.renderer = renderer;
 
     this.locationService = locationService;
+    this.signalRService = signalRService;
 
     this.initScene();
+
+    this.stepSubscription = this.signalRService.message$.subscribe(message => {
+      if (message) {
+        console.log("Step message received");
+        console.log(message);
+      }
+    });
+  }
+
+  dispose(): void {
+    if (this.stepSubscription) {
+      this.stepSubscription.unsubscribe();
+    }
   }
 
   initScene() {
