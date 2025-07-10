@@ -7,6 +7,7 @@ import { Subject, Subscription } from 'rxjs';
 import { SignalRService } from '../GameServer/SignalRService';
 import { MapUnitsService } from '../Services/MapUnitsService';
 import { MapUnit } from '../Models/MapUnit';
+import { GPSPosition } from '../Models/GPSPosition';
 
 export interface ObjectProperties {
   id: string;
@@ -50,7 +51,13 @@ export class GameScene {
 
     this.stepSubscription = this.signalRService.fullState$.subscribe(message => {
       if (message) {
-        console.log(message.parameter.units);
+        for (const unit of message.parameter.units) {
+          const object3d: THREE.Mesh = this.scene.getObjectByName(unit.name) as THREE.Mesh;
+          const position = CoordinateConverter.GpsToWorldPosition(unit.position as GPSPosition);
+          object3d.position.x = position.x;
+          object3d.position.y = position.y;
+          object3d.position.z = position.z;
+        }
       }
     });
   }
@@ -102,8 +109,11 @@ export class GameScene {
         const geometry = new THREE.SphereGeometry(10);
         const position = CoordinateConverter.GpsToWorldPosition(unit.position);
 
-        geometry.translate(position.x, position.y, position.z);
         const unitVue = new THREE.Mesh(geometry, material);
+        unitVue.name = unit.name;
+        unitVue.position.x = position.x;
+        unitVue.position.y = position.y;
+        unitVue.position.z = position.z;
 
         this.earth.add(unitVue);
       });
@@ -119,8 +129,10 @@ export class GameScene {
         const geometry = new THREE.SphereGeometry(10);
         const position = CoordinateConverter.GpsToWorldPosition(location.position);
 
-        geometry.translate(position.x, position.y, position.z);
         const locationVue = new THREE.Mesh(geometry, material);
+        locationVue.position.x = position.x;
+        locationVue.position.y = position.y;
+        locationVue.position.z = position.z;
 
         this.earth.add(locationVue);
       });

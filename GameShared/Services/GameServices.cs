@@ -63,7 +63,7 @@ namespace GameShared.Services
 
             Parallel.ForEach(allUnits, async (item) =>
             {
-                item.Position = GPSTools.GetNewPosition(item.Position, 90, 500000);
+                item.Position = GPSTools.GetNewPosition(item.Position, 90, 50000);
                 await MapUnitsRepository.UpdateAsync(item);
             });
 

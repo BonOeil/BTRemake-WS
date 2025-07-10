@@ -6,46 +6,46 @@ namespace GameShared.Game
 {
     internal static class GPSTools
     {
-        public static double ToRadians(double angle)
-        {
-            return (Math.PI / 180) * angle;
-        }
-
-        public static double ToDegree(double angle)
-        {
-            return (180 / Math.PI) * angle;
-        }
-
         /// <summary>
         /// Gets the new position.
         /// </summary>
         /// <param name="currentPosition">The current position.</param>
-        /// <param name="orientationDegree">The orientation degree.</param>
+        /// <param name="orientationDegrees">The orientation degree.</param>
         /// <param name="distanceMeters">The distance meters.</param>
         /// <returns>The new position.</returns>
-        public static GPSPosition GetNewPosition(GPSPosition currentPosition, double orientationDegree, int distanceMeters)
+        public static GPSPosition GetNewPosition(GPSPosition currentPosition, double orientationDegrees, double distanceMeters)
         {
             // earth radius in meters
-            const float R = 6378137;
+            const double R = 6378137.0;
 
-            var orientationRad = ToRadians(orientationDegree);
+            var orientationRad = DegreesToRadians(orientationDegrees);
 
-            var lat_rad = ToRadians(currentPosition.Latitude);
-            var lon_rad = ToRadians(currentPosition.Longitude);
+            var latRad = DegreesToRadians(currentPosition.Latitude);
+            var lonRad = DegreesToRadians(currentPosition.Longitude);
 
-            var distance_angulaire = distanceMeters / R;
+            var distanceAngulaire = distanceMeters / R;
 
-            var nouvelle_lat_rad = Math.Asin(
-                Math.Sin(lat_rad) * Math.Cos(distance_angulaire) +
-                Math.Cos(lat_rad) * Math.Sin(distance_angulaire) * Math.Cos(orientationRad)
+            var nouvelleLatRad = Math.Asin(
+                Math.Sin(latRad) * Math.Cos(distanceAngulaire) +
+                Math.Cos(latRad) * Math.Sin(distanceAngulaire) * Math.Cos(orientationRad)
             );
 
-            var nouvelle_lon_rad = lon_rad + Math.Atan2(
-                Math.Sin(orientationRad) * Math.Sin(distance_angulaire) * Math.Cos(lat_rad),
-                Math.Cos(distance_angulaire) - Math.Sin(lat_rad) * Math.Sin(nouvelle_lat_rad)
+            var nouvelleLonRad = lonRad + Math.Atan2(
+                Math.Sin(orientationRad) * Math.Sin(distanceAngulaire) * Math.Cos(latRad),
+                Math.Cos(distanceAngulaire) - Math.Sin(latRad) * Math.Sin(nouvelleLatRad)
             );
 
-            return new GPSPosition(ToDegree(nouvelle_lat_rad), ToDegree(nouvelle_lon_rad));
+            return new GPSPosition(RadiansToDegrees(nouvelleLatRad), RadiansToDegrees(nouvelleLonRad));
+        }
+
+        private static double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
+        }
+
+        private static double RadiansToDegrees(double radians)
+        {
+            return radians * 180.0 / Math.PI;
         }
 
         /*
