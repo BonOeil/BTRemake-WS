@@ -41,6 +41,42 @@ namespace GameShared.Game
             return new GPSPosition(RadiansToDegrees(nouvelleLatRad), RadiansToDegrees(nouvelleLonRad));
         }
 
+        /// <summary>
+        /// Calcule l'angle (bearing/orientation) en degrés entre deux points GPS.
+        /// L'angle est mesuré dans le sens horaire à partir du Nord (0°).
+        /// </summary>
+        /// <param name="position1">Starting position.</param>
+        /// <param name="position2">Target position.</param>
+        /// <returns>L'angle (bearing) en degrés (0° à 360°).</returns>
+        public static double CalculateBearing(GPSPosition position1, GPSPosition position2)
+        {
+            // 1. Convertir toutes les coordonnées en radians
+            double phi1 = DegreesToRadians(position1.Latitude);
+            double lambda1 = DegreesToRadians(position1.Longitude);
+            double phi2 = DegreesToRadians(position2.Latitude);
+            double lambda2 = DegreesToRadians(position2.Longitude);
+
+            // 2. Calculer la différence de longitude
+            double deltaLambda = lambda2 - lambda1;
+
+            // 3. Calculer les composantes X et Y pour atan2
+            double X = Math.Cos(phi2) * Math.Sin(deltaLambda);
+            double Y = (Math.Cos(phi1) * Math.Sin(phi2)) - (Math.Sin(phi1) * Math.Cos(phi2) * Math.Cos(deltaLambda));
+
+            // 4. Calculer l'angle en radians
+            double bearingRad = Math.Atan2(X, Y);
+
+            // 5. Convertir l'angle en degrés
+            double bearingDegrees = RadiansToDegrees(bearingRad);
+
+            // 6. Normaliser l'angle pour qu'il soit entre 0 et 360 degrés
+            // Math.Atan2 retourne des valeurs entre -180 et 180 degrés.
+            // On ajoute 360 et on prend le modulo 360 pour s'assurer d'un résultat positif.
+            bearingDegrees = (bearingDegrees + 360) % 360;
+
+            return bearingDegrees;
+        }
+
         private static double DegreesToRadians(double degrees)
         {
             return degrees * Math.PI / 180.0;
@@ -50,16 +86,5 @@ namespace GameShared.Game
         {
             return radians * 180.0 / Math.PI;
         }
-
-        /*
-# Exemple d'utilisation
-lat_actuelle = 48.8566  # Paris
-lon_actuelle = 2.3522
-orientation = 45  # Nord-Est
-distance = 1000  # 1 km
-
-nouvelle_lat, nouvelle_lon = nouvelle_position_gps(lat_actuelle, lon_actuelle, orientation, distance)
-print(f"Nouvelle position: {nouvelle_lat:.6f}, {nouvelle_lon:.6f}")
-         */
     }
 }
