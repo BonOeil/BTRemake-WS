@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GameScene } from '../../Engine/GameScene';
 import { LocationService } from '../../Services/LocationService';
 import { SignalRService } from '../../GameServer/SignalRService';
+import { MapUnitsService } from '../../Services/MapUnitsService';
 
 @Component({
   selector: 'app-planet',
@@ -20,6 +21,7 @@ export class PlanetComponent implements OnInit, OnDestroy {
   @ViewChild('scene_content') scene_content!: HTMLCanvasElement;
 
   private locationService = inject(LocationService);
+  private mapUnitsService = inject(MapUnitsService);
   private signalRService = inject(SignalRService);
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class PlanetComponent implements OnInit, OnDestroy {
     this.renderer.setSize(this.renderWidth, this.renderHeigth);
 
     // Scene
-    this.scene = new GameScene(this.renderer, this.locationService, this.signalRService);
+    this.scene = new GameScene(this.renderer, this.locationService, this.mapUnitsService, this.signalRService);
 
     // Click events
     scene_content.addEventListener('click', (event) => this.onMouseClick(event));

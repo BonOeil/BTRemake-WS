@@ -5,6 +5,8 @@ import { MapLocation } from '../Models/MapLocation';
 import { LocationService } from '../Services/LocationService';
 import { Subject, Subscription } from 'rxjs';
 import { SignalRService } from '../GameServer/SignalRService';
+import { MapUnitsService } from '../Services/MapUnitsService';
+import { MapUnit } from '../Models/MapUnit';
 
 export interface ObjectProperties {
   id: string;
@@ -32,22 +34,23 @@ export class GameScene {
   private originalMaterial: THREE.Material | null = null;
 
   private locationService: LocationService;
+  private mapUnitsService: MapUnitsService;
 
   private signalRService: SignalRService;
   private stepSubscription!: Subscription;
-
-  constructor(renderer: THREE.WebGLRenderer, locationService: LocationService, signalRService: SignalRService) {
+  
+  constructor(renderer: THREE.WebGLRenderer, locationService: LocationService, mapUnitsService: MapUnitsService, signalRService: SignalRService) {
     this.renderer = renderer;
 
     this.locationService = locationService;
+    this.mapUnitsService = mapUnitsService;
     this.signalRService = signalRService;
 
     this.initScene();
 
     this.stepSubscription = this.signalRService.fullState$.subscribe(message => {
       if (message) {
-        console.log("Step message received");
-        console.log(message);
+        console.log(message.parameter.units);
       }
     });
   }
@@ -76,6 +79,7 @@ export class GameScene {
 
     // Fill scene
     this.createLocations();
+    this.createUnits();
 
     // Controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -87,6 +91,23 @@ export class GameScene {
     camera.position.z = CoordinateConverter.EarthRadius + CoordinateConverter.EarthRadius * 0.5;
 
     return camera;
+  }
+
+  createUnits() {
+    const material = new THREE.MeshBasicMaterial({ color: "#00FF00" });
+
+    const locations = this.mapUnitsService.getUnits();
+    locations.subscribe((value: MapUnit[]) => {
+      value.forEach((unit: MapUnit) => {
+        const geometry = new THREE.SphereGeometry(10);
+        const position = CoordinateConverter.GpsToWorldPosition(unit.position);
+
+        geometry.translate(position.x, position.y, position.z);
+        const unitVue = new THREE.Mesh(geometry, material);
+
+        this.earth.add(unitVue);
+      });
+    });
   }
 
   createLocations() {
