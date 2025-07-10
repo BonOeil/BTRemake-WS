@@ -44,7 +44,7 @@ export class GameScene {
 
     this.initScene();
 
-    this.stepSubscription = this.signalRService.message$.subscribe(message => {
+    this.stepSubscription = this.signalRService.fullState$.subscribe(message => {
       if (message) {
         console.log("Step message received");
         console.log(message);

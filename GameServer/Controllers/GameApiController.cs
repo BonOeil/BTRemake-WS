@@ -32,9 +32,9 @@ namespace GameServer.Controllers
         {
             Logger.LogTrace($"{nameof(Step)}");
 
-            await GameServices.Step();
+            var report = await GameServices.Step();
 
-            await GameHubContext.Clients.All.SendAsync(nameof(FullGameState), new FullGameState());
+            await GameHubContext.Clients.All.SendAsync(nameof(FullGameState), report);
 
             return Ok();
         }

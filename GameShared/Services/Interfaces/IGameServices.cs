@@ -9,11 +9,12 @@ namespace GameShared.Services.Interfaces
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using GameShared.Messages;
 
     public interface IGameServices
     {
         Task StartScenario(string scenarioName, string gameName);
 
-        Task Step();
+        Task<FullGameState> Step();
     }
 }

@@ -9,6 +9,7 @@ namespace GameShared.Services
     using GameShared.Game;
     using GameShared.Game.Entities;
     using GameShared.Game.Mission;
+    using GameShared.Messages;
     using GameShared.Persistence;
     using GameShared.Services.Interfaces;
     using Microsoft.Extensions.Logging;
@@ -56,17 +57,22 @@ namespace GameShared.Services
             }
         }
 
-        public async Task Step()
+        public async Task<FullGameState> Step()
         {
             var allUnits = await MapUnitsRepository.GetAllAsync();
 
-            foreach (var item in allUnits)
+            Parallel.ForEach(allUnits, async (item) =>
             {
                 item.Position = GPSTools.GetNewPosition(item.Position, 90, 500000);
                 await MapUnitsRepository.UpdateAsync(item);
-            }
+            });
 
             Logger.LogTrace($"Step {allUnits.Count()} units");
+
+            return new FullGameState()
+            {
+                Units = allUnits.ToList(),
+            };
         }
     }
 }

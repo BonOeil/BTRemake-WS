@@ -9,9 +9,11 @@ export class SignalRService {
   private hubConnection!: signalR.HubConnection;
   private connectionStatus = new BehaviorSubject<boolean>(false);
   private messageSubject = new BehaviorSubject<any>(null);
+  private fullStateSubject = new BehaviorSubject<any>(null);
 
   public connectionStatus$ = this.connectionStatus.asObservable();
   public message$ = this.messageSubject.asObservable();
+  public fullState$ = this.fullStateSubject.asObservable();
 
   constructor() {
     this.createConnection();
@@ -32,8 +34,8 @@ export class SignalRService {
       this.messageSubject.next({ user, message, timestamp: new Date() });
     });
 
-    this.hubConnection.on('FullGameState', (user: string, message: string) => {
-      this.messageSubject.next({ user, message, timestamp: new Date() });
+    this.hubConnection.on('FullGameState', (parameter: any) => {
+      this.fullStateSubject.next({ timestamp: new Date(), parameter });
     });
 
     this.hubConnection.on('UserConnected', (user: string) => {

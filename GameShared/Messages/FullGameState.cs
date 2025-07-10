@@ -4,7 +4,10 @@
 
 namespace GameShared.Messages
 {
+    using GameShared.Game.Mission;
+
     public class FullGameState
     {
+        required public IList<MapUnit> Units { get; set; }
     }
 }
