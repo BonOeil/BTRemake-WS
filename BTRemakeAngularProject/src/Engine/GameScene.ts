@@ -53,6 +53,7 @@ export class GameScene {
       if (message) {
         for (const unit of message.parameter.units) {
           const object3d: THREE.Mesh = this.scene.getObjectByName(unit.name) as THREE.Mesh;
+          console.log(unit.position);
           const position = CoordinateConverter.GpsToWorldPosition(unit.position as GPSPosition);
           object3d.position.x = position.x;
           object3d.position.y = position.y;

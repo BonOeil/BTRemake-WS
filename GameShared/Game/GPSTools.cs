@@ -26,14 +26,17 @@ namespace GameShared.Game
             var distanceAngulaire = distanceMeters / R;
 
             var nouvelleLatRad = Math.Asin(
-                Math.Sin(latRad) * Math.Cos(distanceAngulaire) +
-                Math.Cos(latRad) * Math.Sin(distanceAngulaire) * Math.Cos(orientationRad)
+                (Math.Sin(latRad) * Math.Cos(distanceAngulaire)) +
+                (Math.Cos(latRad) * Math.Sin(distanceAngulaire) * Math.Cos(orientationRad))
             );
 
             var nouvelleLonRad = lonRad + Math.Atan2(
                 Math.Sin(orientationRad) * Math.Sin(distanceAngulaire) * Math.Cos(latRad),
-                Math.Cos(distanceAngulaire) - Math.Sin(latRad) * Math.Sin(nouvelleLatRad)
+                Math.Cos(distanceAngulaire) - (Math.Sin(latRad) * Math.Sin(nouvelleLatRad))
             );
+
+            // Normalize longitude
+            nouvelleLonRad = ((nouvelleLonRad + (3 * Math.PI)) % (2 * Math.PI)) - Math.PI;
 
             return new GPSPosition(RadiansToDegrees(nouvelleLatRad), RadiansToDegrees(nouvelleLonRad));
         }
