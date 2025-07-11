@@ -6,19 +6,20 @@ namespace GameShared.Game.Mission
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using GameShared.Persistence;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
 
     public class MissionPlan : BaseEntity
     {
-        required public List<MissionUnit> Units { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        required public List<Guid> UnitIds { get; set; }
 
-        required public IPosition Target { get; set; }
+        required public GPSPosition Target { get; set; }
 
-        required public IList<IPosition> InPath { get; set; }
+        required public IList<GPSPosition> InPath { get; set; }
 
-        required public IList<IPosition> OutPath { get; set; }
+        required public IList<GPSPosition> OutPath { get; set; }
     }
 }

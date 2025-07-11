@@ -35,7 +35,7 @@ namespace GameServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(T itemToAdd)
+        public virtual async Task<ActionResult> Add(T itemToAdd)
         {
             await Repository.AddAsync(itemToAdd);
 
