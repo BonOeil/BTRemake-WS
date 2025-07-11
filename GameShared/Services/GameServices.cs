@@ -17,16 +17,19 @@ namespace GameShared.Services
 
     public class GameServices : IGameServices
     {
-        public GameServices(IRepository<Location> locationRepository, IRepository<MapUnit> mapUnitsRepository, ILogger<GameServices> logger)
+        public GameServices(IRepository<Location> locationRepository, IRepository<MapUnit> mapUnitsRepository, IRepository<MissionPlan> missionPlanRepository, ILogger<GameServices> logger)
         {
             Logger = logger;
             LocationRepository = locationRepository;
             MapUnitsRepository = mapUnitsRepository;
+            MissionPlanRepository = missionPlanRepository;
         }
 
         private IRepository<Location> LocationRepository { get; }
 
         private IRepository<MapUnit> MapUnitsRepository { get; }
+
+        private IRepository<MissionPlan> MissionPlanRepository { get; }
 
         private ILogger<GameServices> Logger { get; }
 
@@ -59,20 +62,25 @@ namespace GameShared.Services
 
         public async Task<FullGameState> Step()
         {
-            var allUnits = await MapUnitsRepository.GetAllAsync();
+            var allMissions = await MissionPlanRepository.GetAllAsync();
 
-            Parallel.ForEach(allUnits, async (item) =>
+            Parallel.ForEach(allMissions, async (mission) =>
             {
-                var bearing = GPSTools.CalculateBearing(item.Position, new GPSPosition(item.Position.Latitude, item.Position.Longitude + 30));
-                item.Position = GPSTools.GetNewPosition(item.Position, bearing, 50000);
-                await MapUnitsRepository.UpdateAsync(item);
+                foreach (var unitId in mission.UnitIds)
+                {
+                    var unit = await MapUnitsRepository.GetByIdAsync(unitId);
+
+                    var bearing = GPSTools.CalculateBearing(unit.Position, mission.Target);
+                    unit.Position = GPSTools.GetNewPosition(unit.Position, bearing, 50000);
+                    await MapUnitsRepository.UpdateAsync(unit);
+                }
             });
 
-            Logger.LogTrace($"Step {allUnits.Count()} units");
+            Logger.LogTrace($"Step {allMissions.Count()} missions");
 
             return new FullGameState()
             {
-                Units = allUnits.ToList(),
+                Units = (await MapUnitsRepository.GetAllAsync()).ToList(),
             };
         }
     }
