@@ -116,6 +116,8 @@ export class GameScene {
         unitVue.position.y = position.y;
         unitVue.position.z = position.z;
 
+        unitVue.userData = unit;
+
         this.earth.add(unitVue);
       });
     });
@@ -134,6 +136,8 @@ export class GameScene {
         locationVue.position.x = position.x;
         locationVue.position.y = position.y;
         locationVue.position.z = position.z;
+
+        locationVue.userData = value;
 
         this.earth.add(locationVue);
       });
