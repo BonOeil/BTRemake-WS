@@ -31,7 +31,7 @@ export class GameScene {
   private selectedObjectSubject = new Subject<object | null>();
   public selectedObject$ = this.selectedObjectSubject.asObservable();
 
-  private selectedObject: THREE.Object3D | null = null;
+  public selectedObject: THREE.Object3D | null = null;
   private originalMaterial: THREE.Material | null = null;
 
   private locationService: LocationService;
@@ -137,7 +137,7 @@ export class GameScene {
         locationVue.position.y = position.y;
         locationVue.position.z = position.z;
 
-        locationVue.userData = value;
+        locationVue.userData = location;
 
         this.earth.add(locationVue);
       });

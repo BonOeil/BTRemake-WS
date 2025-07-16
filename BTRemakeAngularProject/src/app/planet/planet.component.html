@@ -1,4 +1,46 @@
-<p>planet works!</p>
+<div class="container">
+  <div class="scene-container">
+    <canvas id="scene_content" #scene_content>
+    </canvas>
+  </div>
 
-<canvas id="scene_content" #scene_content>
-</canvas>
+
+  <div class="properties-panel" [class.visible]="scene.selectedObject">
+    <h3>Selected object</h3>
+
+    <div *ngIf="scene.selectedObject; else noSelection">
+      <div class="property-group">
+        <label>Name:</label>
+        <span>{{ scene.selectedObject.name }}</span>
+      </div>
+
+      <div class="property-group">
+        <label>ID:</label>
+        <span>{{ scene.selectedObject.id }}</span>
+      </div>
+
+      <div class="property-group">
+        <label>Position:</label>
+        <div class="vector-input">
+          <input type="number"
+                 [(ngModel)]="$any(scene.selectedObject.userData).position.latitude"
+                 (change)="updateObjectPosition()"
+                 step="0.1">
+          <input type="number"
+                 [(ngModel)]="$any(scene.selectedObject.userData).position.longitude"
+                 (change)="updateObjectPosition()"
+                 step="0.1">
+        </div>
+      </div>
+
+
+      <!--<button (click)="deleteObject()" class="delete-btn">
+        Supprimer l'objet
+      </button>-->
+    </div>
+
+    <ng-template #noSelection>
+      <p>Cliquez sur un objet dans la scène pour voir ses propriétés</p>
+    </ng-template>
+  </div>
+</div>

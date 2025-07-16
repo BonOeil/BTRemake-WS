@@ -12,7 +12,7 @@ import { MapUnitsService } from '../../Services/MapUnitsService';
 })
 export class PlanetComponent implements OnInit, OnDestroy {
 
-  scene!: GameScene;
+  public scene!: GameScene;
   renderHeigth!: number;
   renderWidth!: number;
 
@@ -71,5 +71,9 @@ export class PlanetComponent implements OnInit, OnDestroy {
     this.scene.animate();
 
     this.renderer.render(this.scene.scene, this.scene.camera);
+  }
+
+  updateObjectPosition() {
+    console.log('Position mise à jour:', this.scene.selectedObject?.position);
   }
 }
