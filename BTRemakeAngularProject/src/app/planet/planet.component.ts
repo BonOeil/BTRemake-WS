@@ -13,8 +13,6 @@ import { MapUnitsService } from '../../Services/MapUnitsService';
 export class PlanetComponent implements OnInit, OnDestroy {
 
   public scene!: GameScene;
-  renderHeigth!: number;
-  renderWidth!: number;
 
   renderer!: THREE.WebGLRenderer;
 
@@ -25,20 +23,18 @@ export class PlanetComponent implements OnInit, OnDestroy {
   private signalRService = inject(SignalRService);
 
   ngOnInit() {
-
-    this.renderHeigth = 200;
-    this.renderWidth = 300;
-
     // Renderer
-    const scene_content = (document.getElementById('scene_content') as HTMLCanvasElement);
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: scene_content });
-    this.renderer.setSize(this.renderWidth, this.renderHeigth);
+    this.scene_content = (document.getElementById('scene_content') as HTMLCanvasElement);
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.scene_content });
 
     // Scene
     this.scene = new GameScene(this.renderer, this.locationService, this.mapUnitsService, this.signalRService);
 
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
+
     // Click events
-    scene_content.addEventListener('click', (event) => this.onMouseClick(event));
+    this.scene_content.addEventListener('click', (event) => this.onMouseClick(event));
 
     // Rendering loop
     this.renderer.setAnimationLoop(() => this.animate());
@@ -46,6 +42,19 @@ export class PlanetComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.scene.dispose();
+  }
+
+  private resize() {
+    const conteneur = document.getElementById('scene-container');
+
+    const rect = conteneur?.getBoundingClientRect() ?? new DOMRect(200, 150);
+    this.scene_content.width = rect.width;
+    this.scene_content.height = rect.height;
+
+    this.scene.camera.aspect = rect.width / rect.height;
+    this.scene.camera.updateProjectionMatrix();
+
+    this.renderer.setSize(rect.width, rect.height);
   }
 
   private onMouseClick(event: MouseEvent) {
