@@ -4,6 +4,7 @@ import { GameScene } from '../../Engine/GameScene';
 import { LocationService } from '../../Services/LocationService';
 import { SignalRService } from '../../GameServer/SignalRService';
 import { MapUnitsService } from '../../Services/MapUnitsService';
+import { SelectionService } from '../../Services/SelectionService';
 
 @Component({
   selector: 'app-planet',
@@ -21,6 +22,7 @@ export class PlanetComponent implements OnInit, OnDestroy {
   private locationService = inject(LocationService);
   private mapUnitsService = inject(MapUnitsService);
   private signalRService = inject(SignalRService);
+  private selectionService = inject(SelectionService);
 
   ngOnInit() {
     // Renderer
@@ -28,7 +30,7 @@ export class PlanetComponent implements OnInit, OnDestroy {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.scene_content });
 
     // Scene
-    this.scene = new GameScene(this.renderer, this.locationService, this.mapUnitsService, this.signalRService);
+    this.scene = new GameScene(this.renderer, this.locationService, this.mapUnitsService, this.signalRService, this.selectionService);
 
     this.resize();
     window.addEventListener('resize', () => this.resize());

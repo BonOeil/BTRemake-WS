@@ -34,12 +34,16 @@
 
 
       <!--<button (click)="deleteObject()" class="delete-btn">
-        Supprimer l'objet
-      </button>-->
+      Supprimer l'objet
+    </button>-->
     </div>
 
     <ng-template #noSelection>
       <p>Cliquez sur un objet dans la scène pour voir ses propriétés</p>
     </ng-template>
+
+    <div class="property-panel">
+      <app-property-panel-container></app-property-panel-container>
+    </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { SignalRService } from '../GameServer/SignalRService';
 import { MapUnitsService } from '../Services/MapUnitsService';
 import { MapUnit } from '../Models/MapUnit';
 import { GPSPosition } from '../Models/GPSPosition';
+import { SelectionService } from '../Services/SelectionService';
 
 export interface ObjectProperties {
   id: string;
@@ -38,14 +39,16 @@ export class GameScene {
   private mapUnitsService: MapUnitsService;
 
   private signalRService: SignalRService;
+  private selectionService: SelectionService;
   private stepSubscription!: Subscription;
   
-  constructor(renderer: THREE.WebGLRenderer, locationService: LocationService, mapUnitsService: MapUnitsService, signalRService: SignalRService) {
+  constructor(renderer: THREE.WebGLRenderer, locationService: LocationService, mapUnitsService: MapUnitsService, signalRService: SignalRService, selectionService : SelectionService) {
     this.renderer = renderer;
 
     this.locationService = locationService;
     this.mapUnitsService = mapUnitsService;
     this.signalRService = signalRService;
+    this.selectionService = selectionService;
 
     this.initScene();
 
@@ -207,6 +210,9 @@ export class GameScene {
 
     if (object == this.earth)
       return;
+
+    this.selectionService.clearSelection();
+    this.selectionService.selectItem({ id: object.uuid, type: "MapLocation", data: object.userData });
 
     // Select current object
     this.selectedObject = object;

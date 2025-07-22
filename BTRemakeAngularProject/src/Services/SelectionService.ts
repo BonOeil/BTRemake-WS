@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface SelectionItem {
-  id: string;
-  type: string;
-  data: any;
-}
+import { SelectionItem } from './SelectionItem';
 
 @Injectable({
   providedIn: 'root'

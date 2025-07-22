@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PlanetComponent } from './planet/planet.component';
+import { PropertyPanelContainerComponent } from './PropertyPanel/PropertyPanelContainerComponent';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PlanetComponent } from './planet/planet.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    PropertyPanelContainerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
