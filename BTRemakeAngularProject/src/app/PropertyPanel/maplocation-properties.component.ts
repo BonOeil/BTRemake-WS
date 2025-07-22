@@ -31,6 +31,20 @@ import { FormsModule } from "@angular/forms";
         </div>
       </div>
 
+      <div class="property-row">
+        <label>Position:</label>
+        <div class="vector-input">
+          <input type="number"
+                 [(ngModel)]="data.position.latitude"
+                 (change)="onPropertyChange('role', data.position.latitude)"
+                 step="0.1">
+          <input type="number"
+                 [(ngModel)]="data.position.longitude"
+                 (change)="onPropertyChange('role', data.position.longitude)"
+                 step="0.1">
+        </div>
+      </div>
+
       <div class="property-section">
         <h4>Métadonnées</h4>
         <div class="property-row">

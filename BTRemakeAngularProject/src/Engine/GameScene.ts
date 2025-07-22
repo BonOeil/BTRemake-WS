@@ -3,22 +3,12 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { CoordinateConverter } from '../Business/CoordinateConverter';
 import { MapLocation } from '../Models/MapLocation';
 import { LocationService } from '../Services/LocationService';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { SignalRService } from '../GameServer/SignalRService';
 import { MapUnitsService } from '../Services/MapUnitsService';
 import { MapUnit } from '../Models/MapUnit';
 import { GPSPosition } from '../Models/GPSPosition';
 import { SelectionService } from '../Services/SelectionService';
-
-export interface ObjectProperties {
-  id: string;
-  name: string;
-  position: THREE.Vector3;
-  rotation: THREE.Euler;
-  scale: THREE.Vector3;
-  material?: any;
-  geometry?: any;
-}
 
 export class GameScene {
 
@@ -28,9 +18,6 @@ export class GameScene {
   controls!: OrbitControls;
   renderer!: THREE.WebGLRenderer;
   camera!: THREE.PerspectiveCamera;
-
-  private selectedObjectSubject = new Subject<object | null>();
-  public selectedObject$ = this.selectedObjectSubject.asObservable();
 
   public selectedObject: THREE.Object3D | null = null;
   private originalMaterial: THREE.Material | null = null;
@@ -226,20 +213,6 @@ export class GameScene {
         opacity: 0.8
       });
     }
-
-    // Create selected object data
-    const properties: ObjectProperties = {
-      id: object.uuid,
-      name: object.name || 'Objet sans nom',
-      position: object.position.clone(),
-      rotation: object.rotation.clone(),
-      scale: object.scale.clone(),
-      material: this.originalMaterial,
-      geometry: object instanceof THREE.Mesh ? object.geometry : null
-    };
-
-    // Trigger selected object display
-    this.selectedObjectSubject.next(properties);
   }
 
   private deselectObject() {
@@ -250,7 +223,8 @@ export class GameScene {
     }
     this.selectedObject = null;
     this.originalMaterial = null;
-    this.selectedObjectSubject.next(null);
+
+    this.selectionService.clearSelection();
   }
 
 }
