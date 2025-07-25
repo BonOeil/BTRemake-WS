@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,28 @@ export class GameServerApi {
   }
 
   // GET request
-  get<T>(endpoint: string): Observable<T> {
+  getAll<T>(endpoint: string, typeName: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.apiUrl}/api/${endpoint}`, {
+      headers: this.getHeaders()
+    })
+      .pipe(
+        map(values => values.map(value => ({
+          ...value,
+          type: typeName
+        } as T))))
+      ;
+  }
+
+  getOne<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(`${this.apiUrl}/api/${endpoint}`, {
       headers: this.getHeaders()
-    });
+    })
+      //.pipe(
+      //map(values => {
+      //  ...values,
+      //  type: typeof value
+      //}))
+  ;
   }
 
   // POST request

@@ -49,8 +49,6 @@ export class PropertyPanelContainerComponent implements OnInit {
 
   ngOnInit() {
     this.selectionService.selectedItem$.subscribe(item => {
-      console.log(item);
-
       this.selectedItem = item;
     });
   }

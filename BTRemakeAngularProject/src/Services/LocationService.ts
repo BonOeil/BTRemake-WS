@@ -12,12 +12,12 @@ export class LocationService {
 
   // GET /api/locations
   getLocations(): Observable<MapLocation[]> {
-    return this.apiService.get<MapLocation[]>(this.endpoint);
+    return this.apiService.getAll<MapLocation>(this.endpoint, "MapLocation");
   }
 
   // GET /api/locations/{id}
   getLocationById(id: number): Observable<MapLocation> {
-    return this.apiService.get<MapLocation>(`${this.endpoint}/${id}`);
+    return this.apiService.getOne<MapLocation>(`${this.endpoint}/${id}`);
   }
 
   // POST /api/locations

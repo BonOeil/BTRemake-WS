@@ -9,7 +9,7 @@ import { FormsModule } from "@angular/forms";
   imports: [CommonModule, FormsModule],
   template: `
     <div class="property-panel">
-      <h3>Propriétés Utilisateur</h3>
+      <h3>Location properties</h3>
       
       <div class="property-section">
         <h4>Informations générales</h4>

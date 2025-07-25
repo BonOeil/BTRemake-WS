@@ -6,6 +6,7 @@ type GUID = string & { isGuid: true };
 //}
 
 export interface MapUnit {
+  type: 'MapUnit',
   id: GUID;
   name: string;
   position: GPSPosition;
