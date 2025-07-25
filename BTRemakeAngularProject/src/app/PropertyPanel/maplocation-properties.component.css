@@ -1,0 +1,45 @@
+.property-panel {
+  padding: 16px;
+  background: #f8f9fa;
+  border-left: 1px solid #dee2e6;
+}
+
+.property-section {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: white;
+  border-radius: 4px;
+}
+
+.property-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+  .property-row label {
+    width: 80px;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  .property-row input, .property-row select {
+    flex: 1;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+
+.readonly {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.property-actions {
+  margin-top: 16px;
+}
+
+  .property-actions button {
+    margin-right: 8px;
+    padding: 8px 16px;
+  }
