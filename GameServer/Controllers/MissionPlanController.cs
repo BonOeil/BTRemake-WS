@@ -21,7 +21,7 @@ namespace GameServer.Controllers
 
         private IRepository<MapUnit> MapUnitRepository { get; set; }
 
-        public override async Task<ActionResult> Add(MissionPlan itemToAdd)
+        public override async Task<ActionResult<MissionPlan>> Add(MissionPlan itemToAdd)
         {
             var units = await MapUnitRepository.GetAllAsync();
 

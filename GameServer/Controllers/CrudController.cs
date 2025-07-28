@@ -35,14 +35,14 @@ namespace GameServer.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<ActionResult> Add(T itemToAdd)
+        public virtual async Task<ActionResult<T>> Add(T itemToAdd)
         {
             await Repository.AddAsync(itemToAdd);
 
-            return Ok();
+            return Ok(itemToAdd);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid idToDelete)
         {
             await Repository.DeleteAsync(idToDelete);
