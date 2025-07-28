@@ -51,11 +51,11 @@ namespace GameServer.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update(T itemToUpdate)
+        public async Task<ActionResult<T>> Update(T itemToUpdate)
         {
             await Repository.UpdateAsync(itemToUpdate);
 
-            return Ok();
+            return Ok(await Repository.GetByIdAsync(itemToUpdate.Id));
         }
     }
 }

@@ -34,7 +34,9 @@
       <thead class="table-dark">
         <tr>
           <th>ID</th>
-          <th>Nom</th>
+          <th>Name</th>
+          <th>Max speed</th>
+          <th>Max Alt.</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -44,6 +46,8 @@
             (click)="selectItem(item)">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
+          <td>{{ item.maxSpeed }}</td>
+          <td>{{ item.maxAltitude }}</td>
           <td>
             <button class="btn btn-sm btn-outline-primary me-1"
                     (click)="selectItem(item); $event.stopPropagation()"
@@ -87,35 +91,61 @@
           <div class="row">
             <!-- Champ Nom -->
             <div class="col-md-4 mb-3">
-              <label for="name" class="form-label">Nom *</label>
+              <label for="name" class="form-label">Name *</label>
               <input type="text"
                      id="name"
                      class="form-control"
                      [class.is-invalid]="hasError('name')"
                      formControlName="name"
-                     placeholder="Entrez le nom">
+                     placeholder="Enter the name">
               <div *ngIf="hasError('name')" class="invalid-feedback">
                 {{ getErrorMessage('name') }}
               </div>
             </div>
-
-          <!-- Boutons d'action du formulaire -->
-          <div class="d-flex justify-content-end gap-2">
-            <button type="button"
-                    class="btn btn-secondary"
-                    (click)="cancelEdit()"
-                    [disabled]="loading">
-              <i class="fas fa-times me-1"></i>
-              Annuler
-            </button>
-            <button type="submit"
-                    class="btn btn-success"
-                    [disabled]="loading || editForm.invalid">
-              <i class="fas fa-save me-1"></i>
-              {{ isAddingNew ? 'Créer' : 'Sauvegarder' }}
-            </button>
-          </div>
+            <!-- Champ Max speed -->
+            <div class="col-md-4 mb-3">
+              <label for="maxSpeed" class="form-label">Max speed</label>
+              <input type="text"
+                     id="maxSpeed"
+                     class="form-control"
+                     [class.is-invalid]="hasError('maxSpeed')"
+                     formControlName="maxSpeed"
+                     placeholder="Enter the maximum speed">
+              <div *ngIf="hasError('maxSpeed')" class="invalid-feedback">
+                {{ getErrorMessage('maxSpeed') }}
+              </div>
             </div>
+            <!-- Champ Max altitude -->
+            <div class="col-md-4 mb-3">
+              <label for="maxAltitude" class="form-label">Max altitude</label>
+              <input type="text"
+                     id="maxAltitude"
+                     class="form-control"
+                     [class.is-invalid]="hasError('maxAltitude')"
+                     formControlName="maxAltitude"
+                     placeholder="Enter the maximum altitude">
+              <div *ngIf="hasError('maxAltitude')" class="invalid-feedback">
+                {{ getErrorMessage('maxAltitude') }}
+              </div>
+            </div>
+
+            <!-- Boutons d'action du formulaire -->
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button"
+                      class="btn btn-secondary"
+                      (click)="cancelEdit()"
+                      [disabled]="loading">
+                <i class="fas fa-times me-1"></i>
+                Annuler
+              </button>
+              <button type="submit"
+                      class="btn btn-success"
+                      [disabled]="loading || editForm.invalid">
+                <i class="fas fa-save me-1"></i>
+                {{ isAddingNew ? 'Créer' : 'Sauvegarder' }}
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

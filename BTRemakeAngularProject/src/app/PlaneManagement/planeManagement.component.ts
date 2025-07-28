@@ -23,7 +23,10 @@ export class PlaneManagement implements OnInit {
   constructor(
   ) {
     this.editForm = this.fb.group({
+      id: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.minLength(2)]],
+      maxSpeed: ['', [Validators.min(0)]],
+      maxAltitude: ['', [Validators.min(0)]],
     });
   }
 
@@ -55,7 +58,10 @@ export class PlaneManagement implements OnInit {
 
     // Pré-remplir le formulaire avec les données existantes
     this.editForm.patchValue({
+      id: item.id,
       name: item.name,
+      maxSpeed: item.maxSpeed,
+      maxAltitude: item.maxAltitude,
     });
   }
 
@@ -68,7 +74,9 @@ export class PlaneManagement implements OnInit {
     // Réinitialiser le formulaire
     this.editForm.reset();
     this.editForm.patchValue({
-      status: 'active' // Valeur par défaut
+      name: "NO_NAME",
+      maxSpeed: 300,
+      maxAltitude: 5000,
     });
   }
 
@@ -98,7 +106,7 @@ export class PlaneManagement implements OnInit {
       });
     } else if (this.selectedItem?.id) {
       // Mettre à jour l'élément existant
-      this.planesService.updatePlane(this.selectedItem.id, formData).subscribe({
+      this.planesService.updatePlane(formData).subscribe({
         next: (updatedItem) => {
           const index = this.data.findIndex(item => item.id === this.selectedItem?.id);
           if (index !== -1) {

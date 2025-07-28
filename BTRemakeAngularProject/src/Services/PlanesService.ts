@@ -26,9 +26,9 @@ export class PlanesService {
     return this.apiService.post<Plane>(this.endpoint, location);
   }
 
-  // PUT /api/Planes/{id}
-  updatePlane(id: GUID, location: Partial<Plane>): Observable<Plane> {
-    return this.apiService.put<Plane>(`${this.endpoint}/${id}`, location);
+  // PUT /api/Planes
+  updatePlane(location: Partial<Plane>): Observable<Plane> {
+    return this.apiService.put<Plane>(`${this.endpoint}`, location);
   }
 
   // DELETE /api/Planes/{id}
