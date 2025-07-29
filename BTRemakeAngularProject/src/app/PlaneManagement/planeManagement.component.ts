@@ -23,7 +23,7 @@ export class PlaneManagement implements OnInit {
   constructor(
   ) {
     this.editForm = this.fb.group({
-      id: ['', [Validators.required]],
+      id: ['', undefined],
       name: ['', [Validators.required, Validators.minLength(2)]],
       maxSpeed: ['', [Validators.min(0)]],
       maxAltitude: ['', [Validators.min(0)]],
@@ -74,6 +74,7 @@ export class PlaneManagement implements OnInit {
     // Réinitialiser le formulaire
     this.editForm.reset();
     this.editForm.patchValue({
+      id: undefined,
       name: "NO_NAME",
       maxSpeed: 300,
       maxAltitude: 5000,
