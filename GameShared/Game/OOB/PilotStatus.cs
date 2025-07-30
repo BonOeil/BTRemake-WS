@@ -8,6 +8,12 @@ namespace GameShared.Game.OOB
     {
         None,
         Active,
+        Injured,
+
+        /// <summary>
+        /// The inactive status. Removed from service. Due to injuries or other conditions.
+        /// </summary>
+        Inactive,
         Mia,
         Kia,
     }

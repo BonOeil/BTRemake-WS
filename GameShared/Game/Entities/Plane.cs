@@ -13,5 +13,7 @@ namespace GameShared.Game.Entities
         public int MaxSpeed { get; set; }
 
         public int MaxAltitude { get; set; }
+
+        public double MaintenancePerFlightHours { get; set; }
     }
 }

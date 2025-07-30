@@ -20,6 +20,11 @@ namespace GameShared.Game.OOB
         public double Morale { get; set; }
 
         /// <summary>
+        /// Gets or sets the fatigue. [0-100]%.
+        /// </summary>
+        public double Fatigue { get; set; }
+
+        /// <summary>
         /// Gets or sets the experience. [0-100]%.
         /// </summary>
         public double Experience { get; set; }

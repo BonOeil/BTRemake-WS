@@ -75,15 +75,67 @@ namespace GameShared.Services
                     // Act all units
                     // Attack, bomb, reco...
                     // If hit point reach 0, ennemi squadron gain moral
+                    // If hit point reach 0, ennemi Gain victory
+                    // Changes to injure pilots in case of dealt damages
                 }
             });
 
             // For all AA, fire
 
             // For all active missions, handle damages and maintenance
-            // Crash planes if damaged, Loose moral to squadron
-            // Add maintenance
-            // Add fatigue
+            Parallel.ForEach(allMissions, async (mission) =>
+            {
+                var planeRepository = RepositoryFactory.Get<Plane>();
+                var planeSquadronRepository = RepositoryFactory.Get<PlaneSquadron>();
+                var pilotRepository = RepositoryFactory.Get<Pilot>();
+
+                foreach (var unitId in mission.UnitIds)
+                {
+                    var unit = await missionUnitRepository.GetByIdAsync(unitId);
+
+                    foreach (var plane in unit.Planes)
+                    {
+                        var pilot = await pilotRepository.GetByIdAsync(plane.PilotId!.Value);
+
+                        // Crash planes if damaged, Loose moral to squadron
+                        if (plane.HitPoints <= 0.0d)
+                        {
+                            // Crash plane.
+                            // Gain plane loss (if accident, no enemy victory)
+                            // Randomize pilot status
+                            // Get location to improve Kia/Mia status ?
+
+                            // TODO IEnumarable issue !
+                            unit.Planes.Remove(plane);
+                            await planeSquadronRepository.DeleteAsync(plane.Id);
+                        }
+                        else
+                        {
+                            var planeModel = await planeRepository.GetByIdAsync(plane.PlaneModelId);
+                            // Add maintenance
+                            plane.Maintenance -= planeModel.MaintenancePerFlightHours;
+                            // Add fatigue
+                            pilot!.Fatigue += 10;
+
+                            await pilotRepository.UpdateAsync(pilot);
+                            await planeSquadronRepository.UpdateAsync(plane);
+                        }
+                    }
+
+                    // Move all units
+                    await missionUnitRepository.UpdateAsync(unit);
+
+                    // Act all units
+                    // Attack, bomb, reco...
+                    // If hit point reach 0, ennemi squadron gain moral
+
+                    // Pilots
+                    // Each day, chances to resolve Injuries
+                    // Inured -> Inactive | Active
+                    // Each day, small chances to resolve Mia
+                    // Mia -> Injured | Kia | Active
+                }
+            });
 
             // For all inactive planes and squadrons
             // Do maintenance
