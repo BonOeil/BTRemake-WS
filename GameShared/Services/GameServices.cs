@@ -18,22 +18,13 @@ namespace GameShared.Services
 
     public class GameServices : IGameServices
     {
-        public GameServices(IRepository<Location> locationRepository, IRepository<MissionUnit> missionUnitRepository, IRepository<Squadron> squadronsRepository, IRepository<MissionPlan> missionPlanRepository, ILogger<GameServices> logger)
+        public GameServices(IRepositoryFactory repositoryFactory, ILogger<GameServices> logger)
         {
             Logger = logger;
-            LocationRepository = locationRepository;
-            SquadronsRepository = squadronsRepository;
-            MissionPlanRepository = missionPlanRepository;
-            MissionUnitRepository = missionUnitRepository;
+            RepositoryFactory = repositoryFactory;
         }
 
-        private IRepository<Location> LocationRepository { get; }
-
-        private IRepository<Squadron> SquadronsRepository { get; }
-
-        private IRepository<MissionUnit> MissionUnitRepository { get; }
-
-        private IRepository<MissionPlan> MissionPlanRepository { get; }
+        private IRepositoryFactory RepositoryFactory { get; }
 
         private ILogger<GameServices> Logger { get; }
 
@@ -56,7 +47,7 @@ namespace GameShared.Services
 
                 var path = Path.Combine(resourcePath, "Scenarios", "Scenario1", "Locations.csv");
 
-                await LocationRepository.AddAsync(path);
+                await RepositoryFactory.Get<Location>().AddAsync(path);
             }
             catch (Exception ex)
             {
@@ -66,19 +57,20 @@ namespace GameShared.Services
 
         public async Task<FullGameState> Step()
         {
-            var allMissions = await MissionPlanRepository.GetAllAsync();
+            var allMissions = await RepositoryFactory.Get<MissionPlan>().GetAllAsync();
+            var missionUnitRepository = RepositoryFactory.Get<MissionUnit>();
 
             // For all active missions, move and act
             Parallel.ForEach(allMissions, async (mission) =>
             {
                 foreach (var unitId in mission.UnitIds)
                 {
-                    var unit = await MissionUnitRepository.GetByIdAsync(unitId);
+                    var unit = await missionUnitRepository.GetByIdAsync(unitId);
 
                     // Move all units
                     unit.Orientation = GPSTools.CalculateBearing(unit.Position, mission.Target);
                     unit.Position = GPSTools.GetNewPosition(unit.Position, unit.Orientation, unit.Altitude);
-                    await MissionUnitRepository.UpdateAsync(unit);
+                    await missionUnitRepository.UpdateAsync(unit);
 
                     // Act all units
                     // Attack, bomb, reco...
@@ -105,7 +97,7 @@ namespace GameShared.Services
 
             return new FullGameState()
             {
-                Squadrons = (await SquadronsRepository.GetAllAsync()).ToList(),
+                Squadrons = (await RepositoryFactory.Get<Squadron>().GetAllAsync()).ToList(),
             };
         }
     }

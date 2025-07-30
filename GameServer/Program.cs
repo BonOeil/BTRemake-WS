@@ -4,6 +4,7 @@
 
 namespace GameServer
 {
+    using GameServer.Persistence;
     using GameServer.ServerModules;
     using GameShared.Persistence;
     using GameShared.Persistence.Mongo;
@@ -34,6 +35,8 @@ namespace GameServer
             builder.Services.AddSingleton<IMongoClient>(sp =>
                 new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
             builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
+            builder.Services.AddSingleton(typeof(IRepositoryFactory), typeof(RepositoryFactory));
+
             builder.Services.AddScoped<ITurnServices, TurnServices>();
             builder.Services.AddScoped<IGameServices, GameServices>();
             builder.Services.AddScoped(typeof(ICRUDServices<>), typeof(CRUDServices<>));
