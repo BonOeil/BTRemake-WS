@@ -8,9 +8,9 @@ namespace GameServer.Controllers
     using GameShared.Persistence;
     using Microsoft.Extensions.Logging;
 
-    public class MapUnitsController : CrudController<MapUnit>
+    public class MapUnitsController : CrudController<MissionUnit>
     {
-        public MapUnitsController(ILogger<MapUnitsController> logger, IRepository<MapUnit> repository)
+        public MapUnitsController(ILogger<MapUnitsController> logger, IRepository<MissionUnit> repository)
             : base(logger, repository)
         {
         }

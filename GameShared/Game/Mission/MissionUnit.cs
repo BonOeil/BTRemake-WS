@@ -4,21 +4,16 @@
 
 namespace GameShared.Game.Mission
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using GameShared.Game.OOB;
+    using GameShared.Persistence;
 
-    public class MissionUnit
+    public class MissionUnit : BaseEntity
     {
-        required public string Squadron { get; set; }
+        public IList<PlaneSquadron> Planes { get; set; } = new List<PlaneSquadron>();
 
-        required public string Role { get; set; }
+        required public GPSPosition Position { get; set; }
 
-        required public string PlaneType { get; set; }
-
-        public ushort PlaneCount { get; set; }
+        public double Orientation { get; set; }
 
         public ushort Altitude { get; set; }
     }

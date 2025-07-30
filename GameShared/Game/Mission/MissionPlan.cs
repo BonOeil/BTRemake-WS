@@ -12,6 +12,9 @@ namespace GameShared.Game.Mission
 
     public class MissionPlan : BaseEntity
     {
+        /// <summary>
+        /// Gets or sets the unit ids. Link to <seealso cref="MissionUnit" />.
+        /// </summary>
         [BsonRepresentation(BsonType.String)]
         [BsonGuidRepresentation(GuidRepresentation.Standard)]
         required public List<Guid> UnitIds { get; set; }

@@ -9,6 +9,7 @@ namespace GameShared.Services
     using GameShared.Game;
     using GameShared.Game.Entities;
     using GameShared.Game.Mission;
+    using GameShared.Game.OOB;
     using GameShared.Messages;
     using GameShared.Persistence;
     using GameShared.Services.Interfaces;
@@ -17,17 +18,20 @@ namespace GameShared.Services
 
     public class GameServices : IGameServices
     {
-        public GameServices(IRepository<Location> locationRepository, IRepository<MapUnit> mapUnitsRepository, IRepository<MissionPlan> missionPlanRepository, ILogger<GameServices> logger)
+        public GameServices(IRepository<Location> locationRepository, IRepository<MissionUnit> missionUnitRepository, IRepository<Squadron> squadronsRepository, IRepository<MissionPlan> missionPlanRepository, ILogger<GameServices> logger)
         {
             Logger = logger;
             LocationRepository = locationRepository;
-            MapUnitsRepository = mapUnitsRepository;
+            SquadronsRepository = squadronsRepository;
             MissionPlanRepository = missionPlanRepository;
+            MissionUnitRepository = missionUnitRepository;
         }
 
         private IRepository<Location> LocationRepository { get; }
 
-        private IRepository<MapUnit> MapUnitsRepository { get; }
+        private IRepository<Squadron> SquadronsRepository { get; }
+
+        private IRepository<MissionUnit> MissionUnitRepository { get; }
 
         private IRepository<MissionPlan> MissionPlanRepository { get; }
 
@@ -64,23 +68,44 @@ namespace GameShared.Services
         {
             var allMissions = await MissionPlanRepository.GetAllAsync();
 
+            // For all active missions, move and act
             Parallel.ForEach(allMissions, async (mission) =>
             {
                 foreach (var unitId in mission.UnitIds)
                 {
-                    var unit = await MapUnitsRepository.GetByIdAsync(unitId);
+                    var unit = await MissionUnitRepository.GetByIdAsync(unitId);
 
-                    var bearing = GPSTools.CalculateBearing(unit.Position, mission.Target);
-                    unit.Position = GPSTools.GetNewPosition(unit.Position, bearing, 50000);
-                    await MapUnitsRepository.UpdateAsync(unit);
+                    // Move all units
+                    unit.Orientation = GPSTools.CalculateBearing(unit.Position, mission.Target);
+                    unit.Position = GPSTools.GetNewPosition(unit.Position, unit.Orientation, unit.Altitude);
+                    await MissionUnitRepository.UpdateAsync(unit);
+
+                    // Act all units
+                    // Attack, bomb, reco...
+                    // If hit point reach 0, ennemi squadron gain moral
                 }
             });
+
+            // For all AA, fire
+
+            // For all active missions, handle damages and maintenance
+            // Crash planes if damaged, Loose moral to squadron
+            // Add maintenance
+            // Add fatigue
+
+            // For all inactive planes and squadrons
+            // Do maintenance
+            // Do repairs
+
+            // For all inactive pilotes
+            // Rest
+            // Gain moral
 
             Logger.LogTrace($"Step {allMissions.Count()} missions");
 
             return new FullGameState()
             {
-                Units = (await MapUnitsRepository.GetAllAsync()).ToList(),
+                Squadrons = (await SquadronsRepository.GetAllAsync()).ToList(),
             };
         }
     }

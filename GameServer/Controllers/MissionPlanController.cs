@@ -13,13 +13,13 @@ namespace GameServer.Controllers
 
     public class MissionPlanController : CrudController<MissionPlan>
     {
-        public MissionPlanController(ILogger<MissionPlanController> logger, IRepository<MissionPlan> repository, IRepository<MapUnit> mapUnitRepository)
+        public MissionPlanController(ILogger<MissionPlanController> logger, IRepository<MissionPlan> repository, IRepository<MissionUnit> mapUnitRepository)
             : base(logger, repository)
         {
             MapUnitRepository = mapUnitRepository;
         }
 
-        private IRepository<MapUnit> MapUnitRepository { get; set; }
+        private IRepository<MissionUnit> MapUnitRepository { get; set; }
 
         public override async Task<ActionResult<MissionPlan>> Add(MissionPlan itemToAdd)
         {
