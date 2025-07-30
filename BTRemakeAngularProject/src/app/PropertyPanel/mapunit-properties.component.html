@@ -1,0 +1,38 @@
+<div class="property-panel">
+      <h3>Unit properties</h3>
+      
+      <div class="property-section">
+        <h4>Informations générales</h4>
+        <div class="property-row">
+          <label>Nom:</label>
+          <input [(ngModel)]="data.name" (blur)="onPropertyChange('name', data.name)">
+        </div>
+      </div>
+
+      <div class="property-row">
+        <label>Position:</label>
+        <div class="vector-input">
+          <input type="number"
+                 [(ngModel)]="data.position.latitude"
+                 (change)="onPropertyChange('latitude', data.position.latitude)"
+                 step="0.1">
+          <input type="number"
+                 [(ngModel)]="data.position.longitude"
+                 (change)="onPropertyChange('longitude', data.position.longitude)"
+                 step="0.1">
+        </div>
+      </div>
+
+      <div class="property-section">
+        <h4>Métadonnées</h4>
+        <div class="property-row">
+          <label>ID:</label>
+          <span class="readonly">{{ data.id }}</span>
+        </div>
+      </div>
+
+      <div class="property-actions">
+        <button (click)="saveChanges()" [disabled]="!hasChanges">Sauvegarder</button>
+        <button (click)="resetChanges()">Annuler</button>
+      </div>
+    </div>

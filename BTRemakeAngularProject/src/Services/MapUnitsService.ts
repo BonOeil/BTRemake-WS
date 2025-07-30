@@ -12,7 +12,7 @@ export class MapUnitsService {
 
   // GET /api/MapUnits
   getUnits(): Observable<MapUnit[]> {
-    return this.apiService.getAll<MapUnit>(this.endpoint, "MapUnits");
+    return this.apiService.getAll<MapUnit>(this.endpoint, "MapUnit");
   }
 
   // GET /api/MapUnits/{id}
