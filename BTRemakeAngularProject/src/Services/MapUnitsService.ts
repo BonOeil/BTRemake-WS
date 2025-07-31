@@ -7,7 +7,7 @@ import { MapUnit } from '../Models/MapUnit';
   providedIn: 'root'
 })
 export class MapUnitsService {
-  private readonly endpoint = 'MapUnits';
+  private readonly endpoint = 'MissionUnits';
   private apiService = inject(GameServerApi);
 
   // GET /api/MapUnits
