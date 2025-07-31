@@ -16,7 +16,7 @@ namespace GameShared.Services
         Months,
     }
 
-    internal class PaceService : IPaceService
+    public class PaceService : IPaceService
     {
         public const double MinutesToPace = 1;
         public const double HoursToPace = MinutesToPace / 60;

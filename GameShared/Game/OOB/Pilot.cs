@@ -16,16 +16,22 @@ namespace GameShared.Game.OOB
 
         /// <summary>
         /// Gets or sets the morale. [0-100]%.
+        /// 0 = Low morale.
+        /// 100 = High morale.
         /// </summary>
         public double Morale { get; set; }
 
         /// <summary>
         /// Gets or sets the fatigue. [0-100]%.
+        /// 0 = Tired.
+        /// 100 = Fresh.
         /// </summary>
-        public double Fatigue { get; set; }
+        public double Stamina { get; set; }
 
         /// <summary>
         /// Gets or sets the experience. [0-100]%.
+        /// 0 = Inexperienced.
+        /// 100 = Experienced.
         /// </summary>
         public double Experience { get; set; }
 
@@ -33,5 +39,9 @@ namespace GameShared.Game.OOB
         /// Gets or sets the victories. More than 5 victories makes a pilot an Ace.
         /// </summary>
         public int Victories { get; set; }
+
+        public bool IsAce => Victories >= 5;
+
+        public double Effectivness => Morale * Stamina * (75 + (Experience / 4)) / (100 * 100 * 100);
     }
 }

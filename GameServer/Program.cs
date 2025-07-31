@@ -37,7 +37,10 @@ namespace GameServer
             builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
             builder.Services.AddSingleton(typeof(IRepositoryFactory), typeof(RepositoryFactory));
 
+            builder.Services.AddScoped<IPaceService, PaceService>();
+
             builder.Services.AddScoped<ITurnServices, TurnServices>();
+            builder.Services.AddScoped<IPilotService, PilotService>();
             builder.Services.AddScoped<IGameServices, GameServices>();
             builder.Services.AddScoped(typeof(ICRUDServices<>), typeof(CRUDServices<>));
 

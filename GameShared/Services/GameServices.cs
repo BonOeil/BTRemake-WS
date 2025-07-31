@@ -16,18 +16,8 @@ namespace GameShared.Services
     using Microsoft.Extensions.Logging;
     using MongoDB.Driver;
 
-    public class GameServices : IGameServices
+    public class GameServices(IPilotService PilotService, IRepositoryFactory RepositoryFactory, ILogger<GameServices> Logger) : IGameServices
     {
-        public GameServices(IRepositoryFactory repositoryFactory, ILogger<GameServices> logger)
-        {
-            Logger = logger;
-            RepositoryFactory = repositoryFactory;
-        }
-
-        private IRepositoryFactory RepositoryFactory { get; }
-
-        private ILogger<GameServices> Logger { get; }
-
         public async Task StartScenario(string scenarioName, string gameName)
         {
             try
@@ -87,7 +77,6 @@ namespace GameShared.Services
             {
                 var planeRepository = RepositoryFactory.Get<Plane>();
                 var planeSquadronRepository = RepositoryFactory.Get<PlaneSquadron>();
-                var pilotRepository = RepositoryFactory.Get<Pilot>();
 
                 foreach (var unitId in mission.UnitIds)
                 {
@@ -95,15 +84,16 @@ namespace GameShared.Services
 
                     foreach (var plane in unit.Planes)
                     {
-                        var pilot = await pilotRepository.GetByIdAsync(plane.PilotId!.Value);
+                        var pilot = PilotService.Get(plane.PilotId!.Value);
 
                         // Crash planes if damaged, Loose moral to squadron
                         if (plane.HitPoints <= 0.0d)
                         {
                             // Crash plane.
                             // Gain plane loss (if accident, no enemy victory)
-                            // Randomize pilot status
+
                             // Get location to improve Kia/Mia status ?
+                            PilotService.CrashPlane(pilot);
 
                             // TODO IEnumarable issue !
                             unit.Planes.Remove(plane);
@@ -115,9 +105,8 @@ namespace GameShared.Services
                             // Add maintenance
                             plane.Maintenance -= planeModel.MaintenancePerFlightHours;
                             // Add fatigue
-                            pilot!.Fatigue += 10;
+                            PilotService.AddFatigue(pilot);
 
-                            await pilotRepository.UpdateAsync(pilot);
                             await planeSquadronRepository.UpdateAsync(plane);
                         }
                     }
