@@ -82,8 +82,9 @@ namespace GameShared.Services
                 {
                     var unit = await missionUnitRepository.GetByIdAsync(unitId);
 
-                    foreach (var plane in unit.Planes)
+                    foreach (var planeId in unit.PlaneIds)
                     {
+                        var plane = planeSquadronRepository.GetByIdAsync(planeId).Result;
                         var pilot = PilotService.Get(plane.PilotId!.Value);
 
                         // Crash planes if damaged, Loose moral to squadron
@@ -96,7 +97,7 @@ namespace GameShared.Services
                             PilotService.CrashPlane(pilot);
 
                             // TODO IEnumarable issue !
-                            unit.Planes.Remove(plane);
+                            unit.PlaneIds.Remove(plane.Id);
                             await planeSquadronRepository.DeleteAsync(plane.Id);
                         }
                         else

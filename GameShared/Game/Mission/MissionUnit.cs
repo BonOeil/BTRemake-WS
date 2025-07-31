@@ -6,10 +6,17 @@ namespace GameShared.Game.Mission
 {
     using GameShared.Game.OOB;
     using GameShared.Persistence;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
 
     public class MissionUnit : BaseEntity
     {
-        public IList<PlaneSquadron> Planes { get; set; } = new List<PlaneSquadron>();
+        /// <summary>
+        /// Gets or sets the unit ids. Link to <seealso cref="PlaneSquadron" />.
+        /// </summary>
+        [BsonRepresentation(BsonType.String)]
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public IList<Guid> PlaneIds { get; set; } = new List<Guid>();
 
         required public GPSPosition Position { get; set; }
 
